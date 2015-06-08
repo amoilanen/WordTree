@@ -1,0 +1,33 @@
+{
+  "name": "WordTree",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Experiment in building formalized common grammar and vocabulary meta-representation for several languages",
+  "files": [
+    "LICENSE",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antivanov/WordTree"
+  },
+  "keywords": [],
+  "author": "Anton Ivanov <anton.al.ivanov@gmail.com> (https://github.com/antivanov)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/antivanov/WordTree/issues"
+  },
+  "homepage": "https://github.com/antivanov/WordTree",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-karma": "^0.11.0",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.12.36",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-jasmine": "^0.3.5",
+    "karma-phantomjs-launcher": "^0.2.0",
+    "phantomjs": "^1.9.17"
+  }
+}
