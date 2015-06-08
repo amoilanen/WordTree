@@ -1,7 +1,10 @@
-describe('add', function() {
+define(['wordtree'], function(wordtree) {
 
-  it('adds two numbers', function() {
-    expect(add(1, 2)).toBe(3);
+  describe('add', function() {
+
+    it('adds two numbers', function() {
+      expect(wordtree.add(1, 2)).toBe(3);
+    });
   });
 });
 
