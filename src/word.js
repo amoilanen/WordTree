@@ -1,16 +1,19 @@
 define('word', function() {
 
-  var vocabulary = [
+  const VOCABULARY = [
     'sun',
     'shine',
     'bright'
   ];
 
-  function Word(id) {
-    this.id = id;
+  class Word {
+
+    constructor(id) {
+      this.id = id;
+    }
   }
 
-  vocabulary.forEach(function(term) {
+  VOCABULARY.forEach(function(term) {
     Word[term] = new Word(term);
   });
 

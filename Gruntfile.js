@@ -33,16 +33,18 @@ module.exports = function(grunt) {
     },
     babel: {
       options: {
-        sourceMap: true
+        sourceMap: false
       },
       dist: {
         files: {
-          'compiled/word.js': 'src/word.js',
-          'compiled/lang.js': 'src/lang.js',
-          'compiled/lang.en.js': 'src/lang.en.js',
-          'compiled/lang.fi.js': 'src/lang.fi.js',
-          'compiled/lang.nl.js': 'src/lang.nl.js',
-          'compiled/lang.ru.js': 'src/lang.ru.js'
+          'compiled/src/word.js': 'src/word.js',
+          'compiled/src/lang.js': 'src/lang.js',
+          'compiled/src/lang.en.js': 'src/lang.en.js',
+          'compiled/src/lang.fi.js': 'src/lang.fi.js',
+          'compiled/src/lang.nl.js': 'src/lang.nl.js',
+          'compiled/src/lang.ru.js': 'src/lang.ru.js',
+          'compiled/spec/main.js': 'spec/main.js',
+          'compiled/spec/wordtree.spec.js': 'spec/wordtree.spec.js'
         }
       }
     }
