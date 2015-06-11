@@ -1,12 +1,15 @@
 define('lang', function() {
 
-  function Language(wordTranslations) {
-    this.wordTranslations = wordTranslations;
-  }
+  class Language {
 
-  Language.prototype.translate = function(word) {
-    return this.wordTranslations[word.id] || 'UNKNOWN';
-  };
+    constructor(wordTranslations) {
+      this.wordTranslations = wordTranslations;
+    }
+
+    translate(word) {
+      return this.wordTranslations[word.id] || 'UNKNOWN';
+    }
+  }
 
   return Language;
 });

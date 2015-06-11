@@ -3,12 +3,12 @@ module.exports = function(config) {
     basePath: '.',
     frameworks: ['jasmine', 'requirejs'],
     files: [
-      {pattern: 'src/lang.js', included: false},
-      {pattern: 'src/lang.en.js', included: false},
-      {pattern: 'src/lang.fi.js', included: false},
-      {pattern: 'src/lang.nl.js', included: false},
-      {pattern: 'src/lang.ru.js', included: false},
-      {pattern: 'src/word.js', included: false},
+      {pattern: 'compiled/lang.js', included: false},
+      {pattern: 'compiled/lang.en.js', included: false},
+      {pattern: 'compiled/lang.fi.js', included: false},
+      {pattern: 'compiled/lang.nl.js', included: false},
+      {pattern: 'compiled/lang.ru.js', included: false},
+      {pattern: 'compiled/word.js', included: false},
       {pattern: 'spec/wordtree.spec.js', included: false},
       'spec/main.js'
     ],
