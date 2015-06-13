@@ -25,6 +25,29 @@ define(['word',
     });
   });
 
+  describe('unknown word', function() {
+
+    var wordId = '===some unknown word===';
+
+    var word = new Word(wordId);
+
+    it('should translate to English', function() {
+      expect(en.translate(word)).toBe(wordId);
+    });
+
+    it('should translate to Dutch', function() {
+      expect(nl.translate(word)).toBe(wordId);
+    });
+
+    it('should translate to Russian', function() {
+      expect(ru.translate(word)).toBe(wordId);
+    });
+
+    it('should translate to Finnish', function() {
+      expect(fi.translate(word)).toBe(wordId);
+    });
+  });
+
   //TODO: Unknown word
   //TODO: Simple action 1, 2, 3 person singular present
   //TODO: Simple action 1, 2, 3 person multiple present

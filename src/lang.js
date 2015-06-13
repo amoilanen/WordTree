@@ -7,7 +7,7 @@ define('lang', function() {
     }
 
     translate(word) {
-      return this.wordTranslations[word.id] || 'UNKNOWN';
+      return this.wordTranslations[word.id] || word.id;
     }
   }
 
