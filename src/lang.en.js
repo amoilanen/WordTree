@@ -4,5 +4,5 @@ define('lang.en', ['lang'], function(Language) {
     sun: 'sun'
   };
 
-  return new Language(translations);
+  return new Language('English', translations);
 });

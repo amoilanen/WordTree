@@ -4,5 +4,5 @@ define('lang.nl', ['lang'], function(Language) {
     sun: 'zon'
   };
 
-  return new Language(translations);
+  return new Language('Dutch', translations);
 });

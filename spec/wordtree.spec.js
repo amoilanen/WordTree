@@ -4,48 +4,37 @@ define(['word',
         'lang.nl',
         'lang.ru'], function(Word, en, fi, nl, ru) {
 
+  function shouldTranslate(wordTree, translations) {
+    translations.forEach(function(translations) {
+      var lang = translations[0];
+      var translation = translations[1];
+
+      it('should translate to ' + lang.name, function() {
+        expect(lang.translate(wordTree)).toBe(translation);
+      });
+    });
+  }
+
   describe('word', function() {
 
-    var word = Word.sun;
-
-    it('should translate to English', function() {
-      expect(en.translate(word)).toBe('sun');
-    });
-
-    it('should translate to Dutch', function() {
-      expect(nl.translate(word)).toBe('zon');
-    });
-
-    it('should translate to Russian', function() {
-      expect(ru.translate(word)).toBe('солнце');
-    });
-
-    it('should translate to Finnish', function() {
-      expect(fi.translate(word)).toBe('aurinko');
-    });
+    shouldTranslate(Word.sun, [
+      [en, 'sun'],
+      [fi, 'aurinko'],
+      [nl, 'zon'],
+      [ru, 'солнце']
+    ]);
   });
 
   describe('unknown word', function() {
 
     var wordId = '===some unknown word===';
 
-    var word = new Word(wordId);
-
-    it('should translate to English', function() {
-      expect(en.translate(word)).toBe(wordId);
-    });
-
-    it('should translate to Dutch', function() {
-      expect(nl.translate(word)).toBe(wordId);
-    });
-
-    it('should translate to Russian', function() {
-      expect(ru.translate(word)).toBe(wordId);
-    });
-
-    it('should translate to Finnish', function() {
-      expect(fi.translate(word)).toBe(wordId);
-    });
+    shouldTranslate(new Word(wordId), [
+      [en, wordId],
+      [fi, wordId],
+      [nl, wordId],
+      [ru, wordId]
+    ]);
   });
 
   //TODO: Unknown word

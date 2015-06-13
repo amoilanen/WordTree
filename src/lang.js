@@ -2,7 +2,8 @@ define('lang', function() {
 
   class Language {
 
-    constructor(wordTranslations) {
+    constructor(name, wordTranslations) {
+      this.name = name;
       this.wordTranslations = wordTranslations;
     }
 

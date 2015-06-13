@@ -4,5 +4,5 @@ define('lang.ru', ['lang'], function(Language) {
     sun: 'солнце'
   };
 
-  return new Language(translations);
+  return new Language('Russian', translations);
 });

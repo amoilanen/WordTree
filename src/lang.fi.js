@@ -4,5 +4,5 @@ define('lang.fi', ['lang'], function(Language) {
     sun: 'aurinko'
   };
 
-  return new Language(translations);
+  return new Language('Finnish', translations);
 });
