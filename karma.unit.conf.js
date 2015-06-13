@@ -14,7 +14,7 @@ module.exports = function(config) {
     ],
     exclude: [
     ],
-    reporters: ['progress'],
+    reporters: ['spec'],
     colors: true,
     logLevel: config.LOG_INFO,
     //browsers: ['Firefox'],
@@ -27,7 +27,8 @@ module.exports = function(config) {
       'karma-jasmine',
       'karma-phantomjs-launcher',
       'karma-firefox-launcher',
-      'karma-requirejs'
+      'karma-requirejs',
+      'karma-spec-reporter'
     ]
   });
 };
