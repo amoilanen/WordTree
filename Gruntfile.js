@@ -37,7 +37,7 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          'compiled/src/word.js': 'src/word.js',
+          'compiled/src/grammar.js': 'src/grammar.js',
           'compiled/src/lang.js': 'src/lang.js',
           'compiled/src/lang.en.js': 'src/lang.en.js',
           'compiled/src/lang.fi.js': 'src/lang.fi.js',

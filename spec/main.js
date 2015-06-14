@@ -1,7 +1,7 @@
 requirejs.config({
   baseUrl: '/base',
   paths: {
-    'word': '/base/compiled/src/word',
+    'grammar': '/base/compiled/src/grammar',
     'lang': '/base/compiled/src/lang',
     'lang.en': '/base/compiled/src/lang.en',
     'lang.fi': '/base/compiled/src/lang.fi',

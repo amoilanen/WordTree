@@ -8,7 +8,7 @@ module.exports = function(config) {
       {pattern: 'compiled/src/lang.fi.js', included: false},
       {pattern: 'compiled/src/lang.nl.js', included: false},
       {pattern: 'compiled/src/lang.ru.js', included: false},
-      {pattern: 'compiled/src/word.js', included: false},
+      {pattern: 'compiled/src/grammar.js', included: false},
       {pattern: 'compiled/spec/wordtree.spec.js', included: false},
       'compiled/spec/main.js'
     ],
