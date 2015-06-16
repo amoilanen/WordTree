@@ -22,4 +22,13 @@ Text (in Finnish, source yle.fi):
 
 Speculation:
 
-The common language does not change much or stays unchanged unlike the individual languages that are its renditions. Then it is appropriate to describe it using mathematical formulas or pure functions in a programming language (functional programming).
+1. The common language does not change much or stays unchanged unlike the individual languages that are its renditions. Then it is appropriate to describe it using mathematical formulas or pure functions in a programming language (functional programming).
+
+2. Most of the exceptions with inflictions are not really exceptions, but if the pronunciation is taken into account just natural shortenings that are then written down a bit differently
+
+3. Languages are pretty common:
+
+3.1 words, words are inflicted to indicate action, object, subject, belonging, etc.
+3.2 Common linear structure, something is described as a sequence of events. Another category of sentences stating facts is modeled after sequences of actions, i.e. 'to be true' vs. 'to be'. That is in fact is expressed still as a sequence of events. This may be the limitation of natural languages and why we need more formal notation like mathematics.
+
+4. Redefining Turing test. Machine passes the test if it can reconstruct universal representation from any random text in any language and translates the text to any other language with 100% accuracy.
