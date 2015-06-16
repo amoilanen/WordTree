@@ -13,7 +13,7 @@ Metaphor: single common language is like a tree being lit by the sun and every p
 
 Based on this metaphor the project is called WordTree.
 
-This project is a simple experiment in building a subset of the single common higher level language that will be sufficient for describing a short text
+This project is a simple experiment in building a subset of the+ single common higher level language that will be sufficient for describing a short text
 that contains only positive descriptional sentences.
 
 Text (in Finnish, source yle.fi):

@@ -32,45 +32,30 @@ define('grammar', function() {
   class Actor {
 
     constructor(word) {
-      this._word = word;
+      this.word = word;
     }
   }
 
   class Action {
 
     constructor(word) {
-      this._word = word;
+      this.word = word;
     }
   }
 
   class Time {
 
     constructor(word) {
-      this._word = word;
+      this.word = word;
     }
   }
 
   class Sentence {
 
-    constructor(_actor, _action, _time) {
-      this._actor = _actor;
-      this._action = _action;
-      this._time = _time;
-    }
-
-    actor(_actor) {
-      this._actor = _actor;
-      return this;
-    }
-
-    action(_action) {
-      this._action = _action;
-      return this;
-    }
-
-    time(_time) {
-      this._time = _time;
-      return this;
+    constructor(actor, action, time) {
+      this.actor = actor;
+      this.action = action;
+      this.time = time;
     }
   }
 

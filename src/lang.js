@@ -1,4 +1,6 @@
-define('lang', function() {
+define('lang', ['grammar'], function(Grammar) {
+
+  var {Word, Actor, Action, Time, Sentence} = Grammar;
 
   class Language {
 
@@ -7,8 +9,29 @@ define('lang', function() {
       this.wordTranslations = wordTranslations;
     }
 
-    translate(word) {
+    translate(fragment) {
+      if (fragment instanceof Word) {
+        return this.translateWord(fragment);
+      }
+
+      var {actor, action, time} = fragment;
+
+      return [
+        this.translateActor(actor),
+        this.translateAction(actor, action, time)
+      ].join(' ').trim();
+    }
+
+    translateWord(word) {
       return this.wordTranslations[word.id] || word.id;
+    }
+
+    translateActor(actor) {
+      return this.translateWord(actor);
+    }
+
+    translateAction(actor, action, time) {
+      return this.translateWord(action);
     }
   }
 

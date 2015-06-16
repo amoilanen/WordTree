@@ -1,8 +1,10 @@
-define('lang.ru', ['lang'], function(Language) {
+define('lang.ru', ['lang', 'grammar'], function(Language, Grammar) {
+
+  var {Word} = Grammar;
 
   var translations = {
     sun: 'солнце',
-    sing: 'петь',
+    sing: 'п',
     now: 'сейчас',
     future: 'будущее',
     past: 'прошлое',
@@ -18,5 +20,19 @@ define('lang.ru', ['lang'], function(Language) {
     they: 'они'
   };
 
-  return new Language('Russian', translations);
+  class Russian extends Language {
+
+    constructor(translations) {
+      super('Russian', translations);
+    }
+
+    translateAction(actor, action, time) {
+      if (actor === Word.I) {
+        return this.translateWord(action) + 'ою';
+      }
+      return this.translateWord(action);
+    }
+  }
+
+  return new Russian(translations);
 });
