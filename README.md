@@ -32,3 +32,5 @@ Speculation:
 3.2 Common linear structure, something is described as a sequence of events. Another category of sentences stating facts is modeled after sequences of actions, i.e. 'to be true' vs. 'to be'. That is in fact is expressed still as a sequence of events. This may be the limitation of natural languages and why we need more formal notation like mathematics.
 
 4. Redefining Turing test. Machine passes the test if it can reconstruct universal representation from any random text in any language and translates the text to any other language with 100% accuracy.
+
+5. Words can be easily added to a language from other languages, also points out commonality. Just follow common grammar rules in that language

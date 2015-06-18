@@ -1,4 +1,6 @@
-define('lang.nl', ['lang'], function(Language) {
+define('lang.nl', ['lang', 'grammar'], function(Language, Grammar) {
+
+  var {Word} = Grammar;
 
   var translations = {
     sun: 'zon',
@@ -18,5 +20,25 @@ define('lang.nl', ['lang'], function(Language) {
     they: 'zij'
   };
 
-  return new Language('Dutch', translations);
+  class Dutch extends Language {
+
+    constructor(translations) {
+      super('Dutch', translations);
+    }
+
+    translateAction(actor, action, time) {
+      if (actor === Word.I) {
+        return this.translateWord(action);
+      } else if (actor === Word.you) {
+        return this.translateWord(action) + 't';
+      } else if (actor === Word.you_formal) {
+        return this.translateWord(action) + 't';
+      } else if ((actor === Word.he) || (actor === Word.she) || (actor === Word.it)) {
+        return this.translateWord(action) + 't';
+      }
+      return this.translateWord(action);
+    }
+  }
+
+  return new Dutch(translations);
 });

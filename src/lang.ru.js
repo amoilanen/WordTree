@@ -29,6 +29,12 @@ define('lang.ru', ['lang', 'grammar'], function(Language, Grammar) {
     translateAction(actor, action, time) {
       if (actor === Word.I) {
         return this.translateWord(action) + 'ою';
+      } else if (actor === Word.you) {
+        return this.translateWord(action) + 'оешь';
+      } else if (actor === Word.you_formal) {
+        return this.translateWord(action) + 'оете';
+      } else if ((actor === Word.he) || (actor === Word.she) || (actor === Word.it)) {
+        return this.translateWord(action) + 'оет';
       }
       return this.translateWord(action);
     }

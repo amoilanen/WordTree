@@ -53,5 +53,5 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['compile', 'karma:unit']);
   grunt.registerTask('lint', ['jshint']);
   grunt.registerTask('compile', ['babel']);
-  grunt.registerTask('default', ['clean', 'jshint', 'test']);
+  grunt.registerTask('default', ['jshint', 'test']);
 };

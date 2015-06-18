@@ -53,7 +53,7 @@ define(['grammar',
           ]);
         });
 
-        xdescribe('you', function() {
+        describe('you', function() {
 
           shouldTranslate(new Sentence(Word.you, Word.sing, Word.now), [
             [en, 'you sing'],
@@ -63,9 +63,9 @@ define(['grammar',
           ]);
         });
 
-        xdescribe('you formal', function() {
+        describe('you formal', function() {
 
-          shouldTranslate(new Sentence(Word.it, Word.sing, Word.now), [
+          shouldTranslate(new Sentence(Word.you_formal, Word.sing, Word.now), [
             [en, 'you sing'],
             [fi, 'laulat'],
             [nl, 'u zingt'],
@@ -73,7 +73,7 @@ define(['grammar',
           ]);
         });
 
-        xdescribe('he, she, it', function() {
+        describe('he, she, it', function() {
 
           shouldTranslate(new Sentence(Word.it, Word.sing, Word.now), [
             [en, 'it sings'],
@@ -212,7 +212,8 @@ define(['grammar',
   });
 
   //TODO: Same object can be 'he' or 'it' in different languages, for example 'son'/'zon'
-  //TODO: Separate language specific tests for different verbs endings (for Dutch, English)
+  //TODO: Separate language specific tests for different verbs endings (for Dutch, English, Russian, Finnish)
+  //For example петь, делать, пилить
   //TODO: Infinitive form of verbs
 
   //TODO: Simple action 1, 2, 3 person singular present, subject, place, quality
