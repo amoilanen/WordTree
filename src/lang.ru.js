@@ -35,6 +35,14 @@ define('lang.ru', ['lang', 'grammar'], function(Language, Grammar) {
         return this.translateWord(action) + 'оете';
       } else if ((actor === Word.he) || (actor === Word.she) || (actor === Word.it)) {
         return this.translateWord(action) + 'оет';
+      } else if (actor === Word.we) {
+        return this.translateWord(action) + 'оем';
+      } else if (actor === Word.you_plural_formal) {
+        return this.translateWord(action) + 'оете';
+      } else if (actor === Word.you_plural) {
+        return this.translateWord(action) + 'оете';
+      } else if (actor === Word.they) {
+        return this.translateWord(action) + 'оют';
       }
       return this.translateWord(action);
     }

@@ -35,6 +35,14 @@ define('lang.en', ['lang', 'grammar'], function(Language, Grammar) {
         return this.translateWord(action);
       } else if ((actor === Word.he) || (actor === Word.she) || (actor === Word.it)) {
         return this.translateWord(action) + 's';
+      } else if (actor === Word.we) {
+        return this.translateWord(action);
+      } else if (actor === Word.you_plural_formal) {
+        return this.translateWord(action);
+      } else if (actor === Word.you_plural) {
+        return this.translateWord(action);
+      } else if (actor === Word.they) {
+        return this.translateWord(action);
       }
       return this.translateWord(action);
     }

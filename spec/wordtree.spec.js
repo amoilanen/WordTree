@@ -84,7 +84,7 @@ define(['grammar',
         });
       });
 
-      xdescribe('multiple actors', function() {
+      describe('multiple actors', function() {
 
         describe('we', function() {
 
@@ -108,7 +108,7 @@ define(['grammar',
 
         describe('you formal plural', function() {
 
-          shouldTranslate(new Sentence(Word.you_formal_plural, Word.sing, Word.now), [
+          shouldTranslate(new Sentence(Word.you_plural_formal, Word.sing, Word.now), [
             [en, 'you sing'],
             [fi, 'laulatte'],
             [nl, 'u zingt'],
@@ -120,7 +120,7 @@ define(['grammar',
 
           shouldTranslate(new Sentence(Word.they, Word.sing, Word.now), [
             [en, 'they sing'],
-            [fi, 'Laulavat'],
+            [fi, 'laulavat'],
             [nl, 'ze zingen'],
             [ru, 'они поют']
           ]);
@@ -213,7 +213,7 @@ define(['grammar',
 
   //TODO: Same object can be 'he' or 'it' in different languages, for example 'son'/'zon'
   //TODO: Separate language specific tests for different verbs endings (for Dutch, English, Russian, Finnish)
-  //For example петь, делать, пилить
+  //For example делать
   //TODO: Infinitive form of verbs
 
   //TODO: Simple action 1, 2, 3 person singular present, subject, place, quality
