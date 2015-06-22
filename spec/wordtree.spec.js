@@ -128,43 +128,83 @@ define(['grammar',
       });
     });
 
-    xdescribe('future', function() {
+    describe('future', function() {
 
       describe('single actor', function() {
 
         describe('I', function() {
-          
+          shouldTranslate(new Sentence(Word.I, Word.sing, Word.future), [
+            [en, 'I will sing'],
+            [fi, 'laulan'],
+            [nl, 'ik zing'],
+            [ru, 'я буду петь']
+          ]);
         });
 
         describe('you', function() {
-          
+          shouldTranslate(new Sentence(Word.you, Word.sing, Word.future), [
+            [en, 'you will sing'],
+            [fi, 'laulat'],
+            [nl, 'je zingt'],
+            [ru, 'ты будешь петь']
+          ]);
         });
 
         describe('you formal', function() {
-          
+          shouldTranslate(new Sentence(Word.you_formal, Word.sing, Word.future), [
+            [en, 'you will sing'],
+            [fi, 'laulat'],
+            [nl, 'u zingt'],
+            [ru, 'вы будете петь']
+          ]);
         });
 
         describe('he, she, it', function() {
-          
+          shouldTranslate(new Sentence(Word.he, Word.sing, Word.future), [
+            [en, 'he will sing'],
+            [fi, 'laulaa'],
+            [nl, 'hij zingt'],
+            [ru, 'он будет петь']
+          ]);
         });
       });
 
       describe('multiple actors', function() {
 
         describe('we', function() {
-          
+          shouldTranslate(new Sentence(Word.we, Word.sing, Word.future), [
+            [en, 'we will sing'],
+            [fi, 'laulamme'],
+            [nl, 'we zingen'],
+            [ru, 'мы будем петь']
+          ]);
         });
 
         describe('you plural', function() {
-          
+          shouldTranslate(new Sentence(Word.you_plural, Word.sing, Word.future), [
+            [en, 'you will sing'],
+            [fi, 'laulatte'],
+            [nl, 'jullie zingen'],
+            [ru, 'вы будете петь']
+          ]);
         });
 
         describe('you formal plural', function() {
-          
+          shouldTranslate(new Sentence(Word.you_plural_formal, Word.sing, Word.future), [
+            [en, 'you will sing'],
+            [fi, 'laulatte'],
+            [nl, 'u zingt'],
+            [ru, 'вы будете петь']
+          ]);
         });
 
         describe('they', function() {
-          
+          shouldTranslate(new Sentence(Word.they, Word.sing, Word.future), [
+            [en, 'they will sing'],
+            [fi, 'laulavat'],
+            [nl, 'ze zingen'],
+            [ru, 'они будут петь']
+          ]);
         });
       });
     });
@@ -215,6 +255,10 @@ define(['grammar',
   //TODO: Separate language specific tests for different verbs endings (for Dutch, English, Russian, Finnish)
   //For example делать
   //TODO: Infinitive form of verbs
+  //TODO: Somebody _want_ to do something
+  //TODO: Somebody _going_ to do something
+  //TODO: Some action has been finished in the past/will be finished in the future, сделал vs. делал
+  //have done/will have done
 
   //TODO: Simple action 1, 2, 3 person singular present, subject, place, quality
   //TODO: Simple action 1, 2, 3 person multiple present, subject, place, quality
