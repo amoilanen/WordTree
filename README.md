@@ -34,3 +34,5 @@ Speculation:
 4. Redefining Turing test. Machine passes the test if it can reconstruct universal representation from any random text in any language and translates the text to any other language with 100% accuracy.
 
 5. Words can be easily added to a language from other languages, also points out commonality. Just follow common grammar rules in that language
+
+6. In different contexts various languages demonstrate different variability: i.e. same phrase in English but two different phrases in Dutch

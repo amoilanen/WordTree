@@ -63,6 +63,24 @@ define('lang.en', ['lang', 'grammar'], function(Language, Grammar) {
         } else if (actor === Word.they) {
           return 'will ' + this.translateWord(action);
         }
+      } else if (time === Word.past) {
+        if (actor === Word.I) {
+          return this.translateWord(action) + 'ed';
+        } else if (actor === Word.you) {
+          return this.translateWord(action) + 'ed';
+        } else if (actor === Word.you_formal) {
+          return this.translateWord(action) + 'ed';
+        } else if ((actor === Word.he) || (actor === Word.she) || (actor === Word.it)) {
+          return this.translateWord(action) + 'ed';
+        } else if (actor === Word.we) {
+          return this.translateWord(action) + 'ed';
+        } else if (actor === Word.you_plural_formal) {
+          return this.translateWord(action) + 'ed';
+        } else if (actor === Word.you_plural) {
+          return this.translateWord(action) + 'ed';
+        } else if (actor === Word.they) {
+          return this.translateWord(action) + 'ed';
+        }
       }
       return this.translateWord(action);
     }

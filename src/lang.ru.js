@@ -63,6 +63,24 @@ define('lang.ru', ['lang', 'grammar'], function(Language, Grammar) {
         } else if (actor === Word.they) {
           return 'будут ' + this.translateWord(action) + 'еть';
         }
+      } else if (time === Word.past) {
+        if (actor === Word.I) {
+          return this.translateWord(action) + 'ел';
+        } else if (actor === Word.you) {
+          return this.translateWord(action) + 'ел';
+        } else if (actor === Word.you_formal) {
+          return this.translateWord(action) + 'ели';
+        } else if ((actor === Word.he) || (actor === Word.she) || (actor === Word.it)) {
+          return this.translateWord(action) + 'ел';
+        } else if (actor === Word.we) {
+          return this.translateWord(action) + 'ели';
+        } else if (actor === Word.you_plural_formal) {
+          return this.translateWord(action) + 'ели';
+        } else if (actor === Word.you_plural) {
+          return this.translateWord(action) + 'ели';
+        } else if (actor === Word.they) {
+          return this.translateWord(action) + 'ели';
+        }
       }
       return this.translateWord(action);
     }

@@ -4,7 +4,7 @@ define('lang.fi', ['lang', 'grammar'], function(Language, Grammar) {
 
   var translations = {
     sun: 'aurinko',
-    sing: 'laula',
+    sing: 'laul',
     now: 'nyt',
     future: 'tulevaisuus',
     past: 'menneisyys',
@@ -33,39 +33,57 @@ define('lang.fi', ['lang', 'grammar'], function(Language, Grammar) {
     translateAction(actor, action, time) {
       if (time === Word.now) {
         if (actor === Word.I) {
-          return this.translateWord(action) + 'n';
+          return this.translateWord(action) + 'an';
         } else if (actor === Word.you) {
-          return this.translateWord(action) + 't';
+          return this.translateWord(action) + 'at';
         } else if (actor === Word.you_formal) {
-          return this.translateWord(action) + 't';
+          return this.translateWord(action) + 'at';
         } else if ((actor === Word.he) || (actor === Word.she) || (actor === Word.it)) {
-          return this.translateWord(action) + 'a';
+          return this.translateWord(action) + 'aa';
         } else if (actor === Word.we) {
-          return this.translateWord(action) + 'mme';
+          return this.translateWord(action) + 'amme';
         } else if (actor === Word.you_plural_formal) {
-          return this.translateWord(action) + 'tte';
+          return this.translateWord(action) + 'atte';
         } else if (actor === Word.you_plural) {
-          return this.translateWord(action) + 'tte';
+          return this.translateWord(action) + 'atte';
         } else if (actor === Word.they) {
-          return this.translateWord(action) + 'vat';
+          return this.translateWord(action) + 'avat';
         }
       } else if (time === Word.future) {
         if (actor === Word.I) {
-          return this.translateWord(action) + 'n';
+          return this.translateWord(action) + 'an';
         } else if (actor === Word.you) {
-          return this.translateWord(action) + 't';
+          return this.translateWord(action) + 'at';
         } else if (actor === Word.you_formal) {
-          return this.translateWord(action) + 't';
+          return this.translateWord(action) + 'at';
         } else if ((actor === Word.he) || (actor === Word.she) || (actor === Word.it)) {
-          return this.translateWord(action) + 'a';
+          return this.translateWord(action) + 'aa';
         } else if (actor === Word.we) {
-          return this.translateWord(action) + 'mme';
+          return this.translateWord(action) + 'amme';
         } else if (actor === Word.you_plural_formal) {
-          return this.translateWord(action) + 'tte';
+          return this.translateWord(action) + 'atte';
         } else if (actor === Word.you_plural) {
-          return this.translateWord(action) + 'tte';
+          return this.translateWord(action) + 'atte';
         } else if (actor === Word.they) {
-          return this.translateWord(action) + 'vat';
+          return this.translateWord(action) + 'avat';
+        }
+      } else if (time === Word.past) {
+        if (actor === Word.I) {
+          return this.translateWord(action) + 'oin';
+        } else if (actor === Word.you) {
+          return this.translateWord(action) + 'oit';
+        } else if (actor === Word.you_formal) {
+          return this.translateWord(action) + 'oit';
+        } else if ((actor === Word.he) || (actor === Word.she) || (actor === Word.it)) {
+          return this.translateWord(action) + 'oi';
+        } else if (actor === Word.we) {
+          return this.translateWord(action) + 'oimme';
+        } else if (actor === Word.you_plural_formal) {
+          return this.translateWord(action) + 'oitte';
+        } else if (actor === Word.you_plural) {
+          return this.translateWord(action) + 'oitte';
+        } else if (actor === Word.they) {
+          return this.translateWord(action) + 'oivat';
         }
       }
       return this.translateWord(action);

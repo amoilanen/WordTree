@@ -209,56 +209,99 @@ define(['grammar',
       });
     });
 
-    xdescribe('past', function() {
+    describe('past', function() {
 
       describe('single actor', function() {
 
         describe('I', function() {
-          
+          shouldTranslate(new Sentence(Word.I, Word.sing, Word.past), [
+            [en, 'I sang'],
+            [fi, 'lauloitn'],
+            [nl, 'ik zong'],
+            [ru, 'я пел']
+          ]);
         });
 
         describe('you', function() {
-          
+          shouldTranslate(new Sentence(Word.you, Word.sing, Word.past), [
+            [en, 'you sang'],
+            [fi, 'lauloit'],
+            [nl, 'je zong'],
+            [ru, 'ты пел']
+          ]);
         });
 
         describe('you formal', function() {
-          
+          shouldTranslate(new Sentence(Word.you_formal, Word.sing, Word.past), [
+            [en, 'you sang'],
+            [fi, 'lauloit'],
+            [nl, 'u zong'],
+            [ru, 'вы пели']
+          ]);
         });
 
         describe('he, she, it', function() {
-          
+          shouldTranslate(new Sentence(Word.he, Word.sing, Word.past), [
+            [en, 'he sang'],
+            [fi, 'lauloi'],
+            [nl, 'hij zong'],
+            [ru, 'он пел']
+          ]);
         });
       });
 
       describe('multiple actors', function() {
 
         describe('we', function() {
-          
+          shouldTranslate(new Sentence(Word.you_plural, Word.sing, Word.past), [
+            [en, 'we sang'],
+            [fi, 'lauloimme'],
+            [nl, 'we zongen'],
+            [ru, 'мы пели']
+          ]);
         });
 
         describe('you plural', function() {
-          
+          shouldTranslate(new Sentence(Word.you_plural, Word.sing, Word.past), [
+            [en, 'you sang'],
+            [fi, 'lauloitte'],
+            [nl, 'jullie zongen'],
+            [ru, 'вы пели']
+          ]);
         });
 
         describe('you formal plural', function() {
-          
+          shouldTranslate(new Sentence(Word.you_plural_formal, Word.sing, Word.past), [
+            [en, 'you sang'],
+            [fi, 'lauloitte'],
+            [nl, 'u zongen'],
+            [ru, 'вы пели']
+          ]);
         });
 
         describe('they', function() {
-          
+          shouldTranslate(new Sentence(Word.they, Word.sing, Word.past), [
+            [en, 'they sang'],
+            [fi, 'lauloivat'],
+            [nl, 'ze zongen'],
+            [ru, 'они пели']
+          ]);
         });
       });
     });
   });
 
+  //TODO: Re-factoring, extract some grammar table
+
   //TODO: Same object can be 'he' or 'it' in different languages, for example 'son'/'zon'
   //TODO: Separate language specific tests for different verbs endings (for Dutch, English, Russian, Finnish)
-  //For example делать
+  //For example делать, ходить, петь, строить, давать.
   //TODO: Infinitive form of verbs
   //TODO: Somebody _want_ to do something
   //TODO: Somebody _going_ to do something
   //TODO: Some action has been finished in the past/will be finished in the future, сделал vs. делал
   //have done/will have done
+  //TODO: Irregular verb in each of the languages (can be different per language), like 'to be' or 'to go', 'делать'
 
   //TODO: Simple action 1, 2, 3 person singular present, subject, place, quality
   //TODO: Simple action 1, 2, 3 person multiple present, subject, place, quality
