@@ -111,7 +111,7 @@ define(['grammar',
           shouldTranslate(new Sentence(Word.you_plural_formal, Word.sing, Word.now), [
             [en, 'you sing'],
             [fi, 'laulatte'],
-            [nl, 'u zingt'],
+            [nl, 'u zingen'],
             [ru, 'вы поете']
           ]);
         });
@@ -193,7 +193,7 @@ define(['grammar',
           shouldTranslate(new Sentence(Word.you_plural_formal, Word.sing, Word.future), [
             [en, 'you will sing'],
             [fi, 'laulatte'],
-            [nl, 'u zingt'],
+            [nl, 'u zingen'],
             [ru, 'вы будете петь']
           ]);
         });
@@ -216,7 +216,7 @@ define(['grammar',
         describe('I', function() {
           shouldTranslate(new Sentence(Word.I, Word.sing, Word.past), [
             [en, 'I sang'],
-            [fi, 'lauloitn'],
+            [fi, 'lauloin'],
             [nl, 'ik zong'],
             [ru, 'я пел']
           ]);
@@ -253,7 +253,7 @@ define(['grammar',
       describe('multiple actors', function() {
 
         describe('we', function() {
-          shouldTranslate(new Sentence(Word.you_plural, Word.sing, Word.past), [
+          shouldTranslate(new Sentence(Word.we, Word.sing, Word.past), [
             [en, 'we sang'],
             [fi, 'lauloimme'],
             [nl, 'we zongen'],
@@ -295,7 +295,8 @@ define(['grammar',
 
   //TODO: Same object can be 'he' or 'it' in different languages, for example 'son'/'zon'
   //TODO: Separate language specific tests for different verbs endings (for Dutch, English, Russian, Finnish)
-  //For example делать, ходить, петь, строить, давать.
+  //For example делать, ходить, петь, строить, давать. Include one standard verb with standard forms for every language
+
   //TODO: Infinitive form of verbs
   //TODO: Somebody _want_ to do something
   //TODO: Somebody _going_ to do something
@@ -354,6 +355,9 @@ define(['grammar',
   //TODO: Complex sentence, 1 despite 2
   //TODO: Complex sentence, 1 or 2
   //TODO: Sequence of words
+
+  //TODO: Simple two verb sentence: I learn to sing
+  //TODO: Can do something
 
   //TODO: Questions about present time
   //TODO: Questions about past time

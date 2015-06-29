@@ -2,6 +2,15 @@ define('lang', ['grammar'], function(Grammar) {
 
   var {Word, Actor, Action, Time, Sentence} = Grammar;
 
+  class Translation {
+
+    constructor(root, defaultForm, conjugations) {
+      this.root = root;
+      this.defaultForm = typeof defaultForm === 'undefined' ? root : defaultForm;
+      this.conjugations = conjugations;
+    }
+  }
+
   class Language {
 
     constructor(name, wordTranslations) {
@@ -23,7 +32,9 @@ define('lang', ['grammar'], function(Grammar) {
     }
 
     translateWord(word) {
-      return this.wordTranslations[word.id] || word.id;
+      var translation = this.wordTranslations[word.id];
+
+      return translation ? translation.defaultForm : word.id;
     }
 
     translateActor(actor) {
@@ -31,9 +42,16 @@ define('lang', ['grammar'], function(Grammar) {
     }
 
     translateAction(actor, action, time) {
-      return this.translateWord(action);
+      var translation = this.wordTranslations[action.id];
+
+      return translation && translation.conjugations ?
+        translation.conjugations[time.id][actor.id]
+        : this.translateWord(action);
     }
   }
 
-  return Language;
+  return {
+    Translation,
+    Language
+  };
 });

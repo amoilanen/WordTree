@@ -1,88 +1,67 @@
-define('lang.ru', ['lang', 'grammar'], function(Language, Grammar) {
+define('lang.ru', ['lang', 'grammar'], function(Lang, Grammar) {
 
+  var {Translation, Language} = Lang;
   var {Word} = Grammar;
 
   var translations = {
-    sun: 'солнце',
-    sing: 'п',
-    now: 'сейчас',
-    future: 'будущее',
-    past: 'прошлое',
-    I: 'я',
-    you: 'ты',
-    you_formal: 'вы',
-    he: 'он',
-    she: 'она',
-    it: 'оно',
-    we: 'мы',
-    you_plural: 'вы',
-    you_plural_formal: 'вы',
-    they: 'они'
+    sun: new Translation('солнце'),
+    sing: new Translation('п', 'петь', {
+      now: {
+        I: 'пою',
+        you: 'поешь',
+        you_formal: 'поете',
+        he: 'поет',
+        she: 'поет',
+        it: 'поет',
+        we: 'поем',
+        you_plural_formal: 'поете',
+        you_plural: 'поете',
+        they: 'поют'
+      },
+      future: {
+        I: 'буду петь',
+        you: 'будешь петь',
+        you_formal: 'будете петь',
+        he: 'будет петь',
+        she: 'будет петь',
+        it: 'будет петь',
+        we: 'будем петь',
+        you_plural_formal: 'будете петь',
+        you_plural: 'будете петь',
+        they: 'будут петь'
+      },
+      past: {
+        I: 'пел',
+        you: 'пел',
+        you_formal: 'пели',
+        he: 'пел',
+        she: 'пел',
+        it: 'пел',
+        we: 'пели',
+        you_plural_formal: 'пели',
+        you_plural: 'пели',
+        they: 'пели'
+      }
+    }),
+    now: new Translation('сейчас'),
+    future: new Translation('будущее'),
+    past: new Translation('прошлое'),
+    I: new Translation('я'),
+    you: new Translation('ты'),
+    you_formal: new Translation('вы'),
+    he: new Translation('он'),
+    she: new Translation('она'),
+    it: new Translation('оно'),
+    we: new Translation('мы'),
+    you_plural: new Translation('вы'),
+    you_plural_formal: new Translation('вы'),
+    they: new Translation('они')
   };
 
   class Russian extends Language {
 
     constructor(translations) {
       super('Russian', translations);
-    }
-
-    translateAction(actor, action, time) {
-      if (time === Word.now) {
-        if (actor === Word.I) {
-          return this.translateWord(action) + 'ою';
-        } else if (actor === Word.you) {
-          return this.translateWord(action) + 'оешь';
-        } else if (actor === Word.you_formal) {
-          return this.translateWord(action) + 'оете';
-        } else if ((actor === Word.he) || (actor === Word.she) || (actor === Word.it)) {
-          return this.translateWord(action) + 'оет';
-        } else if (actor === Word.we) {
-          return this.translateWord(action) + 'оем';
-        } else if (actor === Word.you_plural_formal) {
-          return this.translateWord(action) + 'оете';
-        } else if (actor === Word.you_plural) {
-          return this.translateWord(action) + 'оете';
-        } else if (actor === Word.they) {
-          return this.translateWord(action) + 'оют';
-        }
-      } else if (time === Word.future) {
-        if (actor === Word.I) {
-          return 'буду ' + this.translateWord(action) + 'еть';
-        } else if (actor === Word.you) {
-          return 'будешь ' + this.translateWord(action) + 'еть';
-        } else if (actor === Word.you_formal) {
-          return 'будете ' + this.translateWord(action) + 'еть';
-        } else if ((actor === Word.he) || (actor === Word.she) || (actor === Word.it)) {
-          return 'будет ' + this.translateWord(action) + 'еть';
-        } else if (actor === Word.we) {
-          return 'будем ' + this.translateWord(action) + 'еть';
-        } else if (actor === Word.you_plural_formal) {
-          return 'будете ' + this.translateWord(action) + 'еть';
-        } else if (actor === Word.you_plural) {
-          return 'будете ' + this.translateWord(action) + 'еть';
-        } else if (actor === Word.they) {
-          return 'будут ' + this.translateWord(action) + 'еть';
-        }
-      } else if (time === Word.past) {
-        if (actor === Word.I) {
-          return this.translateWord(action) + 'ел';
-        } else if (actor === Word.you) {
-          return this.translateWord(action) + 'ел';
-        } else if (actor === Word.you_formal) {
-          return this.translateWord(action) + 'ели';
-        } else if ((actor === Word.he) || (actor === Word.she) || (actor === Word.it)) {
-          return this.translateWord(action) + 'ел';
-        } else if (actor === Word.we) {
-          return this.translateWord(action) + 'ели';
-        } else if (actor === Word.you_plural_formal) {
-          return this.translateWord(action) + 'ели';
-        } else if (actor === Word.you_plural) {
-          return this.translateWord(action) + 'ели';
-        } else if (actor === Word.they) {
-          return this.translateWord(action) + 'ели';
-        }
-      }
-      return this.translateWord(action);
     }
   }
 

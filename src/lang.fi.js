@@ -1,23 +1,61 @@
-define('lang.fi', ['lang', 'grammar'], function(Language, Grammar) {
+define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
 
+  var {Translation, Language} = Lang;
   var {Word} = Grammar;
 
   var translations = {
-    sun: 'aurinko',
-    sing: 'laul',
-    now: 'nyt',
-    future: 'tulevaisuus',
-    past: 'menneisyys',
-    I: 'minä',
-    you: 'sinä',
-    you_formal: 'sinä',
-    he: 'hän',
-    she: 'hän',
-    it: 'se',
-    we: 'me',
-    you_plural: 'te',
-    you_plural_formal: 'te',
-    they: 'ne'
+    sun: new Translation('aurinko'),
+    sing: new Translation('laul', 'laula', {
+      now: {
+        I: 'laulan',
+        you: 'laulat',
+        you_formal: 'laulat',
+        he: 'laulaa',
+        she: 'laulaa',
+        it: 'laulaa',
+        we: 'laulamme',
+        you_plural_formal: 'laulatte',
+        you_plural: 'laulatte',
+        they: 'laulavat'
+      },
+      future: {
+        I: 'laulan',
+        you: 'laulat',
+        you_formal: 'laulat',
+        he: 'laulaa',
+        she: 'laulaa',
+        it: 'laulaa',
+        we: 'laulamme',
+        you_plural_formal: 'laulatte',
+        you_plural: 'laulatte',
+        they: 'laulavat'
+      },
+      past: {
+        I: 'lauloin',
+        you: 'lauloit',
+        you_formal: 'lauloit',
+        he: 'lauloi',
+        she: 'lauloi',
+        it: 'lauloi',
+        we: 'lauloimme',
+        you_plural_formal: 'lauloitte',
+        you_plural: 'lauloitte',
+        they: 'lauloivat'
+      }
+    }),
+    now: new Translation('nyt'),
+    future: new Translation('tulevaisuus'),
+    past: new Translation('menneisyys'),
+    I: new Translation('minä'),
+    you: new Translation('sinä'),
+    you_formal: new Translation('sinä'),
+    he: new Translation('hän'),
+    she: new Translation('hän'),
+    it: new Translation('se'),
+    we: new Translation('me'),
+    you_plural: new Translation('te'),
+    you_plural_formal: new Translation('te'),
+    they: new Translation('ne')
   };
 
   class Finnish extends Language {
@@ -28,65 +66,6 @@ define('lang.fi', ['lang', 'grammar'], function(Language, Grammar) {
 
     translateActor(actor) {
       return '';
-    }
-
-    translateAction(actor, action, time) {
-      if (time === Word.now) {
-        if (actor === Word.I) {
-          return this.translateWord(action) + 'an';
-        } else if (actor === Word.you) {
-          return this.translateWord(action) + 'at';
-        } else if (actor === Word.you_formal) {
-          return this.translateWord(action) + 'at';
-        } else if ((actor === Word.he) || (actor === Word.she) || (actor === Word.it)) {
-          return this.translateWord(action) + 'aa';
-        } else if (actor === Word.we) {
-          return this.translateWord(action) + 'amme';
-        } else if (actor === Word.you_plural_formal) {
-          return this.translateWord(action) + 'atte';
-        } else if (actor === Word.you_plural) {
-          return this.translateWord(action) + 'atte';
-        } else if (actor === Word.they) {
-          return this.translateWord(action) + 'avat';
-        }
-      } else if (time === Word.future) {
-        if (actor === Word.I) {
-          return this.translateWord(action) + 'an';
-        } else if (actor === Word.you) {
-          return this.translateWord(action) + 'at';
-        } else if (actor === Word.you_formal) {
-          return this.translateWord(action) + 'at';
-        } else if ((actor === Word.he) || (actor === Word.she) || (actor === Word.it)) {
-          return this.translateWord(action) + 'aa';
-        } else if (actor === Word.we) {
-          return this.translateWord(action) + 'amme';
-        } else if (actor === Word.you_plural_formal) {
-          return this.translateWord(action) + 'atte';
-        } else if (actor === Word.you_plural) {
-          return this.translateWord(action) + 'atte';
-        } else if (actor === Word.they) {
-          return this.translateWord(action) + 'avat';
-        }
-      } else if (time === Word.past) {
-        if (actor === Word.I) {
-          return this.translateWord(action) + 'oin';
-        } else if (actor === Word.you) {
-          return this.translateWord(action) + 'oit';
-        } else if (actor === Word.you_formal) {
-          return this.translateWord(action) + 'oit';
-        } else if ((actor === Word.he) || (actor === Word.she) || (actor === Word.it)) {
-          return this.translateWord(action) + 'oi';
-        } else if (actor === Word.we) {
-          return this.translateWord(action) + 'oimme';
-        } else if (actor === Word.you_plural_formal) {
-          return this.translateWord(action) + 'oitte';
-        } else if (actor === Word.you_plural) {
-          return this.translateWord(action) + 'oitte';
-        } else if (actor === Word.they) {
-          return this.translateWord(action) + 'oivat';
-        }
-      }
-      return this.translateWord(action);
     }
   }
 
