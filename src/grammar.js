@@ -50,12 +50,38 @@ define('grammar', function() {
     }
   }
 
+  class SentenceBuilder {
+
+    actor(_actor) {
+      this._actor = _actor;
+      return this;
+    }
+
+    action(_action) {
+      this._action = _action;
+      return this;
+    }
+
+    time(_time) {
+      this._time = _time;
+      return this;
+    }
+
+    get $() {
+      return new Sentence(this._actor, this._action, this._time);
+    }
+  }
+
   class Sentence {
 
     constructor(actor, action, time) {
       this.actor = actor;
       this.action = action;
       this.time = time;
+    }
+
+    static get $() {
+      return new SentenceBuilder();
     }
   }
 

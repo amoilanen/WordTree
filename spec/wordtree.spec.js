@@ -45,7 +45,7 @@ define(['grammar',
 
         describe('I', function() {
 
-          shouldTranslate(new Sentence(Word.I, Word.sing, Word.now), [
+          shouldTranslate(Sentence.$.actor(Word.I).action(Word.sing).time(Word.now).$, [
             [en, 'I sing'],
             [fi, 'laulan'],
             [nl, 'ik zing'],
