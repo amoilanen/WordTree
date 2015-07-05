@@ -291,11 +291,9 @@ define(['grammar',
     });
   });
 
-  //TODO: Re-factoring, extract some grammar table
-
-  //TODO: Same object can be 'he' or 'it' in different languages, for example 'son'/'zon'
   //TODO: Separate language specific tests for different verbs endings (for Dutch, English, Russian, Finnish)
   //For example делать, ходить, петь, строить, давать. Include one standard verb with standard forms for every language
+  //TODO: Same object can be 'he' or 'it' in different languages, for example 'sun'/'zon'
 
   //TODO: Infinitive form of verbs
   //TODO: Somebody _want_ to do something

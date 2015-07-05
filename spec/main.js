@@ -9,7 +9,8 @@ requirejs.config({
     'lang.ru': '/base/compiled/src/lang.ru'
   },
   deps: [
-    '/base/compiled/spec/wordtree.spec.js'
+    '/base/compiled/spec/wordtree.spec.js',
+    '/base/compiled/spec/ru.actions.spec.js'
   ],
   callback: window.__karma__.start
 });
