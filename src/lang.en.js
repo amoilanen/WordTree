@@ -43,6 +43,7 @@ define('lang.en', ['lang', 'grammar'], function(Lang, Grammar) {
         they: 'sang'
       }
     }),
+    do: new Translation('do'),
     now: new Translation('now'),
     future: new Translation('future'),
     past: new Translation('past'),

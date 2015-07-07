@@ -3,6 +3,7 @@ define('grammar', function() {
   const VOCABULARY = [
     'sun',
     'sing',
+    'do',
     'now',
     'future',
     'past',

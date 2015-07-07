@@ -43,6 +43,7 @@ define('lang.nl', ['lang', 'grammar'], function(Lang, Grammar) {
         they: 'zongen'
       }
     }),
+    do: new Translation('doen'),
     now: new Translation('nu'),
     future: new Translation('toekomst'),
     past: new Translation('verleden'),
