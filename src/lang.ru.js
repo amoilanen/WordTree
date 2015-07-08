@@ -81,6 +81,44 @@ define('lang.ru', ['lang', 'grammar'], function(Lang, Grammar) {
         they: 'делали'
       }
     }),
+    go: new Translation('идти', 'ид', {
+      now: {
+        I: 'иду',
+        you: 'идешь',
+        you_formal: 'идете',
+        he: 'идет',
+        she: 'идет',
+        it: 'идет',
+        we: 'идем',
+        you_plural_formal: 'идете',
+        you_plural: 'идете',
+        they: 'идут'
+      },
+      future: {
+        I: 'буду идти',
+        you: 'будешь идти',
+        you_formal: 'будете идти',
+        he: 'будет идти',
+        she: 'будет идти',
+        it: 'будет идти',
+        we: 'будем идти',
+        you_plural_formal: 'будете идти',
+        you_plural: 'будете идти',
+        they: 'будут идти'
+      },
+      past: {
+        I: 'шел',
+        you: 'шел',
+        you_formal: 'шли',
+        he: 'шел',
+        she: 'шла',
+        it: 'шло',
+        we: 'шли',
+        you_plural_formal: 'шли',
+        you_plural: 'шли',
+        they: 'шли'
+      }
+    }),
     now: new Translation('сейчас'),
     future: new Translation('будущее'),
     past: new Translation('прошлое'),

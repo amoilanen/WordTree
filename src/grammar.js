@@ -4,6 +4,7 @@ define('grammar', function() {
     'sun',
     'sing',
     'do',
+    'go',
     'now',
     'future',
     'past',

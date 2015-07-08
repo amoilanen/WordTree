@@ -44,6 +44,7 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
       }
     }),
     do: new Translation('tehdä'),
+    go: new Translation('mennä'),
     now: new Translation('nyt'),
     future: new Translation('tulevaisuus'),
     past: new Translation('menneisyys'),
