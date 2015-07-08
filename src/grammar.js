@@ -5,6 +5,8 @@ define('grammar', function() {
     'sing',
     'do',
     'go',
+    'sew',
+    'build',
     'now',
     'future',
     'past',

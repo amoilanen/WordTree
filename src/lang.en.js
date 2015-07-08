@@ -45,6 +45,7 @@ define('lang.en', ['lang', 'grammar'], function(Lang, Grammar) {
     }),
     do: new Translation('do'),
     go: new Translation('go'),
+    build: new Translation('build'),
     now: new Translation('now'),
     future: new Translation('future'),
     past: new Translation('past'),

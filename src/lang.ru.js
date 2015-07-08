@@ -119,6 +119,82 @@ define('lang.ru', ['lang', 'grammar'], function(Lang, Grammar) {
         they: 'шли'
       }
     }),
+    sew: new Translation('шить', 'ш', {
+      now: {
+        I: 'шью',
+        you: 'шьешь',
+        you_formal: 'шьете',
+        he: 'шьет',
+        she: 'шьет',
+        it: 'шьет',
+        we: 'шьем',
+        you_plural_formal: 'шьете',
+        you_plural: 'шьете',
+        they: 'шьют'
+      },
+      future: {
+        I: 'буду шить',
+        you: 'будешь шить',
+        you_formal: 'будете шить',
+        he: 'будет шить',
+        she: 'будет шить',
+        it: 'будет шить',
+        we: 'будем шить',
+        you_plural_formal: 'будете шить',
+        you_plural: 'будете шить',
+        they: 'будут шить'
+      },
+      past: {
+        I: 'шил',
+        you: 'шил',
+        you_formal: 'шили',
+        he: 'шил',
+        she: 'шила',
+        it: 'шило',
+        we: 'шили',
+        you_plural_formal: 'шили',
+        you_plural: 'шили',
+        they: 'шили'
+      }
+    }),
+    build: new Translation('строить', 'стро', {
+      now: {
+        I: 'строю',
+        you: 'строишь',
+        you_formal: 'строите',
+        he: 'строит',
+        she: 'строит',
+        it: 'строит',
+        we: 'строим',
+        you_plural_formal: 'строите',
+        you_plural: 'строите',
+        they: 'строят'
+      },
+      future: {
+        I: 'буду строить',
+        you: 'будешь строить',
+        you_formal: 'будете шить',
+        he: 'будет шить',
+        she: 'будет шить',
+        it: 'будет шить',
+        we: 'будем шить',
+        you_plural_formal: 'будете шить',
+        you_plural: 'будете шить',
+        they: 'будут шить'
+      },
+      past: {
+        I: 'шил',
+        you: 'шил',
+        you_formal: 'шили',
+        he: 'шил',
+        she: 'шила',
+        it: 'шило',
+        we: 'шили',
+        you_plural_formal: 'шили',
+        you_plural: 'шили',
+        they: 'шили'
+      }
+    }),
     now: new Translation('сейчас'),
     future: new Translation('будущее'),
     past: new Translation('прошлое'),

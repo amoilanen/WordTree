@@ -45,6 +45,8 @@ define('lang.nl', ['lang', 'grammar'], function(Lang, Grammar) {
     }),
     do: new Translation('doen'),
     go: new Translation('ga'),
+    sew: new Translation('vastnaaien'),
+    build: new Translation('bouwen'),
     now: new Translation('nu'),
     future: new Translation('toekomst'),
     past: new Translation('verleden'),
