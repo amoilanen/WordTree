@@ -217,6 +217,45 @@ define(['grammar',
         they: 'шили'
       }
     });
+
+    shouldHaveForms(Word.build, {
+      now: {
+        I: 'строю',
+        you: 'строишь',
+        you_formal: 'строите',
+        he: 'строит',
+        she: 'строит',
+        it: 'строит',
+        we: 'строим',
+        you_plural_formal: 'строите',
+        you_plural: 'строите',
+        they: 'строят'
+      },
+      future: {
+        I: 'буду строить',
+        you: 'будешь строить',
+        you_formal: 'будете строить',
+        he: 'будет строить',
+        she: 'будет строить',
+        it: 'будет строить',
+        we: 'будем строить',
+        you_plural_formal: 'будете строить',
+        you_plural: 'будете строить',
+        they: 'будут строить'
+      },
+      past: {
+        I: 'строил',
+        you: 'строил',
+        you_formal: 'строили',
+        he: 'строил',
+        she: 'строила',
+        it: 'строило',
+        we: 'строили',
+        you_plural_formal: 'строили',
+        you_plural: 'строили',
+        they: 'строили'
+      }
+    });
   });
 
   //For example строить, давать, смотреть. Include one standard verb with standard forms for every language
