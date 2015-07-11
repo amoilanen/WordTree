@@ -36,3 +36,9 @@ Speculation:
 5. Words can be easily added to a language from other languages, also points out commonality. Just follow common grammar rules in that language
 
 6. In different contexts various languages demonstrate different variability: i.e. same phrase in English but two different phrases in Dutch
+
+7. Language rules are pretty formal, even exceptions are not that exceptional, it is just the rules are oversimplified or not adequate. For example, rules of pronunciation and inscription can explain many of the so called 'irregular' verbs. This level of language formalization is not addressed by this simple project.
+
+Notes
+
+Verbs irregular in one language may be not irregular in other languages? Is this related to 

@@ -297,6 +297,9 @@ define(['grammar',
   //TODO: There may be several words for something for which there is only one word in one language
   //TODO: Same object can be 'he' or 'it' in different languages, for example 'sun'/'zon'
 
+  //TODO: Change the package structure, so that language files do not get too large, smaller files are split from them and they reside in
+  //in separate folders
+
   //TODO: Infinitive form of verbs
   //TODO: Somebody _want_ to do something
   //TODO: Somebody _going_ to do something

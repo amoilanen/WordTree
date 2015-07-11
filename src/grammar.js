@@ -1,3 +1,6 @@
+/**
+ * Grammar common for all the languages.
+ */
 define('grammar', function() {
 
   const VOCABULARY = [

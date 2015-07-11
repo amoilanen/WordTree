@@ -1,3 +1,12 @@
+/*
+ * Base classes to base the implementation of particular languages from:
+ *
+ * Translation - specifies how a word is translated in a specific language
+ *
+ * Language - base class for a specific language, defines how the universal grammar structure
+ * is to be translated into that language
+ *
+ */
 define('lang', ['grammar'], function(Grammar) {
 
   var {Word, Actor, Action, Time, Sentence} = Grammar;
