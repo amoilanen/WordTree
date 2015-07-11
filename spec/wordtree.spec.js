@@ -293,6 +293,8 @@ define(['grammar',
 
   //TODO: Separate language specific tests for different verbs endings (for Dutch, English, Russian, Finnish)
   //For example делать, ходить, петь, строить, давать. Include one standard verb with standard forms for every language
+
+  //TODO: There may be several words for something for which there is only one word in one language
   //TODO: Same object can be 'he' or 'it' in different languages, for example 'sun'/'zon'
 
   //TODO: Infinitive form of verbs
@@ -354,6 +356,8 @@ define(['grammar',
   //TODO: Complex sentence, 1 or 2
   //TODO: Sequence of words
 
+  //TODO: Descriptions for subject (adverb)
+  //TODO: Description for action (adjective)
   //TODO: Simple two verb sentence: I learn to sing
   //TODO: Can do something
 

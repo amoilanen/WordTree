@@ -256,7 +256,122 @@ define(['grammar',
         they: 'строили'
       }
     });
-  });
 
-  //For example строить, давать, смотреть. Include one standard verb with standard forms for every language
+    shouldHaveForms(Word.give, {
+      now: {
+        I: 'даю',
+        you: 'даешь',
+        you_formal: 'даете',
+        he: 'дает',
+        she: 'дает',
+        it: 'дает',
+        we: 'даем',
+        you_plural_formal: 'даете',
+        you_plural: 'даете',
+        they: 'дают'
+      },
+      future: {
+        I: 'буду давать',
+        you: 'будешь давать',
+        you_formal: 'будете давать',
+        he: 'будет давать',
+        she: 'будет давать',
+        it: 'будет давать',
+        we: 'будем давать',
+        you_plural_formal: 'будете давать',
+        you_plural: 'будете давать',
+        they: 'будут давать'
+      },
+      past: {
+        I: 'давал',
+        you: 'давал',
+        you_formal: 'давали',
+        he: 'давал',
+        she: 'давала',
+        it: 'давало',
+        we: 'дают',
+        you_plural_formal: 'давали',
+        you_plural: 'давали',
+        they: 'давали'
+      }
+    });
+
+    shouldHaveForms(Word.look, {
+      now: {
+        I: 'смотрю',
+        you: 'смотришь',
+        you_formal: 'смотрите',
+        he: 'смотрит',
+        she: 'смотрит',
+        it: 'смотрит',
+        we: 'смотрим',
+        you_plural_formal: 'смотрите',
+        you_plural: 'смотрите',
+        they: 'смотрят'
+      },
+      future: {
+        I: 'буду смотреть',
+        you: 'будешь смотреть',
+        you_formal: 'будете смотреть',
+        he: 'будет смотреть',
+        she: 'будет смотреть',
+        it: 'будет смотреть',
+        we: 'будем смотреть',
+        you_plural_formal: 'будете смотреть',
+        you_plural: 'будете смотреть',
+        they: 'будут смотреть'
+      },
+      past: {
+        I: 'смотрел',
+        you: 'смотрел',
+        you_formal: 'смотрели',
+        he: 'смотрел',
+        she: 'смотрела',
+        it: 'смотрело',
+        we: 'смотрим',
+        you_plural_formal: 'смотрите',
+        you_plural: 'смотрите',
+        they: 'смотрели'
+      }
+    });
+
+    shouldHaveForms(Word.see, {
+      now: {
+        I: 'вижу',
+        you: 'видишь',
+        you_formal: 'видите',
+        he: 'видит',
+        she: 'видит',
+        it: 'видит',
+        we: 'видим',
+        you_plural_formal: 'видете',
+        you_plural: 'видете',
+        they: 'видят'
+      },
+      future: {
+        I: 'буду видеть',
+        you: 'будешь видеть',
+        you_formal: 'будете видеть',
+        he: 'будет видеть',
+        she: 'будет видеть',
+        it: 'будет видеть',
+        we: 'будем видеть',
+        you_plural_formal: 'будете видеть',
+        you_plural: 'будете видеть',
+        they: 'будут видеть'
+      },
+      past: {
+        I: 'видел',
+        you: 'видел',
+        you_formal: 'видели',
+        he: 'видел',
+        she: 'видела',
+        it: 'видело',
+        we: 'видим',
+        you_plural_formal: 'видите',
+        you_plural: 'видите',
+        they: 'видели'
+      }
+    });
+  });
 });
