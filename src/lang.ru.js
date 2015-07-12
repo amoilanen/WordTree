@@ -3,113 +3,112 @@ define('lang.ru', ['lang', 'grammar'], function(Lang, Grammar) {
   var {Translation, Language} = Lang;
   var {Word} = Grammar;
 
-  //TODO: Generic verb translation class
-  //TODO: Generic verb translation ending class
-  //TODO: Particular ending verb translation class
-
   class VerbTranslation extends Translation {
 
-    constructor(root, keyVowel, defaultForm, conjugationRoots) {
-      super(root, defaultForm);
-      this.conjugations = this.conjugate(this.readConjugationRoots(root, keyVowel, conjugationRoots));
+    constructor(opts) {
+      opts.keyVowel = opts.keyVowel || '';
+      opts.defaultForm = opts.defaultForm || opts.root + opts.keyVowel + 'ть';
+      super(opts.root, opts.defaultForm);
+      this.keyVowel = opts.keyVowel;
+      this.conjugationRoots = this.determineConjugationRoots(opts.conjugationRoots);
+      this.conjugations = this.conjugate(opts.conjugations);
     }
 
-    readConjugationRoots(root, keyVowel, conjugationRoots) {
+    determineConjugationRoots(conjugationRoots) {
       if (!conjugationRoots) {
         conjugationRoots = {};
       }
       ['now', 'future', 'past'].forEach((time) => {
         if (!conjugationRoots[time]) {
-          conjugationRoots[time] = root + keyVowel;
+          conjugationRoots[time] = this.root + this.keyVowel;
         }
       });
       return conjugationRoots;
     }
 
-    conjugate(conjugationRoots) {
-      return {
+    conjugate(conjugations) {
+      conjugations = conjugations || {};
+      var result = {
         now: {
-          I: conjugationRoots.now + 'ю',
-          you: conjugationRoots.now + 'ешь',
-          you_formal: conjugationRoots.now + 'ете',
-          he: conjugationRoots.now + 'ет',
-          she: conjugationRoots.now + 'ет',
-          it: conjugationRoots.now + 'ет',
-          we: conjugationRoots.now + 'ем',
-          you_plural_formal: conjugationRoots.now + 'ете',
-          you_plural: conjugationRoots.now + 'ете',
-          they: conjugationRoots.now + 'ют'
+          I: this.conjugationRoots.now + 'ю',
+          you: this.conjugationRoots.now + 'ешь',
+          you_formal: this.conjugationRoots.now + 'ете',
+          he: this.conjugationRoots.now + 'ет',
+          she: this.conjugationRoots.now + 'ет',
+          it: this.conjugationRoots.now + 'ет',
+          we: this.conjugationRoots.now + 'ем',
+          you_plural_formal: this.conjugationRoots.now + 'ете',
+          you_plural: this.conjugationRoots.now + 'ете',
+          they: this.conjugationRoots.now + 'ют'
         },
         future: {
-          I: 'буду ' + conjugationRoots.future + 'ть',
-          you: 'будешь ' + conjugationRoots.future + 'ть',
-          you_formal: 'будете ' + conjugationRoots.future + 'ть',
-          he: 'будет ' + conjugationRoots.future + 'ть',
-          she: 'будет ' + conjugationRoots.future + 'ть',
-          it: 'будет ' + conjugationRoots.future + 'ть',
-          we: 'будем ' + conjugationRoots.future + 'ть',
-          you_plural_formal: 'будете ' + conjugationRoots.future + 'ть',
-          you_plural: 'будете ' + conjugationRoots.future + 'ть',
-          they: 'будут ' + conjugationRoots.future + 'ть'
+          I: 'буду ' + this.defaultForm,
+          you: 'будешь ' + this.defaultForm,
+          you_formal: 'будете ' + this.defaultForm,
+          he: 'будет ' + this.defaultForm,
+          she: 'будет ' + this.defaultForm,
+          it: 'будет ' + this.defaultForm,
+          we: 'будем ' + this.defaultForm,
+          you_plural_formal: 'будете ' + this.defaultForm,
+          you_plural: 'будете ' + this.defaultForm,
+          they: 'будут ' + this.defaultForm
         },
         past: {
-          I: conjugationRoots.past + 'л',
-          you: conjugationRoots.past + 'л',
-          you_formal: conjugationRoots.past + 'ли',
-          he: conjugationRoots.past + 'л',
-          she: conjugationRoots.past + 'ла',
-          it: conjugationRoots.past + 'ло',
-          we: conjugationRoots.past + 'ли',
-          you_plural_formal: conjugationRoots.past + 'ли',
-          you_plural: conjugationRoots.past + 'ли',
-          they: conjugationRoots.past + 'ли'
+          I: this.conjugationRoots.past + 'л',
+          you: this.conjugationRoots.past + 'л',
+          you_formal: this.conjugationRoots.past + 'ли',
+          he: this.conjugationRoots.past + 'л',
+          she: this.conjugationRoots.past + 'ла',
+          it: this.conjugationRoots.past + 'ло',
+          we: this.conjugationRoots.past + 'ли',
+          you_plural_formal: this.conjugationRoots.past + 'ли',
+          you_plural: this.conjugationRoots.past + 'ли',
+          they: this.conjugationRoots.past + 'ли'
         }
       };
+
+      ['now', 'future', 'past'].forEach((time) => {
+        ['I', 'you', 'you_formal', 'he', 'she',
+         'it', 'we', 'you_plural_formal',
+         'you_plural', 'they'].forEach((person) => {
+          if (conjugations[time] && conjugations[time][person]) {
+            result[time][person] = conjugations[time][person];
+          }
+        });
+      });
+      return result;
     }
   }
 
   var translations = {
     sun: new Translation('солнце'),
-    sing: new VerbTranslation('п', 'е', 'петь', {
-      now: 'по'
+    sing: new VerbTranslation({
+      root: 'п',
+      keyVowel: 'е',
+      conjugationRoots: {
+        now: 'по' //пею -> пою, пеешь -> поешь, пеет -> поет
+      }
     }),
-    do: new VerbTranslation('дел', 'а', 'делать'),
-    go: new Translation('идти', 'ид', {
-      now: {
-        I: 'иду',
-        you: 'идешь',
-        you_formal: 'идете',
-        he: 'идет',
-        she: 'идет',
-        it: 'идет',
-        we: 'идем',
-        you_plural_formal: 'идете',
-        you_plural: 'идете',
-        they: 'идут'
+    do: new VerbTranslation({
+      root: 'дел',
+      keyVowel: 'а'
+    }),
+    go: new VerbTranslation({
+      root: 'ид',
+      defaultForm: 'идти', //идть -> идти
+      conjugationRoots: {
+        past: 'ш'
       },
-      future: {
-        I: 'буду идти',
-        you: 'будешь идти',
-        you_formal: 'будете идти',
-        he: 'будет идти',
-        she: 'будет идти',
-        it: 'будет идти',
-        we: 'будем идти',
-        you_plural_formal: 'будете идти',
-        you_plural: 'будете идти',
-        they: 'будут идти'
-      },
-      past: {
-        I: 'шел',
-        you: 'шел',
-        you_formal: 'шли',
-        he: 'шел',
-        she: 'шла',
-        it: 'шло',
-        we: 'шли',
-        you_plural_formal: 'шли',
-        you_plural: 'шли',
-        they: 'шли'
+      conjugations: {
+        now: {
+          I: 'иду', //идю -> иду
+          they: 'идут' //идют -> идут
+        },
+        past: {
+          I: 'шел', //идл -> шел
+          you: 'шел', //идл -> шел
+          he: 'шел' //идл -> шел
+        }
       }
     }),
     sew: new Translation('шить', 'ш', {
