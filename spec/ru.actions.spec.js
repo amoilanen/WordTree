@@ -289,7 +289,7 @@ define(['grammar',
         he: 'давал',
         she: 'давала',
         it: 'давало',
-        we: 'дают',
+        we: 'давали',
         you_plural_formal: 'давали',
         you_plural: 'давали',
         they: 'давали'
@@ -328,9 +328,9 @@ define(['grammar',
         he: 'смотрел',
         she: 'смотрела',
         it: 'смотрело',
-        we: 'смотрим',
-        you_plural_formal: 'смотрите',
-        you_plural: 'смотрите',
+        we: 'смотрели',
+        you_plural_formal: 'смотрели',
+        you_plural: 'смотрели',
         they: 'смотрели'
       }
     });
@@ -367,9 +367,9 @@ define(['grammar',
         he: 'видел',
         she: 'видела',
         it: 'видело',
-        we: 'видим',
-        you_plural_formal: 'видите',
-        you_plural: 'видите',
+        we: 'видели',
+        you_plural_formal: 'видели',
+        you_plural: 'видели',
         they: 'видели'
       }
     });

@@ -41,4 +41,4 @@ Speculation:
 
 Notes
 
-Verbs irregular in one language may be not irregular in other languages? Is this related to 
+Verbs irregular in one language may be not irregular in other languages? Is this related to how often some verb is used?
