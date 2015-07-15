@@ -305,6 +305,7 @@ define(['grammar',
   //TODO: Somebody _going_ to do something
   //TODO: Some action has been finished in the past/will be finished in the future, сделал vs. делал
   //have done/will have done
+  //TODO: Some action has been finished in the past 'had done'
   //TODO: Irregular verb in each of the languages (can be different per language), like 'to be' or 'to go', 'делать'
 
   //TODO: Simple action 1, 2, 3 person singular present, subject, place, quality
@@ -363,6 +364,10 @@ define(['grammar',
   //TODO: Description for action (adjective)
   //TODO: Simple two verb sentence: I learn to sing
   //TODO: Can do something
+
+  //TODO: A goes to B (action of A with respect to B)
+  //TODO: A is above B
+  //TODO: A is better than B (all the comparative forms)
 
   //TODO: Questions about present time
   //TODO: Questions about past time
