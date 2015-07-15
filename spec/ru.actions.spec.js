@@ -101,45 +101,6 @@ define(['grammar',
       }
     });
 
-    shouldHaveForms(Word.do, {
-      now: {
-        I: 'делаю',
-        you: 'делаешь',
-        you_formal: 'делаете',
-        he: 'делает',
-        she: 'делает',
-        it: 'делает',
-        we: 'делаем',
-        you_plural_formal: 'делаете',
-        you_plural: 'делаете',
-        they: 'делают'
-      },
-      future: {
-        I: 'буду делать',
-        you: 'будешь делать',
-        you_formal: 'будете делать',
-        he: 'будет делать',
-        she: 'будет делать',
-        it: 'будет делать',
-        we: 'будем делать',
-        you_plural_formal: 'будете делать',
-        you_plural: 'будете делать',
-        they: 'будут делать'
-      },
-      past: {
-        I: 'делал',
-        you: 'делал',
-        you_formal: 'делали',
-        he: 'делал',
-        she: 'делала',
-        it: 'делало',
-        we: 'делали',
-        you_plural_formal: 'делали',
-        you_plural: 'делали',
-        they: 'делали'
-      }
-    });
-
     shouldHaveForms(Word.go, {
       now: {
         I: 'иду',
