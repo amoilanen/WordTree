@@ -39,6 +39,8 @@ Speculation:
 
 7. Language rules are pretty formal, even exceptions are not that exceptional, it is just the rules are oversimplified or not adequate. For example, rules of pronunciation and inscription can explain many of the so called 'irregular' verbs. This level of language formalization is not addressed by this simple project.
 
+8. 3 basic tenses: past, now, future, different persons
+
 Notes
 
 Verbs irregular in one language may be not irregular in other languages? Is this related to how often some verb is used?

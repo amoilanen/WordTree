@@ -11,6 +11,7 @@ module.exports = function(config) {
       {pattern: 'compiled/src/grammar.js', included: false},
       {pattern: 'compiled/spec/wordtree.spec.js', included: false},
       {pattern: 'compiled/spec/ru.actions.spec.js', included: false},
+      {pattern: 'compiled/spec/en.actions.spec.js', included: false},
       'compiled/spec/main.js'
     ],
     exclude: [
@@ -21,7 +22,7 @@ module.exports = function(config) {
     //browsers: ['Firefox'],
     browsers: ['PhantomJS'],
     captureTimeout: 20000,
-    //singleRun: false,
+    singleRun: false,
     singleRun: true,
     reportSlowerThan: 500,
     plugins: [

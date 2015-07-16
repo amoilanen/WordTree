@@ -45,7 +45,8 @@ module.exports = function(grunt) {
           'compiled/src/lang.ru.js': 'src/lang.ru.js',
           'compiled/spec/main.js': 'spec/main.js',
           'compiled/spec/wordtree.spec.js': 'spec/wordtree.spec.js',
-          'compiled/spec/ru.actions.spec.js': 'spec/ru.actions.spec.js'
+          'compiled/spec/ru.actions.spec.js': 'spec/ru.actions.spec.js',
+          'compiled/spec/en.actions.spec.js': 'spec/en.actions.spec.js'
         }
       }
     }

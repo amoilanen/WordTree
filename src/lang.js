@@ -11,12 +11,77 @@ define('lang', ['grammar'], function(Grammar) {
 
   var {Word, Actor, Action, Time, Sentence} = Grammar;
 
+  const PERSONS = [
+    'I',
+    'you',
+    'you_formal',
+    'he',
+    'she',
+    'it',
+    'we',
+    'you_plural_formal',
+    'you_plural',
+    'they'
+  ];
+
+  const TENSES = [
+    'now',
+    'past',
+    'future'
+  ];
+
   class Translation {
 
     constructor(root, defaultForm, conjugations) {
       this.root = root;
       this.defaultForm = typeof defaultForm === 'undefined' ? root : defaultForm;
       this.conjugations = conjugations;
+    }
+  }
+
+  class ActionTranslation extends Translation {
+
+    constructor(opts) {
+      super(opts.root, opts.defaultForm);
+      this.conjugationRoots = opts.conjugationRoots || {};
+      this.conjugations = opts.conjugations || {};
+    }
+
+    conjugate() {
+      this.determineConjugationRoots();
+      this.determineConjugations();
+    }
+
+    determineConjugationRoots() {
+      TENSES.forEach((time) => {
+        if (!this.conjugationRoots[time]) {
+          this.conjugationRoots[time] = this.getDefaultConjugationRoot();
+        }
+      });
+    }
+
+    determineConjugations() {
+      var result = {
+        now: this.getPresentForms(),
+        future: this.getFutureForms(),
+        past: this.getPastForms()
+      };
+
+      TENSES.forEach((time) => {
+        PERSONS.forEach((person) => {
+          if (this.conjugations[time] && this.conjugations[time][person]) {
+            result[time][person] = this.conjugations[time][person];
+          }
+        });
+      });
+      this.conjugations = result;
+    }
+
+    /**
+     * Default implementation, can be overriden by subclasses.
+     */
+    getDefaultConjugationRoot() {
+      return this.root;
     }
   }
 
@@ -60,7 +125,10 @@ define('lang', ['grammar'], function(Grammar) {
   }
 
   return {
+    ActionTranslation,
     Translation,
-    Language
+    Language,
+    PERSONS,
+    TENSES
   };
 });
