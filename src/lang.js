@@ -81,6 +81,21 @@ define('lang', ['grammar'], function(Grammar) {
       this.conjugations = result;
     }
 
+    allPersons(form) {
+      return {
+        I: form,
+        you: form,
+        you_formal: form,
+        he: form,
+        she: form,
+        it: form,
+        we: form,
+        you_plural_formal: form,
+        you_plural: form,
+        they: form
+      };
+    }
+
     /**
      * Default implementation, can be overriden by subclasses.
      */
