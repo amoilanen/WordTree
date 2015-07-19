@@ -43,10 +43,12 @@ module.exports = function(grunt) {
           'compiled/src/lang.fi.js': 'src/lang.fi.js',
           'compiled/src/lang.nl.js': 'src/lang.nl.js',
           'compiled/src/lang.ru.js': 'src/lang.ru.js',
+          'compiled/src/util.js': 'src/util.js',
           'compiled/spec/main.js': 'spec/main.js',
           'compiled/spec/wordtree.spec.js': 'spec/wordtree.spec.js',
           'compiled/spec/ru.actions.spec.js': 'spec/ru.actions.spec.js',
-          'compiled/spec/en.actions.spec.js': 'spec/en.actions.spec.js'
+          'compiled/spec/en.actions.spec.js': 'spec/en.actions.spec.js',
+          'compiled/spec/util.spec.js': 'spec/util.spec.js'
         }
       }
     }

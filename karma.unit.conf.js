@@ -9,9 +9,11 @@ module.exports = function(config) {
       {pattern: 'compiled/src/lang.nl.js', included: false},
       {pattern: 'compiled/src/lang.ru.js', included: false},
       {pattern: 'compiled/src/grammar.js', included: false},
+      {pattern: 'compiled/src/util.js', included: false},
       {pattern: 'compiled/spec/wordtree.spec.js', included: false},
       {pattern: 'compiled/spec/ru.actions.spec.js', included: false},
       {pattern: 'compiled/spec/en.actions.spec.js', included: false},
+      {pattern: 'compiled/spec/util.spec.js', included: false},
       'compiled/spec/main.js'
     ],
     exclude: [
