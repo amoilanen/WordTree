@@ -69,8 +69,12 @@ define('lang', ['grammar'], function(Grammar) {
 
       TENSES.forEach((time) => {
         PERSONS.forEach((person) => {
-          if (this.conjugations[time] && this.conjugations[time][person]) {
-            result[time][person] = this.conjugations[time][person];
+          if (typeof this.conjugations[time] !== 'undefined') {
+            if (typeof this.conjugations[time] === 'string') {
+              result[time][person] = this.conjugations[time];
+            } else if (typeof this.conjugations[time][person] === 'string') {
+              result[time][person] = this.conjugations[time][person];
+            }
           }
         });
       });

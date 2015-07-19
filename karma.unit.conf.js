@@ -22,7 +22,7 @@ module.exports = function(config) {
     //browsers: ['Firefox'],
     browsers: ['PhantomJS'],
     captureTimeout: 20000,
-    singleRun: false,
+    //singleRun: false,
     singleRun: true,
     reportSlowerThan: 500,
     plugins: [
