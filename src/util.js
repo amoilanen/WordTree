@@ -14,7 +14,12 @@ define('util', [], function() {
     return target;
   }
 
+  function endsWith(str, suffix) {
+    return str.substr(str.length - suffix.length, str.length) === suffix;
+  }
+
   return {
-    extend
+    extend,
+    endsWith
   };
 });

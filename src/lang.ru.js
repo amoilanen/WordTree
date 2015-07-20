@@ -1,4 +1,4 @@
-define('lang.ru', ['lang', 'grammar'], function(Lang, Grammar) {
+define('lang.ru', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
 
   var {ActionTranslation, Translation, Language, PERSONS, TENSES} = Lang;
   var {Word} = Grammar;
@@ -18,62 +18,66 @@ define('lang.ru', ['lang', 'grammar'], function(Lang, Grammar) {
     }
 
     getPresentForms() {
+      var base = this.conjugationRoots.now;
 
-      //TODO: Re-factor: extract constants and the method for checking that somethine ends with some letter
       //строиет -> строит
-      return (this.conjugationRoots['now'].lastIndexOf('и') === this.conjugationRoots['now'].length - 1) ? //Ends with that letter
+      return _.endsWith(base, 'и') ?
         {
-          I: this.root + 'ю',
-          you: this.conjugationRoots.now + 'шь',
-          you_formal: this.conjugationRoots.now + 'те',
-          he: this.conjugationRoots.now + 'т',
-          she: this.conjugationRoots.now + 'т',
-          it: this.conjugationRoots.now + 'т',
-          we: this.conjugationRoots.now + 'м',
-          you_plural_formal: this.conjugationRoots.now + 'те',
-          you_plural: this.conjugationRoots.now + 'те',
-          they: this.root + 'ят'
+          I: `${this.root}ю`,
+          you: `${base}шь`,
+          you_formal: `${base}те`,
+          he: `${base}т`,
+          she: `${base}т`,
+          it: `${base}т`,
+          we: `${base}м`,
+          you_plural_formal: `${base}те`,
+          you_plural: `${base}те`,
+          they: `${this.root}ят`
         } : {
-          I: this.conjugationRoots.now + 'ю',
-          you: this.conjugationRoots.now + 'ешь',
-          you_formal: this.conjugationRoots.now + 'ете',
-          he: this.conjugationRoots.now + 'ет',
-          she: this.conjugationRoots.now + 'ет',
-          it: this.conjugationRoots.now + 'ет',
-          we: this.conjugationRoots.now + 'ем',
-          you_plural_formal: this.conjugationRoots.now + 'ете',
-          you_plural: this.conjugationRoots.now + 'ете',
-          they: this.conjugationRoots.now + 'ют'
+          I: `${base}ю`,
+          you: `${base}ешь`,
+          you_formal: `${base}ете`,
+          he: `${base}ет`,
+          she: `${base}ет`,
+          it: `${base}ет`,
+          we: `${base}ем`,
+          you_plural_formal: `${base}ете`,
+          you_plural: `${base}ете`,
+          they: `${base}ют`
         };
     }
 
     getFutureForms() {
+      var base = this.defaultForm;
+
       return {
-        I: 'буду ' + this.defaultForm,
-        you: 'будешь ' + this.defaultForm,
-        you_formal: 'будете ' + this.defaultForm,
-        he: 'будет ' + this.defaultForm,
-        she: 'будет ' + this.defaultForm,
-        it: 'будет ' + this.defaultForm,
-        we: 'будем ' + this.defaultForm,
-        you_plural_formal: 'будете ' + this.defaultForm,
-        you_plural: 'будете ' + this.defaultForm,
-        they: 'будут ' + this.defaultForm
+        I: `буду ${base}`,
+        you: `будешь ${base}`,
+        you_formal: `будете ${base}`,
+        he: `будет ${base}`,
+        she: `будет ${base}`,
+        it: `будет ${base}`,
+        we: `будем ${base}`,
+        you_plural_formal: `будете ${base}`,
+        you_plural: `будете ${base}`,
+        they: `будут ${base}`
       };
     }
 
     getPastForms() {
+      var base = this.conjugationRoots.past;
+
       return {
-        I: this.conjugationRoots.past + 'л',
-        you: this.conjugationRoots.past + 'л',
-        you_formal: this.conjugationRoots.past + 'ли',
-        he: this.conjugationRoots.past + 'л',
-        she: this.conjugationRoots.past + 'ла',
-        it: this.conjugationRoots.past + 'ло',
-        we: this.conjugationRoots.past + 'ли',
-        you_plural_formal: this.conjugationRoots.past + 'ли',
-        you_plural: this.conjugationRoots.past + 'ли',
-        they: this.conjugationRoots.past + 'ли'
+        I: `${base}л`,
+        you: `${base}л`,
+        you_formal: `${base}ли`,
+        he: `${base}л`,
+        she: `${base}ла`,
+        it: `${base}ло`,
+        we: `${base}ли`,
+        you_plural_formal: `${base}ли`,
+        you_plural: `${base}ли`,
+        they: `${base}ли`
       };
     }
   }

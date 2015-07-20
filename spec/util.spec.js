@@ -46,4 +46,15 @@ define(['util'], function(_) {
       });
     });
   });
+
+  describe('endsWith', function() {
+
+    it('should return true if starts with', function() {
+      expect(_.endsWith('abcde', 'cde')).toBe(true);
+    });
+
+    it('should return true if does not start with', function() {
+      expect(_.endsWith('abcde', 'bcd')).toBe(false);
+    });
+  });
 });
