@@ -7,7 +7,8 @@ requirejs.config({
     'lang.en': '/base/compiled/src/lang.en',
     'lang.fi': '/base/compiled/src/lang.fi',
     'lang.nl': '/base/compiled/src/lang.nl',
-    'lang.ru': '/base/compiled/src/lang.ru'
+    'lang.ru': '/base/compiled/src/lang.ru',
+    'test.util': '/base/compiled/spec/util'
   },
   deps: [
     '/base/compiled/spec/wordtree.spec.js',

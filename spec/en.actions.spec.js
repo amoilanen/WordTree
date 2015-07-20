@@ -1,29 +1,8 @@
-define(['grammar',
-        'lang.en'], function({Word, Actor, Action, Time, Sentence}, lang) {
-
-  var actors = ['I', 'you', 'you_formal', 'he', 'she', 'it',
-                'we', 'you_plural_formal', 'you_plural', 'they'];
-
-  function shouldHaveForms(action, forms) {
-    describe('\'' + action.id + '\' forms', function() {
-      Object.keys(forms).forEach(function(time) {
-        var timeForms = forms[time];
-        describe(time + ' time', function() {
-          actors.forEach(function(actor) {
-            describe(actor + ' actor', function() {
-              it('should translate to ' + lang.name, function() {
-                var translation = timeForms[actor];
-                expect(lang.translateAction(Word[actor], action, Word[time])).toBe(translation);
-              });
-            });
-          });
-        });
-      });
-    });
-  }
+define(['grammar', 'lang.en', 'test.util'],
+    function({Word, Actor, Action, Time, Sentence}, lang, {shouldHaveActionForms}) {
 
   describe('English action forms', function() {
-    shouldHaveForms(Word.sing, {
+    shouldHaveActionForms(lang, Word.sing, {
       now: {
         I: 'sing',
         you: 'sing',
@@ -62,7 +41,7 @@ define(['grammar',
       }
     });
 
-    shouldHaveForms(Word.do, {
+    shouldHaveActionForms(lang, Word.do, {
       now: {
         I: 'do',
         you: 'do',
@@ -101,7 +80,7 @@ define(['grammar',
       }
     });
 
-    shouldHaveForms(Word.go, {
+    shouldHaveActionForms(lang, Word.go, {
       now: {
         I: 'go',
         you: 'go',
@@ -140,7 +119,7 @@ define(['grammar',
       }
     });
 
-    shouldHaveForms(Word.sew, {
+    shouldHaveActionForms(lang, Word.sew, {
       now: {
         I: 'sew',
         you: 'sew',
@@ -179,7 +158,7 @@ define(['grammar',
       }
     });
 
-    shouldHaveForms(Word.build, {
+    shouldHaveActionForms(lang, Word.build, {
       now: {
         I: 'build',
         you: 'build',
@@ -218,7 +197,7 @@ define(['grammar',
       }
     });
 
-    shouldHaveForms(Word.give, {
+    shouldHaveActionForms(lang, Word.give, {
       now: {
         I: 'give',
         you: 'give',
@@ -257,7 +236,7 @@ define(['grammar',
       }
     });
 
-    shouldHaveForms(Word.look, {
+    shouldHaveActionForms(lang, Word.look, {
       now: {
         I: 'look',
         you: 'look',
@@ -296,7 +275,7 @@ define(['grammar',
       }
     });
 
-    shouldHaveForms(Word.see, {
+    shouldHaveActionForms(lang, Word.see, {
       now: {
         I: 'see',
         you: 'see',
