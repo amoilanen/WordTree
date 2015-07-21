@@ -46,3 +46,7 @@ Notes
 Verbs irregular in one language may be not irregular in other languages? Is this related to how often some verb is used?
 
 9. Despite some features specific to some languages (more past tenses, self directed action form, etc.) those may be just extra complicated constructs thought up by people studying those languages and at the core they are still similar and simple. At least in this experiment all such differences can be easily accomodated for. Simple things can be described in complex ways.
+
+10. This experiment is a constructive proof that universal grammar rules and common language can be constructed. What these rules and language look like is starting to get clear from the implementation of only a small subset of it in the present experiment.
+
+11. Challenge of automatic translation between languages is then the challenge of recognizing the original common language representation. i.e. the problem of translation is equivalent to the problem of recognition.

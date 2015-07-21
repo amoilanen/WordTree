@@ -1,4 +1,4 @@
-define(['grammar', 'lang.en', 'test.util'],
+define(['grammar', 'lang.fi', 'test.util'],
     function({Word, Actor, Action, Time, Sentence}, lang, {shouldHaveActionForms}) {
 
   describe('English action forms', function() {
