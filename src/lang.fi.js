@@ -1,46 +1,65 @@
 define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
 
-  var {Translation, Language} = Lang;
+  var {Translation, Language, ActionTranslation} = Lang;
   var {Word} = Grammar;
+
+  class ActionTranslationFi extends ActionTranslation {
+
+    constructor(opts) {
+      opts.keyVowel = opts.keyVowel || '';
+      opts.defaultForm = opts.root;
+      super(opts);
+      this.keyVowel = opts.keyVowel;
+      super.conjugate();
+    }
+
+    getPresentForms() {
+      var base = this.conjugationRoots.now + this.keyVowel;
+
+      return {
+        I: `${base}n`,
+        you: `${base}t`,
+        you_formal: `${base}t`,
+        he: `${base}${this.keyVowel}`,
+        she: `${base}${this.keyVowel}`,
+        it: `${base}${this.keyVowel}`,
+        we: `${base}mme`,
+        you_plural_formal: `${base}tte`,
+        you_plural: `${base}tte`,
+        they: `${base}vat`
+      };
+    }
+
+    getFutureForms() {
+      return this.getPresentForms();
+    }
+
+    getPastForms() {
+      var base = this.conjugationRoots.past;
+
+      return {
+        I: `${base}in`,
+        you: `${base}it`,
+        you_formal: `${base}it`,
+        he: `${base}i`,
+        she: `${base}i`,
+        it: `${base}i`,
+        we: `${base}imme`,
+        you_plural_formal: `${base}itte`,
+        you_plural: `${base}itte`,
+        they: `${base}ivat`
+      };
+    }
+  }
 
   var translations = {
     sun: new Translation('aurinko'),
-    sing: new Translation('laul', 'laula', {
-      now: {
-        I: 'laulan',
-        you: 'laulat',
-        you_formal: 'laulat',
-        he: 'laulaa',
-        she: 'laulaa',
-        it: 'laulaa',
-        we: 'laulamme',
-        you_plural_formal: 'laulatte',
-        you_plural: 'laulatte',
-        they: 'laulavat'
-      },
-      future: {
-        I: 'laulan',
-        you: 'laulat',
-        you_formal: 'laulat',
-        he: 'laulaa',
-        she: 'laulaa',
-        it: 'laulaa',
-        we: 'laulamme',
-        you_plural_formal: 'laulatte',
-        you_plural: 'laulatte',
-        they: 'laulavat'
-      },
-      past: {
-        I: 'lauloin',
-        you: 'lauloit',
-        you_formal: 'lauloit',
-        he: 'lauloi',
-        she: 'lauloi',
-        it: 'lauloi',
-        we: 'lauloimme',
-        you_plural_formal: 'lauloitte',
-        you_plural: 'lauloitte',
-        they: 'lauloivat'
+    sing: new ActionTranslationFi({
+      root: 'laul',
+      keyVowel: 'a',
+      defaultForm: 'laulaa',
+      conjugationRoots: {
+        past: 'laulo'
       }
     }),
     do: new Translation('tehdä', 'tehdä', {
@@ -81,42 +100,20 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
         they: 'tekivät'
       }
     }),
-    go: new Translation('mennä', 'mennä', {
-      now: {
-        I: 'menen',
-        you: 'menet',
-        you_formal: 'menet',
-        he: 'menee',
-        she: 'menee',
-        it: 'menee',
-        we: 'menemme',
-        you_plural_formal: 'menette',
-        you_plural: 'menette',
-        they: 'menevät'
-      },
-      future: {
-        I: 'menen',
-        you: 'menet',
-        you_formal: 'menet',
-        he: 'menee',
-        she: 'menee',
-        it: 'menee',
-        we: 'menemme',
-        you_plural_formal: 'menette',
-        you_plural: 'menette',
-        they: 'menevät'
-      },
-      past: {
-        I: 'menin',
-        you: 'menit',
-        you_formal: 'menit',
-        he: 'meni',
-        she: 'meni',
-        it: 'meni',
-        we: 'menimme',
-        you_plural_formal: 'menitte',
-        you_plural: 'menitte',
-        they: 'menivät'
+    go: new ActionTranslationFi({
+      root: 'men',
+      keyVowel: 'e',
+      defaultForm: 'mennä',
+      conjugations: {
+        now: {
+          they: 'menevät'
+        },
+        future: {
+          they: 'menevät'
+        },
+        past: {
+          they: 'menivät'
+        }
       }
     }),
     sew: new Translation('omella', 'omella', {

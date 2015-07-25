@@ -1,7 +1,7 @@
 define(['grammar', 'lang.fi', 'test.util'],
     function({Word, Actor, Action, Time, Sentence}, lang, {shouldHaveActionForms}) {
 
-  describe('English action forms', function() {
+  describe('Finnish action forms', function() {
     shouldHaveActionForms(lang, Word.sing, {
       now: {
         I: 'laulan',

@@ -50,3 +50,7 @@ Verbs irregular in one language may be not irregular in other languages? Is this
 10. This experiment is a constructive proof that universal grammar rules and common language can be constructed. What these rules and language look like is starting to get clear from the implementation of only a small subset of it in the present experiment.
 
 11. Challenge of automatic translation between languages is then the challenge of recognizing the original common language representation. i.e. the problem of translation is equivalent to the problem of recognition.
+
+12. Action conjugations of the present forms are more irregular than the past forms. May be related to the frequency of use: present forms are used more often than the past ones
+
+13. Languages are also a reflection of the environment, then they should be similar even if they develop independently and are completely isolated
