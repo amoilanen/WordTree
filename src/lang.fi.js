@@ -8,6 +8,7 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
     constructor(opts) {
       opts.keyVowel = opts.keyVowel || '';
       opts.defaultForm = opts.root;
+      opts.futureMatchesNow = true;
       super(opts);
       this.keyVowel = opts.keyVowel;
       super.conjugate();
@@ -30,10 +31,6 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
       };
     }
 
-    getFutureForms() {
-      return this.getPresentForms();
-    }
-
     getPastForms() {
       var base = this.conjugationRoots.past;
 
@@ -52,7 +49,6 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
     }
   }
 
-  //TODO: Eliminate the duplication of present/future forms
   var translations = {
     sun: new Translation('aurinko'),
     sing: new ActionTranslationFi({
@@ -76,10 +72,6 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
           he_she_it: 'tekee',
           they: 'tekevät'
         },
-        future: {
-          he_she_it: 'tekee',
-          they: 'tekevät'
-        },
         past: {
           he_she_it: 'teki',
           they: 'tekivät'
@@ -92,9 +84,6 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
       defaultForm: 'mennä',
       conjugations: {
         now: {
-          they: 'menevät'
-        },
-        future: {
           they: 'menevät'
         },
         past: {

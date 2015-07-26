@@ -43,6 +43,7 @@ define('lang', ['grammar'], function(Grammar) {
 
     constructor(opts) {
       super(opts.root, opts.defaultForm);
+      this.opts = opts;
       this.conjugationRoots = opts.conjugationRoots || {};
       this.conjugations = opts.conjugations || {};
     }
@@ -63,6 +64,14 @@ define('lang', ['grammar'], function(Grammar) {
           this.conjugationRoots[time] = this.getDefaultConjugationRoot();
         }
       });
+      if (this.opts.futureMatchesNow) {
+        if (typeof this.conjugationRoots['now'] !== 'undefined') {
+          this.conjugationRoots['future'] = this.conjugationRoots['now'];
+        }
+        if (typeof this.conjugations['now'] !== 'undefined') {
+          this.conjugations['future'] = this.conjugations['now'];
+        }
+      }
     }
 
     expandExceptionalConjugations() {
@@ -77,6 +86,12 @@ define('lang', ['grammar'], function(Grammar) {
           }
         }
       });
+    }
+
+    getFutureForms() {
+      if (this.opts.futureMatchesNow) {
+        return this.getPresentForms();
+      }
     }
 
     determineConjugations() {
