@@ -52,6 +52,7 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
     }
   }
 
+  //TODO: Eliminate the duplication of present/future forms
   var translations = {
     sun: new Translation('aurinko'),
     sing: new ActionTranslationFi({
@@ -62,42 +63,27 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
         past: 'laulo'
       }
     }),
-    do: new Translation('tehdä', 'tehdä', {
-      now: {
-        I: 'teen',
-        you: 'teet',
-        you_formal: 'teet',
-        he: 'tekee',
-        she: 'tekee',
-        it: 'tekee',
-        we: 'teemme',
-        you_plural_formal: 'teette',
-        you_plural: 'teette',
-        they: 'tekevät'
+    do: new ActionTranslationFi({
+      root: 'te',
+      keyVowel: 'e',
+      defaultForm: 'tehdä',
+      conjugationRoots: {
+        now: 'te',
+        past: 'te'
       },
-      future: {
-        I: 'tehdän',
-        you: 'teet',
-        you_formal: 'teet',
-        he: 'tekee',
-        she: 'tekee',
-        it: 'tekee',
-        we: 'teemme',
-        you_plural_formal: 'teette',
-        you_plural: 'teette',
-        they: 'tekevät'
-      },
-      past: {
-        I: 'tein',
-        you: 'teit',
-        you_formal: 'teit',
-        he: 'teki',
-        she: 'teki',
-        it: 'teki',
-        we: 'teimme',
-        you_plural_formal: 'teitte',
-        you_plural: 'teitte',
-        they: 'tekivät'
+      conjugations: {
+        now: {
+          he_she_it: 'tekee',
+          they: 'tekevät'
+        },
+        future: {
+          he_she_it: 'tekee',
+          they: 'tekevät'
+        },
+        past: {
+          he_she_it: 'teki',
+          they: 'tekivät'
+        }
       }
     }),
     go: new ActionTranslationFi({

@@ -48,14 +48,33 @@ define('lang', ['grammar'], function(Grammar) {
     }
 
     conjugate() {
-      this.determineConjugationRoots();
+      this.prepareToConjugate();
       this.determineConjugations();
     }
 
-    determineConjugationRoots() {
+    prepareToConjugate() {
+      this.prepareConjugationRoots();
+      this.expandExceptionalConjugations();
+    }
+
+    prepareConjugationRoots() {
       TENSES.forEach((time) => {
         if (!this.conjugationRoots[time]) {
           this.conjugationRoots[time] = this.getDefaultConjugationRoot();
+        }
+      });
+    }
+
+    expandExceptionalConjugations() {
+      TENSES.forEach((time) => {
+        if (typeof this.conjugations[time] !== 'undefined') {
+          var heSheItConjugation = this.conjugations[time]['he_she_it'];
+
+          if (typeof heSheItConjugation !== 'undefined') {
+            this.conjugations[time]['he'] = heSheItConjugation;
+            this.conjugations[time]['she'] = heSheItConjugation;
+            this.conjugations[time]['it'] = heSheItConjugation;
+          }
         }
       });
     }

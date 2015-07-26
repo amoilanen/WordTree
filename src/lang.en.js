@@ -40,9 +40,7 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
       root: 'do',
       conjugations: {
         now: {
-          he: 'does',
-          she: 'does',
-          it: 'does'
+          he_she_it: 'does'
         },
         past: 'did'
       }
@@ -54,9 +52,7 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
       root: 'go',
       conjugations: {
         now: {
-          he: 'goes',
-          she: 'goes',
-          it: 'goes'
+          he_she_it: 'goes'
         },
         past: 'went'
       }

@@ -54,3 +54,5 @@ Verbs irregular in one language may be not irregular in other languages? Is this
 12. Action conjugations of the present forms are more irregular than the past forms. May be related to the frequency of use: present forms are used more often than the past ones
 
 13. Languages are also a reflection of the environment, then they should be similar even if they develop independently and are completely isolated
+
+14. Persons often match, he she it often have the same action conjugations

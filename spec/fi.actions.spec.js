@@ -55,7 +55,7 @@ define(['grammar', 'lang.fi', 'test.util'],
         they: 'tekevät'
       },
       future: {
-        I: 'tehdän',
+        I: 'teen',
         you: 'teet',
         you_formal: 'teet',
         he: 'tekee',

@@ -11,11 +11,11 @@ requirejs.config({
     'test.util': '/base/compiled/spec/util'
   },
   deps: [
-    /*'/base/compiled/spec/wordtree.spec.js',
+    '/base/compiled/spec/wordtree.spec.js',
     '/base/compiled/spec/ru.actions.spec.js',
-    '/base/compiled/spec/en.actions.spec.js', */
+    '/base/compiled/spec/en.actions.spec.js',
     '/base/compiled/spec/fi.actions.spec.js',
-    /* '/base/compiled/spec/util.spec.js' */
+    '/base/compiled/spec/util.spec.js'
   ],
   callback: window.__karma__.start
 });
