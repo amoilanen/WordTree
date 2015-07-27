@@ -91,43 +91,10 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
         }
       }
     }),
-    sew: new Translation('omella', 'omella', {
-      now: {
-        I: 'omelen',
-        you: 'omelet',
-        you_formal: 'omelet',
-        he: 'omelee',
-        she: 'omelee',
-        it: 'omelee',
-        we: 'omelemme',
-        you_plural_formal: 'omelemme',
-        you_plural: 'omelette',
-        they: 'omelevat'
-      },
-      future: {
-        I: 'omelen',
-        you: 'omelet',
-        you_formal: 'omelet',
-        he: 'omelee',
-        she: 'omelee',
-        it: 'omelee',
-        we: 'omelemme',
-        you_plural_formal: 'omelemme',
-        you_plural: 'omelette',
-        they: 'omelevat'
-      },
-      past: {
-        I: 'omelin',
-        you: 'omelit',
-        you_formal: 'omelit',
-        he: 'omeli',
-        she: 'omeli',
-        it: 'omeli',
-        we: 'omelimme',
-        you_plural_formal: 'omelitte',
-        you_plural: 'omelitte',
-        they: 'omelivat'
-      }
+    sew: new ActionTranslationFi({
+      root: 'omel',
+      defaultForm: 'omella',
+      keyVowel: 'e'
     }),
     build: new Translation('rakentaa', 'rakentaa', {
       now: {
