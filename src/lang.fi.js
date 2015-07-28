@@ -96,156 +96,59 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
       defaultForm: 'omella',
       keyVowel: 'e'
     }),
-    build: new Translation('rakentaa', 'rakentaa', {
-      now: {
-        I: 'rakennan',
-        you: 'rakennat',
-        you_formal: 'rakennat',
-        he: 'rakentaa',
-        she: 'rakentaa',
-        it: 'rakentaa',
-        we: 'rakennamme',
-        you_plural_formal: 'rakennatte',
-        you_plural: 'rakennatte',
-        they: 'rakentavat'
+    build: new ActionTranslationFi({
+      root: 'raken',
+      defaultForm: 'rakentaa',
+      keyVowel: 'a',
+      conjugationRoots: {
+        now: 'rakenn',
+        past: 'rakens'
       },
-      future: {
-        I: 'rakennan',
-        you: 'rakennat',
-        you_formal: 'rakennat',
-        he: 'rakentaa',
-        she: 'rakentaa',
-        it: 'rakentaa',
-        we: 'rakennamme',
-        you_plural_formal: 'rakennatte',
-        you_plural: 'rakennatte',
-        they: 'rakentavat'
-      },
-      past: {
-        I: 'rakensin',
-        you: 'rakensit',
-        you_formal: 'rakensit',
-        he: 'rakensi',
-        she: 'rakensi',
-        it: 'rakensi',
-        we: 'rakensimme',
-        you_plural_formal: 'rakensitte',
-        you_plural: 'rakensitte',
-        they: 'rakensivat'
+      conjugations: {
+        now: {
+          he_she_it: 'rakentaa',
+          they: 'rakentavat'
+        }
       }
     }),
-    give: new Translation('antaa', 'antaa', {
-      now: {
-        I: 'annan',
-        you: 'annat',
-        you_formal: 'annat',
-        he: 'antaa',
-        she: 'antaa',
-        it: 'antaa',
-        we: 'annamme',
-        you_plural_formal: 'annatte',
-        you_plural: 'annatte',
-        they: 'antavat'
+    give: new ActionTranslationFi({
+      root: 'an',
+      defaultForm: 'antaa',
+      keyVowel: 'a',
+      conjugationRoots: {
+        now: 'ann',
+        past: 'anno'
       },
-      future: {
-        I: 'annan',
-        you: 'annat',
-        you_formal: 'annat',
-        he: 'antaa',
-        she: 'antaa',
-        it: 'antaa',
-        we: 'annamme',
-        you_plural_formal: 'annatte',
-        you_plural: 'annatte',
-        they: 'antavat'
-      },
-      past: {
-        I: 'annoin',
-        you: 'annoit',
-        you_formal: 'annoit',
-        he: 'antoi',
-        she: 'antoi',
-        it: 'antoi',
-        we: 'annoimme',
-        you_plural_formal: 'annoitte',
-        you_plural: 'annoitte',
-        they: 'antoivat'
+      conjugations: {
+        now: {
+          he_she_it: 'antaa',
+          they: 'antavat'
+        },
+        past: {
+          he_she_it: 'antoi',
+          they: 'antoivat'
+        }
       }
     }),
-    look: new Translation('katsoa', 'katsoa', {
-      now: {
-        I: 'katson',
-        you: 'katsot',
-        you_formal: 'katsot',
-        he: 'katsoo',
-        she: 'katsoo',
-        it: 'katsoo',
-        we: 'katsomme',
-        you_plural_formal: 'katsotte',
-        you_plural: 'katsotte',
-        they: 'katsovat'
-      },
-      future: {
-        I: 'katson',
-        you: 'katsot',
-        you_formal: 'katsot',
-        he: 'katsoo',
-        she: 'katsoo',
-        it: 'katsoo',
-        we: 'katsomme',
-        you_plural_formal: 'katsotte',
-        you_plural: 'katsotte',
-        they: 'katsovat'
-      },
-      past: {
-        I: 'katsoin',
-        you: 'katsoit',
-        you_formal: 'katsoit',
-        he: 'katsoi',
-        she: 'katsoi',
-        it: 'katsoi',
-        we: 'katsoimme',
-        you_plural_formal: 'katsoitte',
-        you_plural: 'katsoitte',
-        they: 'katsoivat'
+    look: new ActionTranslationFi({
+      root: 'kats',
+      defaultForm: 'katsoa',
+      keyVowel: 'o',
+      conjugationRoots: {
+        past: 'katso'
       }
     }),
-    see: new Translation('nähdä', 'nähdä', {
-      now: {
-        I: 'nähdän',
-        you: 'nähdät',
-        you_formal: 'nähdät',
-        he: 'nähdää',
-        she: 'nähdää',
-        it: 'nähdää',
-        we: 'nähdämme',
-        you_plural_formal: 'nähdätte',
-        you_plural: 'nähdätte',
-        they: 'nähdävät'
-      },
-      future: {
-        I: 'nähdän',
-        you: 'nähdät',
-        you_formal: 'nähdät',
-        he: 'nähdää',
-        she: 'nähdää',
-        it: 'nähdää',
-        we: 'nähdämme',
-        you_plural_formal: 'nähdätte',
-        you_plural: 'nähdätte',
-        they: 'nähdävät'
-      },
-      past: {
-        I: 'nähdin',
-        you: 'nähdit',
-        you_formal: 'nähdit',
-        he: 'nähdi',
-        she: 'nähdi',
-        it: 'nähdi',
-        we: 'nähdimme',
-        you_plural_formal: 'nähditte',
-        you_plural: 'nähditte',
-        they: 'nähdivät'
+    see: new ActionTranslationFi({
+      root: 'nähd',
+      defaultForm: 'nähdä',
+      keyVowel: 'ä',
+      conjugations: {
+        now: {
+          they: 'nähdävät'
+        },
+        past: {
+          they: 'nähdivät'
+        }
       }
     }),
     now: new Translation('nyt'),
