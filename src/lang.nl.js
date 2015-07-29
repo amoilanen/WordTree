@@ -3,158 +3,106 @@ define('lang.nl', ['lang', 'grammar'], function(Lang, Grammar) {
   var {Translation, Language, ActionTranslation} = Lang;
   var {Word} = Grammar;
 
+  class ActionTranslationNl extends ActionTranslation {
+
+    constructor(opts) {
+      opts.defaultForm = opts.root + 'en';
+      opts.futureMatchesNow = true;
+      super(opts);
+      super.conjugate();
+    }
+
+    getPresentForms() {
+      var base = this.conjugationRoots.now;
+      var otherPersonForm = `${base}t`;
+      var pluralForm = `${base}en`;
+
+      return {
+        I: base,
+        you: otherPersonForm,
+        you_formal: otherPersonForm,
+        he: otherPersonForm,
+        she: otherPersonForm,
+        it: otherPersonForm,
+        we: pluralForm,
+        you_plural_formal: pluralForm,
+        you_plural: pluralForm,
+        they: pluralForm
+      };
+    }
+
+    getPastForms() {
+      var base = this.conjugationRoots.past;
+      var pluralForm = `${base}en`;
+
+      return {
+        I: base,
+        you: base,
+        you_formal: base,
+        he: base,
+        she: base,
+        it: base,
+        we: pluralForm,
+        you_plural_formal: pluralForm,
+        you_plural: pluralForm,
+        they: pluralForm
+      };
+    }
+  }
+
+  //TODO: Re-factor 'he_she_it, you, you_formal to other_person. Also single_person
   var translations = {
     sun: new Translation('zon'),
-    sing: new Translation('zing', 'zingen', {
-      now: {
-        I: 'zing',
-        you: 'zingt',
-        you_formal: 'zingt',
-        he: 'zingt',
-        she: 'zingt',
-        it: 'zingt',
-        we: 'zingen',
-        you_plural_formal: 'zingen',
-        you_plural: 'zingen',
-        they: 'zingen'
-      },
-      future: {
-        I: 'zing',
-        you: 'zingt',
-        you_formal: 'zingt',
-        he: 'zingt',
-        she: 'zingt',
-        it: 'zingt',
-        we: 'zingen',
-        you_plural_formal: 'zingen',
-        you_plural: 'zingen',
-        they: 'zingen'
-      },
-      past: {
-        I: 'zong',
-        you: 'zong',
-        you_formal: 'zong',
-        he: 'zong',
-        she: 'zong',
-        it: 'zong',
-        we: 'zongen',
-        you_plural_formal: 'zongen',
-        you_plural: 'zongen',
-        they: 'zongen'
+    sing: new ActionTranslationNl({
+      root: 'zing',
+      conjugationRoots: {
+        past: 'zong'
       }
     }),
-    do: new Translation('doen', 'doen', {
-      now: {
-        I: 'doe',
-        you: 'doet',
-        you_formal: 'doet',
-        he: 'doet',
-        she: 'doet',
-        it: 'doet',
-        we: 'doen',
-        you_plural_formal: 'doen',
-        you_plural: 'doen',
-        they: 'doen'
+    do: new ActionTranslationNl({
+      root: 'do',
+      conjugationRoots: {
+        now: 'doe',
+        past: 'deed'
       },
-      future: {
-        I: 'doe',
-        you: 'doet',
-        you_formal: 'doet',
-        he: 'doet',
-        she: 'doet',
-        it: 'doet',
-        we: 'doen',
-        you_plural_formal: 'doen',
-        you_plural: 'doen',
-        they: 'doen'
-      },
-      past: {
-        I: 'deed',
-        you: 'deed',
-        you_formal: 'deed',
-        he: 'deed',
-        she: 'deed',
-        it: 'deed',
-        we: 'deeden',
-        you_plural_formal: 'deeden',
-        you_plural: 'deeden',
-        they: 'deeden'
+      conjugations: {
+        now: {
+          we: 'doen',
+          you_plural_formal: 'doen',
+          you_plural: 'doen',
+          they: 'doen'
+        }
       }
     }),
-    go: new Translation('ga', 'ga', {
-      now: {
-        I: 'ga',
-        you: 'gaat',
-        you_formal: 'gaat',
-        he: 'gaat',
-        she: 'gaat',
-        it: 'gaat',
-        we: 'gaan',
-        you_plural_formal: 'gaan',
-        you_plural: 'gaan',
-        they: 'gaan'
+    go: new ActionTranslationNl({
+      root: 'ga',
+      conjugationRoots: {
+        past: 'ging'
       },
-      future: {
-        I: 'ga',
-        you: 'gaat',
-        you_formal: 'gaat',
-        he: 'gaat',
-        she: 'gaat',
-        it: 'gaat',
-        we: 'gaan',
-        you_plural_formal: 'gaan',
-        you_plural: 'gaan',
-        they: 'gaan'
-      },
-      past: {
-        I: 'ging',
-        you: 'ging',
-        you_formal: 'ging',
-        he: 'ging',
-        she: 'ging',
-        it: 'ging',
-        we: 'gingen',
-        you_plural_formal: 'gingen',
-        you_plural: 'gingen',
-        they: 'gingen'
+      conjugations: {
+        now: {
+          he_she_it: 'gaat',
+          you: 'gaat',
+          you_formal: 'gaat',
+          we: 'gaan',
+          you_plural_formal: 'gaan',
+          you_plural: 'gaan',
+          they: 'gaan'
+        }
       }
     }),
-    sew: new Translation('naaien', 'naaien', {
-      now: {
-        I: 'naai',
-        you: 'naait',
-        you_formal: 'naait',
-        he: 'naait',
-        she: 'naait',
-        it: 'naait',
-        we: 'naaien',
-        you_plural_formal: 'naaien',
-        you_plural: 'naaien',
-        they: 'naaien'
+    sew: new ActionTranslationNl({
+      root: 'naai',
+      conjugationRoots: {
+        past: 'naaid'
       },
-      future: {
-        I: 'naai',
-        you: 'naait',
-        you_formal: 'naait',
-        he: 'naait',
-        she: 'naait',
-        it: 'naait',
-        we: 'naaien',
-        you_plural_formal: 'naaien',
-        you_plural: 'naaien',
-        they: 'naaien'
-      },
-      past: {
-        I: 'naaide',
-        you: 'naaide',
-        you_formal: 'naaide',
-        he: 'naaide',
-        she: 'naaide',
-        it: 'naaide',
-        we: 'naaiden',
-        you_plural_formal: 'naaiden',
-        you_plural: 'naaiden',
-        they: 'naaiden'
+      conjugations: {
+        past: {
+          I: 'naaide',
+          you: 'naaide',
+          you_formal: 'naaide',
+          he_she_it: 'naaide'
+        }
       }
     }),
     build: new Translation('bouwen', 'bouwen', {

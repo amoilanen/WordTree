@@ -15,7 +15,7 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
       return _.extend(this.allPersons(this.defaultForm), {
         he: this.defaultForm + 's',
         she: this.defaultForm + 's',
-        it: this.defaultForm + 's',
+        it: this.defaultForm + 's'
       });
     }
 
