@@ -49,6 +49,7 @@ module.exports = function(grunt) {
           'compiled/spec/ru.actions.spec.js': 'spec/ru.actions.spec.js',
           'compiled/spec/en.actions.spec.js': 'spec/en.actions.spec.js',
           'compiled/spec/fi.actions.spec.js': 'spec/fi.actions.spec.js',
+          'compiled/spec/nl.actions.spec.js': 'spec/nl.actions.spec.js',
           'compiled/spec/util.spec.js': 'spec/util.spec.js',
           'compiled/spec/util.js': 'spec/util.js'
         }

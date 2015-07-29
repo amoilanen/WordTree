@@ -369,6 +369,10 @@ define(['grammar',
   //TODO: A is above B
   //TODO: A is better than B (all the comparative forms)
 
+  //TODO: Action with a description of the action (adverb or detail)
+  //TODO: 'go to something'
+  //TODO: 'go from something'
+
   //TODO: Questions about present time
   //TODO: Questions about past time
   //TODO: Questions about future time
