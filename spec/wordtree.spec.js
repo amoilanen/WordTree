@@ -303,7 +303,7 @@ define(['grammar',
   //TODO: Infinitive form of verbs
   //TODO: Somebody _want_ to do something
   //TODO: Somebody _going_ to do something
-  //TODO: Some action has been finished in the past/will be finished in the future, сделал vs. делал
+  //TODO: Some action has been finished in the past/will be finished in the future, сделал vs. делал, deed vs. heb gedaan
   //have done/will have done
   //TODO: Some action has been finished in the past 'had done'
   //TODO: Irregular verb in each of the languages (can be different per language), like 'to be' or 'to go', 'делать'
