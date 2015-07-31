@@ -84,6 +84,23 @@ define('lang', ['grammar'], function(Grammar) {
             this.conjugations[time]['she'] = heSheItConjugation;
             this.conjugations[time]['it'] = heSheItConjugation;
           }
+
+          var otherConjugation = this.conjugations[time]['other_single'];
+          if (typeof otherConjugation !== 'undefined') {
+            this.conjugations[time]['he'] = otherConjugation;
+            this.conjugations[time]['she'] = otherConjugation;
+            this.conjugations[time]['it'] = otherConjugation;
+            this.conjugations[time]['you'] = otherConjugation;
+            this.conjugations[time]['you_formal'] = otherConjugation;
+          }
+
+          var pluralConjugation = this.conjugations[time]['plural'];
+          if (typeof pluralConjugation !== 'undefined') {
+            this.conjugations[time]['we'] = pluralConjugation;
+            this.conjugations[time]['you_plural_formal'] = pluralConjugation;
+            this.conjugations[time]['you_plural'] = pluralConjugation;
+            this.conjugations[time]['they'] = pluralConjugation;
+          }
         }
       });
     }

@@ -50,7 +50,6 @@ define('lang.nl', ['lang', 'grammar'], function(Lang, Grammar) {
     }
   }
 
-  //TODO: Re-factor 'he_she_it, you, you_formal to other_person. Also single_person
   var translations = {
     sun: new Translation('zon'),
     sing: new ActionTranslationNl({
@@ -67,10 +66,7 @@ define('lang.nl', ['lang', 'grammar'], function(Lang, Grammar) {
       },
       conjugations: {
         now: {
-          we: 'doen',
-          you_plural_formal: 'doen',
-          you_plural: 'doen',
-          they: 'doen'
+          plural: 'doen'
         }
       }
     }),
@@ -81,13 +77,8 @@ define('lang.nl', ['lang', 'grammar'], function(Lang, Grammar) {
       },
       conjugations: {
         now: {
-          he_she_it: 'gaat',
-          you: 'gaat',
-          you_formal: 'gaat',
-          we: 'gaan',
-          you_plural_formal: 'gaan',
-          you_plural: 'gaan',
-          they: 'gaan'
+          other_single: 'gaat',
+          plural: 'gaan'
         }
       }
     }),
@@ -99,9 +90,7 @@ define('lang.nl', ['lang', 'grammar'], function(Lang, Grammar) {
       conjugations: {
         past: {
           I: 'naaide',
-          you: 'naaide',
-          you_formal: 'naaide',
-          he_she_it: 'naaide'
+          other_single: 'naaide'
         }
       }
     }),
