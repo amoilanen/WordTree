@@ -94,156 +94,53 @@ define('lang.nl', ['lang', 'grammar'], function(Lang, Grammar) {
         }
       }
     }),
-    build: new Translation('bouwen', 'bouwen', {
-      now: {
-        I: 'bouw',
-        you: 'bouwt',
-        you_formal: 'bouwt',
-        he: 'bouwt',
-        she: 'bouwt',
-        it: 'bouwt',
-        we: 'bouwen',
-        you_plural_formal: 'bouwen',
-        you_plural: 'bouwen',
-        they: 'bouwen'
+    build: new ActionTranslationNl({
+      root: 'bouw',
+      conjugationRoots: {
+        past: 'bouwd'
       },
-      future: {
-        I: 'bouw',
-        you: 'bouwt',
-        you_formal: 'bouwt',
-        he: 'bouwt',
-        she: 'bouwt',
-        it: 'bouwt',
-        we: 'bouwen',
-        you_plural_formal: 'bouwen',
-        you_plural: 'bouwen',
-        they: 'bouwen'
-      },
-      past: {
-        I: 'bouwde',
-        you: 'bouwde',
-        you_formal: 'bouwde',
-        he: 'bouwde',
-        she: 'bouwde',
-        it: 'bouwde',
-        we: 'bouwden',
-        you_plural_formal: 'bouwden',
-        you_plural: 'bouwden',
-        they: 'bouwden'
+      conjugations: {
+        past: {
+          I: 'bouwde',
+          other_single: 'bouwde'
+        }
       }
     }),
-    give: new Translation('geven', 'geven', {
-      now: {
-        I: 'geef',
-        you: 'geeft',
-        you_formal: 'geeft',
-        he: 'geeft',
-        she: 'geeft',
-        it: 'geeft',
-        we: 'geven',
-        you_plural_formal: 'geven',
-        you_plural: 'geven',
-        they: 'geven'
+    give: new ActionTranslationNl({
+      root: 'gev',
+      conjugationRoots: {
+        now: 'geef',
+        past: 'gaf'
       },
-      future: {
-        I: 'geef',
-        you: 'geeft',
-        you_formal: 'geeft',
-        he: 'geeft',
-        she: 'geeft',
-        it: 'geeft',
-        we: 'geven',
-        you_plural_formal: 'geven',
-        you_plural: 'geven',
-        they: 'geven'
-      },
-      past: {
-        I: 'gaf',
-        you: 'gaf',
-        you_formal: 'gaf',
-        he: 'gaf',
-        she: 'gaf',
-        it: 'gaf',
-        we: 'gaven',
-        you_plural_formal: 'gaven',
-        you_plural: 'gaven',
-        they: 'gaven'
+      conjugations: {
+        now: {
+          plural: 'geven'
+        },
+        past: {
+          plural: 'gaven'
+        }
       }
     }),
-    look: new Translation('kijken', 'kijken', {
-      now: {
-        I: 'kijk',
-        you: 'kijkt',
-        you_formal: 'kijkt',
-        he: 'kijkt',
-        she: 'kijkt',
-        it: 'kijkt',
-        we: 'kijken',
-        you_plural_formal: 'kijken',
-        you_plural: 'kijken',
-        they: 'kijken'
+    look: new ActionTranslationNl({
+      root: 'kijk',
+      conjugationRoots: {
+        past: 'keek'
       },
-      future: {
-        I: 'kijk',
-        you: 'kijkt',
-        you_formal: 'kijkt',
-        he: 'kijkt',
-        she: 'kijkt',
-        it: 'kijkt',
-        we: 'kijken',
-        you_plural_formal: 'kijken',
-        you_plural: 'kijken',
-        they: 'kijken'
-      },
-      past: {
-        I: 'keek',
-        you: 'keek',
-        you_formal: 'keek',
-        he: 'keek',
-        she: 'keek',
-        it: 'keek',
-        we: 'keken',
-        you_plural_formal: 'keken',
-        you_plural: 'keken',
-        they: 'keken'
+      conjugations: {
+        past: {
+          plural: 'keken'
+        }
       }
     }),
-    see: new Translation('zien', 'zien', {
-      now: {
-        I: 'zie',
-        you: 'ziet',
-        you_formal: 'ziet',
-        he: 'ziet',
-        she: 'ziet',
-        it: 'ziet',
-        we: 'zien',
-        you_plural_formal: 'zien',
-        you_plural: 'zien',
-        they: 'zien'
+    see: new ActionTranslationNl({
+      root: 'zie',
+      conjugationRoots: {
+        past: 'zag'
       },
-      future: {
-        I: 'zie',
-        you: 'ziet',
-        you_formal: 'ziet',
-        he: 'ziet',
-        she: 'ziet',
-        it: 'ziet',
-        we: 'zien',
-        you_plural_formal: 'zien',
-        you_plural: 'zien',
-        they: 'zien'
-      },
-      past: {
-        I: 'zag',
-        you: 'zag',
-        you_formal: 'zag',
-        he: 'zag',
-        she: 'zag',
-        it: 'zag',
-        we: 'zagen',
-        you_plural_formal: 'zagen',
-        you_plural: 'zagen',
-        they: 'zagen'
+      conjugations: {
+        now: {
+          plural: 'zien'
+        }
       }
     }),
     now: new Translation('nu'),
