@@ -18,8 +18,13 @@ define('util', [], function() {
     return str.substr(str.length - suffix.length, str.length) === suffix;
   }
 
+  function isDefined(value) {
+    return (typeof value !== 'undefined') && (value !== null);
+  }
+
   return {
     extend,
-    endsWith
+    endsWith,
+    isDefined
   };
 });

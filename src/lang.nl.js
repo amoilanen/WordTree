@@ -1,4 +1,4 @@
-define('lang.nl', ['lang', 'grammar'], function(Lang, Grammar) {
+define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
 
   var {Translation, Language, ActionTranslation} = Lang;
   var {Word} = Grammar;
@@ -7,6 +7,12 @@ define('lang.nl', ['lang', 'grammar'], function(Lang, Grammar) {
 
     constructor(opts) {
       opts.defaultForm = opts.root + 'en';
+      if (!_.isDefined(opts.conjugationRoots)) {
+        opts.conjugationRoots = {};
+      }
+      if (!_.isDefined(opts.conjugationRoots['past'])) {
+        opts.conjugationRoots['past'] = `${opts.root}d`;
+      }
       opts.futureMatchesNow = true;
       super(opts);
       super.conjugate();
@@ -84,9 +90,6 @@ define('lang.nl', ['lang', 'grammar'], function(Lang, Grammar) {
     }),
     sew: new ActionTranslationNl({
       root: 'naai',
-      conjugationRoots: {
-        past: 'naaid'
-      },
       conjugations: {
         past: {
           I: 'naaide',
@@ -96,9 +99,6 @@ define('lang.nl', ['lang', 'grammar'], function(Lang, Grammar) {
     }),
     build: new ActionTranslationNl({
       root: 'bouw',
-      conjugationRoots: {
-        past: 'bouwd'
-      },
       conjugations: {
         past: {
           I: 'bouwde',

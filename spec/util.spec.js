@@ -57,4 +57,19 @@ define(['util'], function(_) {
       expect(_.endsWith('abcde', 'bcd')).toBe(false);
     });
   });
+
+  describe('isDefined', function() {
+
+    it('should pass the check when value', function() {
+      expect(_.isDefined(5)).toBe(true);
+    });
+
+    it('should not pass the check when null', function() {
+      expect(_.isDefined(null)).toBe(false);
+    });
+
+    it('should not pass the check when undefined', function() {
+      expect(_.isDefined()).toBe(false);
+    });
+  });
 });

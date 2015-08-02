@@ -7,7 +7,7 @@
  * is to be translated into that language
  *
  */
-define('lang', ['grammar'], function(Grammar) {
+define('lang', ['grammar', 'util'], function(Grammar, _) {
 
   var {Word, Actor, Action, Time, Sentence} = Grammar;
 
@@ -34,7 +34,7 @@ define('lang', ['grammar'], function(Grammar) {
 
     constructor(root, defaultForm, conjugations) {
       this.root = root;
-      this.defaultForm = typeof defaultForm === 'undefined' ? root : defaultForm;
+      this.defaultForm = _.isDefined(defaultForm) ? defaultForm : root;
       this.conjugations = conjugations;
     }
   }
@@ -65,10 +65,10 @@ define('lang', ['grammar'], function(Grammar) {
         }
       });
       if (this.opts.futureMatchesNow) {
-        if (typeof this.conjugationRoots['now'] !== 'undefined') {
+        if (_.isDefined(this.conjugationRoots['now'])) {
           this.conjugationRoots['future'] = this.conjugationRoots['now'];
         }
-        if (typeof this.conjugations['now'] !== 'undefined') {
+        if (_.isDefined(this.conjugations['now'])) {
           this.conjugations['future'] = this.conjugations['now'];
         }
       }
@@ -76,17 +76,17 @@ define('lang', ['grammar'], function(Grammar) {
 
     expandExceptionalConjugations() {
       TENSES.forEach((time) => {
-        if (typeof this.conjugations[time] !== 'undefined') {
+        if (_.isDefined(this.conjugations[time])) {
           var heSheItConjugation = this.conjugations[time]['he_she_it'];
 
-          if (typeof heSheItConjugation !== 'undefined') {
+          if (_.isDefined(heSheItConjugation)) {
             this.conjugations[time]['he'] = heSheItConjugation;
             this.conjugations[time]['she'] = heSheItConjugation;
             this.conjugations[time]['it'] = heSheItConjugation;
           }
 
           var otherConjugation = this.conjugations[time]['other_single'];
-          if (typeof otherConjugation !== 'undefined') {
+          if (_.isDefined(otherConjugation)) {
             this.conjugations[time]['he'] = otherConjugation;
             this.conjugations[time]['she'] = otherConjugation;
             this.conjugations[time]['it'] = otherConjugation;
@@ -95,7 +95,7 @@ define('lang', ['grammar'], function(Grammar) {
           }
 
           var pluralConjugation = this.conjugations[time]['plural'];
-          if (typeof pluralConjugation !== 'undefined') {
+          if (_.isDefined(pluralConjugation)) {
             this.conjugations[time]['we'] = pluralConjugation;
             this.conjugations[time]['you_plural_formal'] = pluralConjugation;
             this.conjugations[time]['you_plural'] = pluralConjugation;
@@ -120,7 +120,7 @@ define('lang', ['grammar'], function(Grammar) {
 
       TENSES.forEach((time) => {
         PERSONS.forEach((person) => {
-          if (typeof this.conjugations[time] !== 'undefined') {
+          if (_.isDefined(this.conjugations[time])) {
             if (typeof this.conjugations[time] === 'string') {
               result[time][person] = this.conjugations[time];
             } else if (typeof this.conjugations[time][person] === 'string') {
