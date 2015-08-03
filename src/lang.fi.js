@@ -163,7 +163,10 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
     we: new Translation('me'),
     you_plural: new Translation('te'),
     you_plural_formal: new Translation('te'),
-    they: new Translation('ne')
+    they: new Translation('ne'),
+    wet_snow_with_mud_and_ground: new Translation('loska'),
+    snow_on_tree_branch: new Translation('tykky'),
+    snow: new Translation('lumi')
   };
 
   class Finnish extends Language {

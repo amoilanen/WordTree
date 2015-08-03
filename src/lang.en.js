@@ -90,7 +90,10 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     we: new Translation('we'),
     you_plural: new Translation('you'),
     you_plural_formal: new Translation('you'),
-    they: new Translation('they')
+    they: new Translation('they'),
+    wet_snow_with_mud_and_ground: new Translation('snow'),
+    snow_on_tree_branch: new Translation('snow'),
+    snow: new Translation('snow')
   };
 
   class English extends Language {

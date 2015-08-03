@@ -291,10 +291,30 @@ define(['grammar',
     });
   });
 
-  //TODO: Separate language specific tests for different verbs endings (for Dutch, English, Russian, Finnish)
-  //For example делать, ходить, петь, строить, давать. Include one standard verb with standard forms for every language
+  describe('several words in one language can map to one word in another', function() {
 
-  //TODO: There may be several words for something for which there is only one word in one language
+    describe('snow', function() {
+      shouldTranslate(Word.wet_snow_with_mud_and_ground, [
+        [en, 'snow'],
+        [fi, 'loska'],
+        [nl, 'sneeuw'],
+        [ru, 'снег']
+      ]);
+      shouldTranslate(Word.snow_on_tree_branch, [
+        [en, 'snow'],
+        [fi, 'tykky'],
+        [nl, 'sneeuw'],
+        [ru, 'снег']
+      ]);
+      shouldTranslate(Word.snow, [
+        [en, 'snow'],
+        [fi, 'lumi'],
+        [nl, 'sneeuw'],
+        [ru, 'снег']
+      ]);
+    });
+  });
+
   //TODO: Same object can be 'he' or 'it' in different languages, for example 'sun'/'zon'
 
   //TODO: Change the package structure, so that language files do not get too large, smaller files are split from them and they reside in
@@ -376,4 +396,7 @@ define(['grammar',
   //TODO: Questions about present time
   //TODO: Questions about past time
   //TODO: Questions about future time
+
+  //TODO: Idiom in one language, is there a nice way to represent an idiom in an abstract way?
+  //May be related to the question of text equivalence and representing text as its meaning rather than its (even meta) structure.
 });

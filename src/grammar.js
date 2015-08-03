@@ -25,7 +25,10 @@ define('grammar', function() {
     'we',
     'you_plural',
     'you_plural_formal',
-    'they'
+    'they',
+    'wet_snow_with_mud_and_ground',
+    'snow_on_tree_branch',
+    'snow'
   ];
 
   class Word {

@@ -170,7 +170,10 @@ define('lang.ru', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     we: new Translation('мы'),
     you_plural: new Translation('вы'),
     you_plural_formal: new Translation('вы'),
-    they: new Translation('они')
+    they: new Translation('они'),
+    wet_snow_with_mud_and_ground: new Translation('снег'),
+    snow_on_tree_branch: new Translation('снег'),
+    snow: new Translation('снег')
   };
 
   class Russian extends Language {

@@ -155,7 +155,10 @@ define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     we: new Translation('we'),
     you_plural: new Translation('jullie'),
     you_plural_formal: new Translation('u'),
-    they: new Translation('ze')
+    they: new Translation('ze'),
+    wet_snow_with_mud_and_ground: new Translation('sneeuw'),
+    snow_on_tree_branch: new Translation('sneeuw'),
+    snow: new Translation('sneeuw')
   };
 
   class Dutch extends Language {

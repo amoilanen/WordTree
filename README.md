@@ -20,6 +20,9 @@ Text (in Finnish, source yle.fi):
 
 'Lauantai on ollut lämmin päivä. Lämpimin paikka oli Kouvolan Utti, jossa oli melkein 25 astetta lämmintä. Pohjois-Suomessa oli lauantaina selvästi kylmempää kuin etelässä. Sää kylmenee myös etelässä jo sunnuntaina. Ensi viikko eli juhannusviikko on melko kylmä koko maassa. Ensi viikolla sataa myös vettä.'
 
+We are still using one of the languages (English) as the base to specify the common abstract meta-language and may be limited by this selected language.
+Hopefully the programming language such as JavaScript brings more formalism and mathematical like definitions. Although our discussion is still quite informal.
+
 Speculation:
 
 1. The common language does not change much or stays unchanged unlike the individual languages that are its renditions. Then it is appropriate to describe it using mathematical formulas or pure functions in a programming language (functional programming).
@@ -56,3 +59,7 @@ Verbs irregular in one language may be not irregular in other languages? Is this
 13. Languages are also a reflection of the environment, then they should be similar even if they develop independently and are completely isolated
 
 14. Persons often match, he she it often have the same action conjugations
+
+15. Language develops most the means (or rather retains more advanced and nuanced features of the universal language) needed to describe the particular environment in which it is used. Other languages can still be used to describe the same environment but they will require more constructs and may be less expressive.
+
+16. Equivivalence of different texts. Texts can communicate the same information but in different forms, i.e. many ways to build a sentence in the abstract meta-language. Is there an even more abstract language in which there will be one and only one way to describe something?
