@@ -315,18 +315,66 @@ define(['grammar',
     });
   });
 
-  //TODO: Same object can be 'he' or 'it' in different languages, for example 'sun'/'zon'
+  describe('action with respect to another action', function() {
 
-  //TODO: Change the package structure, so that language files do not get too large, smaller files are split from them and they reside in
-  //in separate folders
+    describe('want to do something', function() {
+      shouldTranslate(
+        Sentence.$.
+          actor(Word.I).
+          action(Action.$.
+                   primary(Word.want).
+                   secondary(Word.sing).$
+                ).
+          time(Word.now).$,
+        [
+          [en, 'I want to sing'],
+          [fi, 'Haluan laulaa'],
+          [nl, 'Ik wil zingen'],
+          [ru, 'Я хочу петь']
+        ]);
+      shouldTranslate(
+        Sentence.$.
+          actor(Word.she).
+          action(Action.$.
+                   primary(Word.want).
+                   secondary(Word.sing).$
+                ).
+          time(Word.now).$,
+        [
+          [en, 'She wants to sing'],
+          [fi, 'Haluaa laulaa'],
+          [nl, 'Zij wil zingen'],
+          [ru, 'Она хочет петь']
+        ]);
+      shouldTranslate(
+        Sentence.$.
+          actor(Word.we).
+          action(Action.$.
+                  primary(Word.want).
+                  secondary(Word.sing).$
+                ).
+          time(Word.past).$,
+        [
+          [en, 'We wanted to sing'],
+          [fi, 'Halusimme laulaa'],
+          [nl, 'Wij wilden zingen'],
+          [ru, 'Мы хотели петь']
+        ]);
+    });
+  });
 
-  //TODO: Infinitive form of verbs
-  //TODO: Somebody _want_ to do something
+  //TODO: Somebody _can_ to do something
   //TODO: Somebody _going_ to do something
+  //TODO: Somebody _builds_ to sing (missing object in the sentence, completely different grammar structure?)
+
   //TODO: Some action has been finished in the past/will be finished in the future, сделал vs. делал, deed vs. heb gedaan
   //have done/will have done
   //TODO: Some action has been finished in the past 'had done'
-  //TODO: Irregular verb in each of the languages (can be different per language), like 'to be' or 'to go', 'делать'
+
+  //TODO: Infinitive form of verbs
+
+  //TODO: Change the package structure, so that language files do not get too large, smaller files are split from them and they reside in
+  //in separate folders
 
   //TODO: Simple action 1, 2, 3 person singular present, subject, place, quality
   //TODO: Simple action 1, 2, 3 person multiple present, subject, place, quality
@@ -396,6 +444,8 @@ define(['grammar',
   //TODO: Questions about present time
   //TODO: Questions about past time
   //TODO: Questions about future time
+
+  //TODO: Same object can be 'he' or 'it' in different languages, for example 'sun'/'zon'
 
   //TODO: Idiom in one language, is there a nice way to represent an idiom in an abstract way?
   //May be related to the question of text equivalence and representing text as its meaning rather than its (even meta) structure.
