@@ -365,6 +365,7 @@ define(['grammar',
 
   //TODO: Somebody _can_ to do something
   //TODO: Somebody _going_ to do something
+  //TODO: Some verbs cannot act as a primary part of an action
   //TODO: Somebody _builds_ to sing (missing object in the sentence, completely different grammar structure?)
 
   //TODO: Some action has been finished in the past/will be finished in the future, сделал vs. делал, deed vs. heb gedaan

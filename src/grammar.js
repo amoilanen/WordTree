@@ -11,6 +11,7 @@ define('grammar', function() {
     'sew',
     'build',
     'give',
+    'want',
     'look',
     'see',
     'now',
@@ -49,10 +50,32 @@ define('grammar', function() {
     }
   }
 
+  class ActionBuilder {
+
+    primary(_primary) {
+      this._primary = _primary;
+      return this;
+    }
+
+    secondary(_secondary) {
+      this._secondary = _secondary;
+      return this;
+    }
+
+    static get $() {
+      return new Action(this._primary, this._secondary);
+    }
+  }
+
   class Action {
 
-    constructor(word) {
-      this.word = word;
+    constructor(primary, secondary) {
+      this.primary = primary;
+      this.secondary = secondary;
+    }
+
+    static get $() {
+      return new ActionBuilder();
     }
   }
 

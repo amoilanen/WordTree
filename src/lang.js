@@ -186,11 +186,22 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
     }
 
     translateAction(actor, action, time) {
+      var secondaryAction;
+
+      if (!('id' in action)) {
+        secondaryAction = action.secondary;
+        action = action.primary;
+      }
       var translation = this.wordTranslations[action.id];
 
-      return translation && translation.conjugations ?
+      var result = translation && translation.conjugations ?
         translation.conjugations[time.id][actor.id]
         : this.translateWord(action);
+
+      if (secondaryAction) {
+        result = result + ' ' + this.wordTranslations[secondaryAction.id].defaultForm;
+      }
+      return result;
     }
   }
 
