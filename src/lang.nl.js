@@ -143,6 +143,14 @@ define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
         }
       }
     }),
+    want: new ActionTranslationNl({
+      root: 'wil',
+      conjugations: {
+        now: {
+          other_single: 'wil'
+        }
+      }
+    }),
     now: new Translation('nu'),
     future: new Translation('toekomst'),
     past: new Translation('verleden'),

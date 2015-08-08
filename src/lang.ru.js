@@ -158,6 +158,18 @@ define('lang.ru', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
         }
       }
     }),
+    want: new ActionTranslationRu({
+      root: 'хот',
+      keyVowel: 'е',
+      conjugationRoots: {
+        now: 'хоч'
+      },
+      conjugations: {
+        now: {
+          I: 'хочу'
+        }
+      }
+    }),
     now: new Translation('сейчас'),
     future: new Translation('будущее'),
     past: new Translation('прошлое'),

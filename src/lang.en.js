@@ -26,6 +26,10 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     getPastForms() {
       return this.allPersons(`${this.defaultForm}ed`);
     }
+
+    subjugatedActionForm() {
+      return `to ${this.defaultForm}`;
+    }
   }
 
   var translations = {
@@ -77,6 +81,9 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
       conjugations: {
         past: 'saw'
       }
+    }),
+    want: new ActionTranslationEn({
+      root: 'want'
     }),
     now: new Translation('now'),
     future: new Translation('future'),

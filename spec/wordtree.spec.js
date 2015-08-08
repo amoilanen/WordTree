@@ -4,7 +4,7 @@ define(['grammar',
         'lang.nl',
         'lang.ru'], function({Word, Actor, Action, Time, Sentence}, en, fi, nl, ru) {
 
-  function shouldTranslate(words, translations) {
+  function shouldTranslate(words, translations, debug) {
     translations.forEach(function(translations) {
       var lang = translations[0];
       var translation = translations[1];
@@ -315,7 +315,7 @@ define(['grammar',
     });
   });
 
-  describe('action with respect to another action', function() {
+  describe('action with a subjugated action', function() {
 
     describe('want to do something', function() {
       shouldTranslate(
@@ -328,10 +328,10 @@ define(['grammar',
           time(Word.now).$,
         [
           [en, 'I want to sing'],
-          [fi, 'Haluan laulaa'],
-          [nl, 'Ik wil zingen'],
-          [ru, 'Я хочу петь']
-        ]);
+          [fi, 'haluan laulaa'],
+          [nl, 'ik wil zingen'],
+          [ru, 'я хочу петь']
+        ], true);
       shouldTranslate(
         Sentence.$.
           actor(Word.she).
@@ -341,10 +341,10 @@ define(['grammar',
                 ).
           time(Word.now).$,
         [
-          [en, 'She wants to sing'],
-          [fi, 'Haluaa laulaa'],
-          [nl, 'Zij wil zingen'],
-          [ru, 'Она хочет петь']
+          [en, 'she wants to sing'],
+          [fi, 'haluaa laulaa'],
+          [nl, 'zij wil zingen'],
+          [ru, 'она хочет петь']
         ]);
       shouldTranslate(
         Sentence.$.
@@ -355,17 +355,18 @@ define(['grammar',
                 ).
           time(Word.past).$,
         [
-          [en, 'We wanted to sing'],
-          [fi, 'Halusimme laulaa'],
-          [nl, 'Wij wilden zingen'],
-          [ru, 'Мы хотели петь']
+          [en, 'we wanted to sing'],
+          [fi, 'halusimme laulaa'],
+          [nl, 'we wilden zingen'],
+          [ru, 'мы хотели петь']
         ]);
     });
   });
 
   //TODO: Somebody _can_ to do something
   //TODO: Somebody _going_ to do something
-  //TODO: Some verbs cannot act as a primary part of an action
+  //TODO: Some verbs cannot act as a main action with some subjugated action
+  //TODO: Description of some action ('sing loudly'), some words cannot be used as such descriptions
   //TODO: Somebody _builds_ to sing (missing object in the sentence, completely different grammar structure?)
 
   //TODO: Some action has been finished in the past/will be finished in the future, сделал vs. делал, deed vs. heb gedaan
@@ -450,4 +451,5 @@ define(['grammar',
 
   //TODO: Idiom in one language, is there a nice way to represent an idiom in an abstract way?
   //May be related to the question of text equivalence and representing text as its meaning rather than its (even meta) structure.
+    //TODO: Languages may have two sufficiently different ways to describe the same thing
 });

@@ -62,7 +62,7 @@ define('grammar', function() {
       return this;
     }
 
-    static get $() {
+    get $() {
       return new Action(this._primary, this._secondary);
     }
   }

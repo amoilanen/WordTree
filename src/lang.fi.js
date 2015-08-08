@@ -7,7 +7,7 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
 
     constructor(opts) {
       opts.keyVowel = opts.keyVowel || '';
-      opts.defaultForm = opts.root;
+      opts.defaultForm = opts.defaultForm;
       opts.futureMatchesNow = true;
       super(opts);
       this.keyVowel = opts.keyVowel;
@@ -149,6 +149,13 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
         past: {
           they: 'nähdivät'
         }
+      }
+    }),
+    want: new ActionTranslationFi({
+      root: 'halu',
+      keyVowel: 'a',
+      conjugationRoots: {
+        past: 'halus'
       }
     }),
     now: new Translation('nyt'),

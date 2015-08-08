@@ -111,6 +111,10 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
       }
     }
 
+    subjugatedActionForm() {
+      return this.defaultForm;
+    }
+
     determineConjugations() {
       var result = {
         now: this.getPresentForms(),
@@ -194,12 +198,13 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
       }
       var translation = this.wordTranslations[action.id];
 
+      //TODO: Move to a method for ActionTranslation
       var result = translation && translation.conjugations ?
         translation.conjugations[time.id][actor.id]
         : this.translateWord(action);
 
       if (secondaryAction) {
-        result = result + ' ' + this.wordTranslations[secondaryAction.id].defaultForm;
+        result = result + ' ' + this.wordTranslations[secondaryAction.id].subjugatedActionForm();
       }
       return result;
     }
