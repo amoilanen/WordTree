@@ -313,5 +313,44 @@ define(['grammar', 'lang.ru', 'test.util'],
         they: 'видели'
       }
     });
+
+    shouldHaveActionForms(lang, Word.want, {
+      now: {
+        I: 'хочу',
+        you: 'хочешь',
+        you_formal: 'хотите',
+        he: 'хочет',
+        she: 'хочет',
+        it: 'хочет',
+        we: 'хотим',
+        you_plural_formal: 'хотите',
+        you_plural: 'хотите',
+        they: 'хотят'
+      },
+      future: {
+        I: 'буду хотеть',
+        you: 'будешь хотеть',
+        you_formal: 'будете хотеть',
+        he: 'будет хотеть',
+        she: 'будет хотеть',
+        it: 'будет хотеть',
+        we: 'будем хотеть',
+        you_plural_formal: 'будете хотеть',
+        you_plural: 'будете хотеть',
+        they: 'будут хотеть'
+      },
+      past: {
+        I: 'хотел',
+        you: 'хотел',
+        you_formal: 'хотели',
+        he: 'хотел',
+        she: 'хотела',
+        it: 'хотело',
+        we: 'хотели',
+        you_plural_formal: 'хотели',
+        you_plural: 'хотели',
+        they: 'хотели'
+      }
+    });
   });
 });

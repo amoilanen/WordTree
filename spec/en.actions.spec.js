@@ -313,5 +313,44 @@ define(['grammar', 'lang.en', 'test.util'],
         they: 'saw'
       }
     });
+
+    shouldHaveActionForms(lang, Word.want, {
+      now: {
+        I: 'want',
+        you: 'want',
+        you_formal: 'want',
+        he: 'wants',
+        she: 'wants',
+        it: 'wants',
+        we: 'want',
+        you_plural_formal: 'want',
+        you_plural: 'want',
+        they: 'want'
+      },
+      future: {
+        I: 'will want',
+        you: 'will want',
+        you_formal: 'will want',
+        he: 'will want',
+        she: 'will want',
+        it: 'will want',
+        we: 'will want',
+        you_plural_formal: 'will want',
+        you_plural: 'will want',
+        they: 'will want'
+      },
+      past: {
+        I: 'wanted',
+        you: 'wanted',
+        you_formal: 'wanted',
+        he: 'wanted',
+        she: 'wanted',
+        it: 'wanted',
+        we: 'wanted',
+        you_plural_formal: 'wanted',
+        you_plural: 'wanted',
+        they: 'wanted'
+      }
+    });
   });
 });

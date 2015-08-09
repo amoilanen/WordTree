@@ -313,5 +313,44 @@ define(['grammar', 'lang.nl', 'test.util'],
         they: 'zagen'
       }
     });
+
+    shouldHaveActionForms(lang, Word.want, {
+      now: {
+        I: 'wil',
+        you: 'wilt',
+        you_formal: 'wilt',
+        he: 'wil',
+        she: 'wil',
+        it: 'wil',
+        we: 'willen',
+        you_plural_formal: 'willen',
+        you_plural: 'willen',
+        they: 'willen'
+      },
+      future: {
+        I: 'wil',
+        you: 'wilt',
+        you_formal: 'wilt',
+        he: 'wil',
+        she: 'wil',
+        it: 'wil',
+        we: 'willen',
+        you_plural_formal: 'willen',
+        you_plural: 'willen',
+        they: 'willen'
+      },
+      past: {
+        I: 'wilde',
+        you: 'wilde',
+        you_formal: 'wilde',
+        he: 'wilde',
+        she: 'wilde',
+        it: 'wilde',
+        we: 'wilden',
+        you_plural_formal: 'wilden',
+        you_plural: 'wilden',
+        they: 'wilden'
+      }
+    });
   });
 });

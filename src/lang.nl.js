@@ -145,9 +145,18 @@ define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     }),
     want: new ActionTranslationNl({
       root: 'wil',
+      conjugationRoots: {
+        past: 'wilde'
+      },
       conjugations: {
         now: {
-          other_single: 'wil'
+          he: 'wil',
+          she: 'wil',
+          it: 'wil',
+          plural: 'willen'
+        },
+        past: {
+          plural: 'wilden'
         }
       }
     }),

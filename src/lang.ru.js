@@ -158,6 +158,7 @@ define('lang.ru', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
         }
       }
     }),
+
     want: new ActionTranslationRu({
       root: 'хот',
       keyVowel: 'е',
@@ -166,7 +167,12 @@ define('lang.ru', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
       },
       conjugations: {
         now: {
-          I: 'хочу'
+          I: 'хочу',
+          you_formal: 'хотите',
+          we: 'хотим',
+          you_plural: 'хотите',
+          you_plural_formal: 'хотите',
+          they: 'хотят'
         }
       }
     }),

@@ -366,6 +366,7 @@ define(['grammar',
   //TODO: Somebody _can_ to do something
   //TODO: Somebody _going_ to do something
   //TODO: Some verbs cannot act as a main action with some subjugated action
+  //TODO: In Russian the 'you' and 'I' forms can have both endings depending on the gender
   //TODO: Description of some action ('sing loudly'), some words cannot be used as such descriptions
   //TODO: Somebody _builds_ to sing (missing object in the sentence, completely different grammar structure?)
 
@@ -452,4 +453,6 @@ define(['grammar',
   //TODO: Idiom in one language, is there a nice way to represent an idiom in an abstract way?
   //May be related to the question of text equivalence and representing text as its meaning rather than its (even meta) structure.
     //TODO: Languages may have two sufficiently different ways to describe the same thing
+
+  //TODO: Some languages have articles: English, Dutch, some do not: Finnish, Russian
 });

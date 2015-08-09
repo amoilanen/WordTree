@@ -313,5 +313,44 @@ define(['grammar', 'lang.fi', 'test.util'],
         they: 'nähdivät'
       }
     });
+
+    shouldHaveActionForms(lang, Word.want, {
+      now: {
+        I: 'haluan',
+        you: 'haluat',
+        you_formal: 'haluat',
+        he: 'haluaa',
+        she: 'haluaa',
+        it: 'haluaa',
+        we: 'haluamme',
+        you_plural_formal: 'haluatte',
+        you_plural: 'haluatte',
+        they: 'haluavat'
+      },
+      future: {
+        I: 'haluan',
+        you: 'haluat',
+        you_formal: 'haluat',
+        he: 'haluaa',
+        she: 'haluaa',
+        it: 'haluaa',
+        we: 'haluamme',
+        you_plural_formal: 'haluatte',
+        you_plural: 'haluatte',
+        they: 'haluavat'
+      },
+      past: {
+        I: 'halusin',
+        you: 'halusit',
+        you_formal: 'halusit',
+        he: 'halusi',
+        she: 'halusi',
+        it: 'halusi',
+        we: 'halusimme',
+        you_plural_formal: 'halusitte',
+        you_plural: 'halusitte',
+        they: 'halusivat'
+      }
+    });
   });
 });
