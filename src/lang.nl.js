@@ -150,13 +150,29 @@ define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
       },
       conjugations: {
         now: {
-          he: 'wil',
-          she: 'wil',
-          it: 'wil',
+          he_she_it: 'wil',
           plural: 'willen'
         },
         past: {
           plural: 'wilden'
+        }
+      }
+    }),
+    can: new ActionTranslationNl({
+      root: 'kan',
+      conjugationRoots: {
+        past: 'kond'
+      },
+      conjugations: {
+        now: {
+          you: 'kunt',
+          you_formal: 'kunt',
+          he_she_it: 'kan',
+          plural: 'kunnen'
+        },
+        past: {
+          I: 'kon',
+          other_single: 'kon'
         }
       }
     }),

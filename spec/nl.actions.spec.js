@@ -352,5 +352,44 @@ define(['grammar', 'lang.nl', 'test.util'],
         they: 'wilden'
       }
     });
+
+    shouldHaveActionForms(lang, Word.can, {
+      now: {
+        I: 'kan',
+        you: 'kunt',
+        you_formal: 'kunt',
+        he: 'kan',
+        she: 'kan',
+        it: 'kan',
+        we: 'kunnen',
+        you_plural_formal: 'kunnen',
+        you_plural: 'kunnen',
+        they: 'kunnen'
+      },
+      future: {
+        I: 'kan',
+        you: 'kunt',
+        you_formal: 'kunt',
+        he: 'kan',
+        she: 'kan',
+        it: 'kan',
+        we: 'kunnen',
+        you_plural_formal: 'kunnen',
+        you_plural: 'kunnen',
+        they: 'kunnen'
+      },
+      past: {
+        I: 'kon',
+        you: 'kon',
+        you_formal: 'kon',
+        he: 'kon',
+        she: 'kon',
+        it: 'kon',
+        we: 'konden',
+        you_plural_formal: 'konden',
+        you_plural: 'konden',
+        they: 'konden'
+      }
+    });
   });
 });

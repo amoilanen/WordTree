@@ -12,6 +12,7 @@ define('grammar', function() {
     'build',
     'give',
     'want',
+    'can',
     'look',
     'see',
     'now',

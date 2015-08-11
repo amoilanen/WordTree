@@ -85,6 +85,14 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     want: new ActionTranslationEn({
       root: 'want'
     }),
+    can: new ActionTranslationEn({
+      root: 'can',
+      conjugations: {
+        now: 'can',
+        future: 'can',
+        past: 'could'
+      }
+    }),
     now: new Translation('now'),
     future: new Translation('future'),
     past: new Translation('past'),

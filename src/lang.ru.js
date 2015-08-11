@@ -158,7 +158,6 @@ define('lang.ru', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
         }
       }
     }),
-
     want: new ActionTranslationRu({
       root: 'хот',
       keyVowel: 'е',
@@ -173,6 +172,37 @@ define('lang.ru', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
           you_plural: 'хотите',
           you_plural_formal: 'хотите',
           they: 'хотят'
+        }
+      }
+    }),
+    can: new ActionTranslationRu({
+      root: 'мо',
+      keyVowel: '',
+      conjugationRoots: {
+        now: 'мож',
+        past: 'мог'
+      },
+      conjugations: {
+        now: {
+          I: 'могу',
+          they: 'могут'
+        },
+        future: {
+          I: 'могу',
+          you: 'можешь',
+          you_formal: 'можете',
+          he: 'может',
+          she: 'может',
+          it: 'может',
+          we: 'можем',
+          you_plural_formal: 'можете',
+          you_plural: 'можете',
+          they: 'могут'
+        },
+        past: {
+          I: 'мог',
+          you: 'мог',
+          he: 'мог'
         }
       }
     }),

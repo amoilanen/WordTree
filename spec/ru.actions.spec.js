@@ -352,5 +352,44 @@ define(['grammar', 'lang.ru', 'test.util'],
         they: 'хотели'
       }
     });
+
+    shouldHaveActionForms(lang, Word.can, {
+      now: {
+        I: 'могу',
+        you: 'можешь',
+        you_formal: 'можете',
+        he: 'может',
+        she: 'может',
+        it: 'может',
+        we: 'можем',
+        you_plural_formal: 'можете',
+        you_plural: 'можете',
+        they: 'могут'
+      },
+      future: {
+        I: 'могу',
+        you: 'можешь',
+        you_formal: 'можете',
+        he: 'может',
+        she: 'может',
+        it: 'может',
+        we: 'можем',
+        you_plural_formal: 'можете',
+        you_plural: 'можете',
+        they: 'могут'
+      },
+      past: {
+        I: 'мог',
+        you: 'мог',
+        you_formal: 'могли',
+        he: 'мог',
+        she: 'могла',
+        it: 'могло',
+        we: 'могли',
+        you_plural_formal: 'могли',
+        you_plural: 'могли',
+        they: 'могли'
+      }
+    });
   });
 });

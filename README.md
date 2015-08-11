@@ -63,3 +63,7 @@ Verbs irregular in one language may be not irregular in other languages? Is this
 15. Language develops most the means (or rather retains more advanced and nuanced features of the universal language) needed to describe the particular environment in which it is used. Other languages can still be used to describe the same environment but they will require more constructs and may be less expressive.
 
 16. Equivivalence of different texts. Texts can communicate the same information but in different forms, i.e. many ways to build a sentence in the abstract meta-language. Is there an even more abstract language in which there will be one and only one way to describe something?
+
+17. Human languages and the common meta-grammar/meta-language we built are still too low level. Like zeros and ones for computers. i.e. we do not formalize how to command a language, how to write a poem in it, etc. which may still be too low level.
+
+18. Constructive proof that a meta-grammar/meta-language for the selected languages exists: the number of primitive grammatical constructs is finite and by defining how to combine them for any language and providing a means to accomodate the next grammatical construct from some language we can build the full meta-grammar/meta-language. Discuss how the next grammatical constructions can be accomodated.

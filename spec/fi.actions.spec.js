@@ -352,5 +352,44 @@ define(['grammar', 'lang.fi', 'test.util'],
         they: 'halusivat'
       }
     });
+
+    shouldHaveActionForms(lang, Word.can, {
+      now: {
+        I: 'voin',
+        you: 'voit',
+        you_formal: 'voit',
+        he: 'voi',
+        she: 'voi',
+        it: 'voi',
+        we: 'voimme',
+        you_plural_formal: 'voitte',
+        you_plural: 'voitte',
+        they: 'voivat'
+      },
+      future: {
+        I: 'voin',
+        you: 'voit',
+        you_formal: 'voit',
+        he: 'voi',
+        she: 'voi',
+        it: 'voi',
+        we: 'voimme',
+        you_plural_formal: 'voitte',
+        you_plural: 'voitte',
+        they: 'voivat'
+      },
+      past: {
+        I: 'voisin',
+        you: 'voisit',
+        you_formal: 'voisit',
+        he: 'voisi',
+        she: 'voisi',
+        it: 'voisi',
+        we: 'voisimme',
+        you_plural_formal: 'voisitte',
+        you_plural: 'voisitte',
+        they: 'voisivat'
+      }
+    });
   });
 });

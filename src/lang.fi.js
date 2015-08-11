@@ -158,6 +158,18 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
         past: 'halus'
       }
     }),
+    can: new ActionTranslationFi({
+      root: 'vo',
+      keyVowel: 'i',
+      conjugationRoots: {
+        past: 'vois'
+      },
+      conjugations: {
+        now: {
+          he_she_it: 'voi'
+        }
+      }
+    }),
     now: new Translation('nyt'),
     future: new Translation('tulevaisuus'),
     past: new Translation('menneisyys'),

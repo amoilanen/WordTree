@@ -352,5 +352,44 @@ define(['grammar', 'lang.en', 'test.util'],
         they: 'wanted'
       }
     });
+
+    shouldHaveActionForms(lang, Word.can, {
+      now: {
+        I: 'can',
+        you: 'can',
+        you_formal: 'can',
+        he: 'can',
+        she: 'can',
+        it: 'can',
+        we: 'can',
+        you_plural_formal: 'can',
+        you_plural: 'can',
+        they: 'can'
+      },
+      future: {
+        I: 'can',
+        you: 'can',
+        you_formal: 'can',
+        he: 'can',
+        she: 'can',
+        it: 'can',
+        we: 'can',
+        you_plural_formal: 'can',
+        you_plural: 'can',
+        they: 'can'
+      },
+      past: {
+        I: 'could',
+        you: 'could',
+        you_formal: 'could',
+        he: 'could',
+        she: 'could',
+        it: 'could',
+        we: 'could',
+        you_plural_formal: 'could',
+        you_plural: 'could',
+        they: 'could'
+      }
+    });
   });
 });
