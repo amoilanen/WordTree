@@ -331,7 +331,7 @@ define(['grammar',
           [fi, 'haluan laulaa'],
           [nl, 'ik wil zingen'],
           [ru, 'я хочу петь']
-        ], true);
+        ]);
       shouldTranslate(
         Sentence.$.
           actor(Word.she).
@@ -345,7 +345,7 @@ define(['grammar',
           [fi, 'haluaa laulaa'],
           [nl, 'zij wil zingen'],
           [ru, 'она хочет петь']
-        ]);
+        ], true);
       shouldTranslate(
         Sentence.$.
           actor(Word.we).
@@ -361,10 +361,53 @@ define(['grammar',
           [ru, 'мы хотели петь']
         ]);
     });
+
+    describe('can do something', function() {
+      shouldTranslate(
+        Sentence.$.
+          actor(Word.I).
+          action(Action.$.
+                   primary(Word.can).
+                   secondary(Word.build).$
+                ).
+          time(Word.now).$,
+        [
+          [en, 'I can build'],
+          [fi, 'voin rakentaa'],
+          [nl, 'ik kan bouwen'],
+          [ru, 'я могу строить']
+        ], true);
+      shouldTranslate(
+        Sentence.$.
+          actor(Word.she).
+          action(Action.$.
+                   primary(Word.can).
+                   secondary(Word.build).$
+                ).
+          time(Word.now).$,
+        [
+          [en, 'she can build'],
+          [fi, 'voi rakentaa'],
+          [nl, 'zij kan bouwen'],
+          [ru, 'она может строить']
+        ]);
+      shouldTranslate(
+        Sentence.$.
+          actor(Word.we).
+          action(Action.$.
+                  primary(Word.can).
+                  secondary(Word.build).$
+                ).
+          time(Word.past).$,
+        [
+          [en, 'we could build'],
+          [fi, 'voisimme rakentaa'],
+          [nl, 'we konden bouwen'],
+          [ru, 'мы могли строить']
+        ]);
+    });
   });
 
-  //TODO: Somebody _can_ to do something
-  //TODO: Somebody _going_ to do something
   //TODO: Some verbs cannot act as a main action with some subjugated action
   //TODO: In Russian the 'you' and 'I' forms can have both endings depending on the gender
   //TODO: Description of some action ('sing loudly'), some words cannot be used as such descriptions
@@ -453,6 +496,7 @@ define(['grammar',
   //TODO: Idiom in one language, is there a nice way to represent an idiom in an abstract way?
   //May be related to the question of text equivalence and representing text as its meaning rather than its (even meta) structure.
     //TODO: Languages may have two sufficiently different ways to describe the same thing
+    //TODO: Somebody is _going_ to do something
 
   //TODO: Some languages have articles: English, Dutch, some do not: Finnish, Russian
 });

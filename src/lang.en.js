@@ -8,6 +8,7 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     constructor(opts) {
       opts.defaultForm = opts.root;
       super(opts);
+      this.subjugationConnector = this.opts.subjugationConnector;
       super.conjugate();
     }
 
@@ -27,8 +28,10 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
       return this.allPersons(`${this.defaultForm}ed`);
     }
 
-    subjugatedActionForm() {
-      return `to ${this.defaultForm}`;
+    subjugatingTimeActorForm(time, actor) {
+      return _.isDefined(this.subjugationConnector) ?
+        [this.timeActorForm(time, actor), this.subjugationConnector].join(' ') :
+        this.timeActorForm(time, actor);
     }
   }
 
@@ -83,7 +86,8 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
       }
     }),
     want: new ActionTranslationEn({
-      root: 'want'
+      root: 'want',
+      subjugationConnector: 'to'
     }),
     can: new ActionTranslationEn({
       root: 'can',

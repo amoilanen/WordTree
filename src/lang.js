@@ -115,6 +115,10 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
       return this.conjugations[time.id][actor.id];
     }
 
+    subjugatingTimeActorForm(time, actor) {
+      return this.timeActorForm(time, actor);
+    }
+
     subjugatedActionForm() {
       return this.defaultForm;
     }
@@ -206,6 +210,7 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
         translation.timeActorForm(time, actor) : this.translateWord(action);
 
       if (secondaryAction) {
+        result = translation.subjugatingTimeActorForm(time, actor);
         result = result + ' ' + this.wordTranslations[secondaryAction.id].subjugatedActionForm();
       }
       return result;
