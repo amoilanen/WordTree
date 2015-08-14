@@ -45,12 +45,18 @@ define(['grammar',
 
         describe('I', function() {
 
-          shouldTranslate(Sentence.$.actor(Word.I).action(Word.sing).time(Word.now).$, [
+          shouldTranslate(
+            Sentence.$
+              .actor(Actor.$
+                       .person(Word.I)
+                       .gender(Word.he).$)
+              .action(Word.sing)
+              .time(Word.now).$, [
             [en, 'I sing'],
             [fi, 'laulan'],
             [nl, 'ik zing'],
             [ru, 'я пою']
-          ]);
+          ], true);
         });
 
         describe('you', function() {
@@ -408,11 +414,13 @@ define(['grammar',
     });
   });
 
+  //TODO: Some languages conjugate verbs differently depending on the gender, add _some_ examples to include gender
+  //TODO: Some languages have special suffixes to show that the action was performed on the object performing action itself
+
   //TODO: Some verbs cannot act as a main action with some subjugated action
-  //TODO: In Russian the 'you' and 'I' forms can have both endings depending on the gender
+  //TODO: Somebody _builds_ to sing (missing object in the sentence, completely different grammar structure?)
 
   //TODO: Description of some action ('sing loudly'), some words cannot be used as such descriptions
-  //TODO: Somebody _builds_ to sing (missing object in the sentence, completely different grammar structure?)
 
   //TODO: Some action has been finished in the past/will be finished in the future, сделал vs. делал, deed vs. heb gedaan
   //have done/will have done

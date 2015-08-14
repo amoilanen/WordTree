@@ -46,8 +46,30 @@ define('grammar', function() {
 
   class Actor {
 
-    constructor(word) {
-      this.word = word;
+    constructor(_person, _gender) {
+      this.person = _person;
+      this.gender = _gender;
+    }
+
+    static get $() {
+      return new ActorBuilder();
+    }
+  }
+
+  class ActorBuilder {
+
+    person(_person) {
+      this._person = _person;
+      return this;
+    }
+
+    gender(_gender) {
+      this._gender = _gender;
+      return this;
+    }
+
+    get $() {
+      return new Actor(this._person, this._gender);
     }
   }
 
@@ -77,6 +99,13 @@ define('grammar', function() {
 
     static get $() {
       return new ActionBuilder();
+    }
+  }
+
+  class Gender {
+
+    constructor(word) {
+      this.word = word;
     }
   }
 
@@ -126,6 +155,7 @@ define('grammar', function() {
     Word: Word,
     Actor: Actor,
     Action: Action,
+    Gender: Gender,
     Time: Time,
     Sentence: Sentence
   };

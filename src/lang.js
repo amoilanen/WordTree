@@ -112,6 +112,9 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
     }
 
     timeActorForm(time, actor) {
+      if (actor instanceof Actor) {
+        actor = actor.person;
+      }
       return this.conjugations[time.id][actor.id];
     }
 
@@ -194,7 +197,7 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
     }
 
     translateActor(actor) {
-      return this.translateWord(actor);
+      return actor instanceof Actor ? this.translateWord(actor.person) : this.translateWord(actor);
     }
 
     translateAction(actor, action, time) {
