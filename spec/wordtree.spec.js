@@ -345,7 +345,7 @@ define(['grammar',
           [fi, 'haluaa laulaa'],
           [nl, 'zij wil zingen'],
           [ru, 'она хочет петь']
-        ], true);
+        ]);
       shouldTranslate(
         Sentence.$.
           actor(Word.we).
@@ -376,7 +376,7 @@ define(['grammar',
           [fi, 'voin rakentaa'],
           [nl, 'ik kan bouwen'],
           [ru, 'я могу строить']
-        ], true);
+        ]);
       shouldTranslate(
         Sentence.$.
           actor(Word.she).
@@ -410,6 +410,7 @@ define(['grammar',
 
   //TODO: Some verbs cannot act as a main action with some subjugated action
   //TODO: In Russian the 'you' and 'I' forms can have both endings depending on the gender
+
   //TODO: Description of some action ('sing loudly'), some words cannot be used as such descriptions
   //TODO: Somebody _builds_ to sing (missing object in the sentence, completely different grammar structure?)
 
@@ -498,5 +499,6 @@ define(['grammar',
     //TODO: Languages may have two sufficiently different ways to describe the same thing
     //TODO: Somebody is _going_ to do something
 
+  //TODO: 'it can be used to' form
   //TODO: Some languages have articles: English, Dutch, some do not: Finnish, Russian
 });
