@@ -24,6 +24,12 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
     'they'
   ];
 
+  const GENDERS = [
+    'he',
+    'she',
+    'it'
+  ];
+
   const TENSES = [
     'now',
     'past',
@@ -225,6 +231,7 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
     Translation,
     Language,
     PERSONS,
-    TENSES
+    TENSES,
+    GENDERS
   };
 });

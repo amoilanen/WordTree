@@ -2,18 +2,8 @@ define(['grammar',
         'lang.en',
         'lang.fi',
         'lang.nl',
-        'lang.ru'], function({Word, Actor, Action, Time, Sentence}, en, fi, nl, ru) {
-
-  function shouldTranslate(words, translations, debug) {
-    translations.forEach(function(translations) {
-      var lang = translations[0];
-      var translation = translations[1];
-
-      it('should translate to ' + lang.name, function() {
-        expect(lang.translate(words)).toBe(translation);
-      });
-    });
-  }
+        'lang.ru',
+        'test.util'], function({Word, Actor, Action, Time, Sentence}, en, fi, nl, ru, {shouldTranslate}) {
 
   describe('word', function() {
 
