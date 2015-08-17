@@ -21,14 +21,12 @@ define('lang.ru', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
       var {person, gender} = actor;
 
       if (_.isDefined(gender) && (time === Word.past)) {
-        return this.timeActorForm(time, gender);
-      } else {
-        if (!_.isDefined(person)) {
-          person = actor;
-        }
-        //return super.timeActorForm(time, actor);
-        return this.conjugations[time.id][person.id];
+        person = gender;
       }
+      if (!_.isDefined(person)) {
+        person = actor;
+      }
+      return super.timeActorForm(time, person);
     }
 
     getPresentForms() {
