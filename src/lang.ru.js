@@ -17,6 +17,20 @@ define('lang.ru', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
       return this.root + this.keyVowel;
     }
 
+    timeActorForm(time, actor) {
+      var {person, gender} = actor;
+
+      if (_.isDefined(gender) && (time === Word.past)) {
+        return this.timeActorForm(time, gender);
+      } else {
+        if (!_.isDefined(person)) {
+          person = actor;
+        }
+        //return super.timeActorForm(time, actor);
+        return this.conjugations[time.id][person.id];
+      }
+    }
+
     getPresentForms() {
       var base = this.conjugationRoots.now;
 

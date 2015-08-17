@@ -17,10 +17,12 @@ define('test.util', ['lang', 'grammar'], function({PERSONS, GENDERS}, {Actor, Wo
                 });
               } else {
                 GENDERS.forEach(function(gender) {
-                  translation = timeForms[actor][gender];
                   describe(gender + ' gender', function() {
+                    var genderSpecificTranslation = timeForms[actor][gender];
+
                     it('should translate to ' + lang.name, function() {
-                      expect(lang.translateAction(new Actor(Word[actor], Word[gender]), action, Word[time])).toBe(translation);
+                      expect(lang.translateAction(new Actor(Word[actor], Word[gender]), action, Word[time]))
+                        .toBe(genderSpecificTranslation);
                     });
                   });
                 });
