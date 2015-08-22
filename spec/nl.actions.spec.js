@@ -391,5 +391,44 @@ define(['grammar', 'lang.nl', 'test.util'],
         they: 'konden'
       }
     });
+
+    shouldHaveActionForms(lang, Word.shine, {
+      now: {
+        I: 'schijn',
+        you: 'schijnt',
+        you_formal: 'schijnt',
+        he: 'schijnt',
+        she: 'schijnt',
+        it: 'schijnt',
+        we: 'schijnen',
+        you_plural_formal: 'schijnen',
+        you_plural: 'schijnen',
+        they: 'schijnen'
+      },
+      future: {
+        I: 'schijn',
+        you: 'schijnt',
+        you_formal: 'schijnt',
+        he: 'schijnt',
+        she: 'schijnt',
+        it: 'schijnt',
+        we: 'schijnen',
+        you_plural_formal: 'schijnen',
+        you_plural: 'schijnen',
+        they: 'schijnen'
+      },
+      past: {
+        I: 'scheen',
+        you: 'scheen',
+        you_formal: 'scheen',
+        he: 'scheen',
+        she: 'scheen',
+        it: 'scheen',
+        we: 'schenen',
+        you_plural_formal: 'schenen',
+        you_plural: 'schenen',
+        they: 'schenen'
+      }
+    });
   });
 });

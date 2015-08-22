@@ -391,5 +391,44 @@ define(['grammar', 'lang.en', 'test.util'],
         they: 'could'
       }
     });
+
+    shouldHaveActionForms(lang, Word.shine, {
+      now: {
+        I: 'shine',
+        you: 'shine',
+        you_formal: 'shine',
+        he: 'shines',
+        she: 'shines',
+        it: 'shines',
+        we: 'shine',
+        you_plural_formal: 'shine',
+        you_plural: 'shine',
+        they: 'shine'
+      },
+      future: {
+        I: 'will shine',
+        you: 'will shine',
+        you_formal: 'will shine',
+        he: 'will shine',
+        she: 'will shine',
+        it: 'will shine',
+        we: 'will shine',
+        you_plural_formal: 'will shine',
+        you_plural: 'will shine',
+        they: 'will shine'
+      },
+      past: {
+        I: 'shone',
+        you: 'shone',
+        you_formal: 'shone',
+        he: 'shone',
+        she: 'shone',
+        it: 'shone',
+        we: 'shone',
+        you_plural_formal: 'shone',
+        you_plural: 'shone',
+        they: 'shone'
+      }
+    });
   });
 });

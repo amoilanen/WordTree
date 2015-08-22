@@ -15,6 +15,7 @@ define('grammar', function() {
     'can',
     'look',
     'see',
+    'shine',
     'now',
     'future',
     'past',

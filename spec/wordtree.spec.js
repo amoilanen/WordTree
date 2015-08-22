@@ -404,13 +404,18 @@ define(['grammar',
     });
   });
 
-  //TODO: Some languages conjugate verbs differently depending on the gender, add _some_ examples to include gender
+  describe('some object is performing an action', function() {
+  });
+
+  //TODO: Some object (not a person) is performing action
   //TODO: Some languages have special suffixes to show that the action was performed on the object performing action itself
+  //TODO: Some action has been performed on an object
 
   //TODO: Some verbs cannot act as a main action with some subjugated action
   //TODO: Somebody _builds_ to sing (missing object in the sentence, completely different grammar structure?)
 
   //TODO: Description of some action ('sing loudly'), some words cannot be used as such descriptions
+  //TODO: Description of an object
 
   //TODO: Some action has been finished in the past/will be finished in the future, сделал vs. делал, deed vs. heb gedaan
   //have done/will have done

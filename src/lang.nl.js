@@ -176,6 +176,17 @@ define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
         }
       }
     }),
+    shine: new ActionTranslationNl({
+      root: 'schijn',
+      conjugationRoots: {
+        past: 'scheen'
+      },
+      conjugations: {
+        past: {
+          plural: 'schenen'
+        }
+      }
+    }),
     now: new Translation('nu'),
     future: new Translation('toekomst'),
     past: new Translation('verleden'),

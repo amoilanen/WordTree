@@ -98,6 +98,12 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
         past: 'could'
       }
     }),
+    shine: new ActionTranslationEn({
+      root: 'shine',
+      conjugations: {
+        past: 'shone'
+      }
+    }),
     now: new Translation('now'),
     future: new Translation('future'),
     past: new Translation('past'),
