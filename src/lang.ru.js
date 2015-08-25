@@ -218,6 +218,15 @@ define('lang.ru', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
         }
       }
     }),
+    shine: new ActionTranslationRu({
+      root: 'свет',
+      keyVowel: 'и',
+      conjugations: {
+        now: {
+          I: 'свечу'
+        }
+      }
+    }),
     now: new Translation('сейчас'),
     future: new Translation('будущее'),
     past: new Translation('прошлое'),

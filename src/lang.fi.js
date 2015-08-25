@@ -170,6 +170,13 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
         }
       }
     }),
+    shine: new ActionTranslationFi({
+      root: 'paist',
+      keyVowel: 'a',
+      conjugationRoots: {
+        past: 'paisto'
+      }
+    }),
     now: new Translation('nyt'),
     future: new Translation('tulevaisuus'),
     past: new Translation('menneisyys'),

@@ -471,5 +471,52 @@ define(['grammar', 'lang.ru', 'test.util'],
         they: 'могли'
       }
     });
+
+    shouldHaveActionForms(lang, Word.shine, {
+      now: {
+        I: 'свечу',
+        you: 'светишь',
+        you_formal: 'светите',
+        he: 'светит',
+        she: 'светит',
+        it: 'светит',
+        we: 'светим',
+        you_plural_formal: 'светите',
+        you_plural: 'светите',
+        they: 'светят'
+      },
+      future: {
+        I: 'буду светить',
+        you: 'будешь светить',
+        you_formal: 'будете светить',
+        he: 'будет светить',
+        she: 'будет светить',
+        it: 'будет светить',
+        we: 'будем светить',
+        you_plural_formal: 'будете светить',
+        you_plural: 'будете светить',
+        they: 'будут светить'
+      },
+      past: {
+        I: {
+          he: 'светил',
+          she: 'светила',
+          it: 'светило'
+        },
+        you: {
+          he: 'светил',
+          she: 'светила',
+          it: 'светило'
+        },
+        you_formal: 'светили',
+        he: 'светил',
+        she: 'светила',
+        it: 'светило',
+        we: 'светили',
+        you_plural_formal: 'светили',
+        you_plural: 'светили',
+        they: 'светили'
+      }
+    });
   });
 });

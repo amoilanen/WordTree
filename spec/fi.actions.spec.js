@@ -391,5 +391,44 @@ define(['grammar', 'lang.fi', 'test.util'],
         they: 'voisivat'
       }
     });
+
+    shouldHaveActionForms(lang, Word.shine, {
+      now: {
+        I: 'paistan',
+        you: 'paistat',
+        you_formal: 'paistat',
+        he: 'paistaa',
+        she: 'paistaa',
+        it: 'paistaa',
+        we: 'paistamme',
+        you_plural_formal: 'paistatte',
+        you_plural: 'paistatte',
+        they: 'paistavat'
+      },
+      future: {
+        I: 'paistan',
+        you: 'paistat',
+        you_formal: 'paistat',
+        he: 'paistaa',
+        she: 'paistaa',
+        it: 'paistaa',
+        we: 'paistamme',
+        you_plural_formal: 'paistatte',
+        you_plural: 'paistatte',
+        they: 'paistavat'
+      },
+      past: {
+        I: 'paistoin',
+        you: 'paistoit',
+        you_formal: 'paistoit',
+        he: 'paistoi',
+        she: 'paistoi',
+        it: 'paistoi',
+        we: 'paistoimme',
+        you_plural_formal: 'paistoitte',
+        you_plural: 'paistoitte',
+        they: 'paistoivat'
+      }
+    });
   });
 });
