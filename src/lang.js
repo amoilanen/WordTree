@@ -38,17 +38,17 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
 
   class Translation {
 
-    constructor(root, defaultForm, conjugations) {
-      this.root = root;
-      this.defaultForm = _.isDefined(defaultForm) ? defaultForm : root;
-      this.conjugations = conjugations;
+    constructor(form) {
+      this.form = form;
     }
   }
 
   class ActionTranslation extends Translation {
 
     constructor(opts) {
-      super(opts.root, opts.defaultForm);
+      super(opts.root);
+      this.root = opts.root;
+      this.defaultForm = _.isDefined(opts.defaultForm) ? opts.defaultForm : opts.root;
       this.opts = opts;
       this.conjugationRoots = opts.conjugationRoots || {};
       this.conjugations = opts.conjugations || {};
@@ -199,7 +199,7 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
     translateWord(word) {
       var translation = this.wordTranslations[word.id];
 
-      return translation ? translation.defaultForm : word.id;
+      return translation ? translation.form : word.id;
     }
 
     translateActor(actor) {

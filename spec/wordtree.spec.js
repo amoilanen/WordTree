@@ -404,13 +404,51 @@ define(['grammar',
     });
   });
 
-  describe('some object is performing an action', function() {
+  xdescribe('some object is performing an action', function() {
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.sun).
+        action(Word.shine).
+        time(Word.now).$,
+      [
+        [en, 'sun shines'],
+        [fi, 'aurinko paistaa'],
+        [nl, 'de zon schijnt'],
+        [ru, 'солнце светит']
+      ]
+    );
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.sun).
+        action(Word.shine).
+        time(Word.past).$,
+      [
+        [en, 'sun shone'],
+        [fi, 'aurinko paistoi'],
+        [nl, 'de zon scheen'],
+        [ru, 'солнце светило']
+      ]
+    );
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.sun).
+        action(Word.shine).
+        time(Word.future).$,
+      [
+        [en, 'sun will shine'],
+        [fi, 'aurinko paistaa'],
+        [nl, 'de zon schijnt'],
+        [ru, 'солнце будет светить']
+      ]
+    );
   });
+});
 
-  //TODO: Some object (not a person) is performing action
   //TODO: Some languages have special suffixes to show that the action was performed on the object performing action itself
   //TODO: Some action has been performed on an object
+  //TODO: Articles for words in English and Dutch. Some languages have articles: English, Dutch, some do not: Finnish, Russian
 
+  //TODO: Telling the other person to do something
   //TODO: Some verbs cannot act as a main action with some subjugated action
   //TODO: Somebody _builds_ to sing (missing object in the sentence, completely different grammar structure?)
 
@@ -503,5 +541,3 @@ define(['grammar',
     //TODO: Somebody is _going_ to do something
 
   //TODO: 'it can be used to' form
-  //TODO: Some languages have articles: English, Dutch, some do not: Finnish, Russian
-});
