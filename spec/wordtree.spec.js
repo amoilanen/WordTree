@@ -404,7 +404,7 @@ define(['grammar',
     });
   });
 
-  xdescribe('some object is performing an action', function() {
+  describe('some object is performing an action', function() {
     shouldTranslate(
       Sentence.$.
         actor(Word.sun).

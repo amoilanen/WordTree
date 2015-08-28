@@ -95,7 +95,7 @@ define('lang.ru', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
   }
 
   var translations = {
-    sun: new Translation('солнце'),
+    sun: new Translation('солнце', Word.it),
     sing: new ActionTranslationRu({
       root: 'п',
       keyVowel: 'е',

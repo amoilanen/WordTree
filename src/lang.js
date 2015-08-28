@@ -38,15 +38,18 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
 
   class Translation {
 
-    constructor(form) {
+    constructor(form, person) {
       this.form = form;
+      if (person) {
+        this.person = person;
+      }
     }
   }
 
   class ActionTranslation extends Translation {
 
     constructor(opts) {
-      super(opts.root);
+      super(opts.root, opts.person);
       this.root = opts.root;
       this.defaultForm = _.isDefined(opts.defaultForm) ? opts.defaultForm : opts.root;
       this.opts = opts;
@@ -213,6 +216,13 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
         secondaryAction = action.secondary;
         action = action.primary;
       }
+
+      //Handling the case when the actor is some object that can be viewed as a person
+      var actorTranslation = this.wordTranslations[actor.id];
+      if (_.isDefined(actorTranslation) && ('person' in actorTranslation)) {
+        actor = actorTranslation.person;
+      }
+
       var translation = this.wordTranslations[action.id];
 
       var result = translation && translation.conjugations ?

@@ -57,7 +57,7 @@ define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
   }
 
   var translations = {
-    sun: new Translation('zon'),
+    sun: new Translation('zon', Word.it),
     sing: new ActionTranslationNl({
       root: 'zing',
       conjugationRoots: {

@@ -37,7 +37,7 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
   }
 
   var translations = {
-    sun: new Translation('sun'),
+    sun: new Translation('sun', Word.it),
     sing: new ActionTranslationEn({
       root: 'sing',
       conjugations: {

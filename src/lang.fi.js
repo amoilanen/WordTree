@@ -50,7 +50,7 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
   }
 
   var translations = {
-    sun: new Translation('aurinko'),
+    sun: new Translation('aurinko', Word.it),
     sing: new ActionTranslationFi({
       root: 'laul',
       keyVowel: 'a',
