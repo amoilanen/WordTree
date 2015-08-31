@@ -69,3 +69,4 @@ Verbs irregular in one language may be not irregular in other languages? Is this
 18. Constructive proof that a meta-grammar/meta-language for the selected languages exists: the number of primitive grammatical constructs is finite and by defining how to combine them for any language and providing a means to accomodate the next grammatical construct from some language we can build the full meta-grammar/meta-language. Discuss how the next grammatical constructions can be accomodated.
 
 19. Languages tend to use same grammatical constructions for things as for persons when they are performing some actions
+20. Persons performing actions do not have articles in languages that allow article usage, most likely because it is concrete enough

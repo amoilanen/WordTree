@@ -202,7 +202,10 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
     }
 
     translateActor(actor) {
-      return '';
+      var actorTranslation = this.wordTranslations[actor.id];
+      var isNotAPerson = actorTranslation && ('person' in actorTranslation);
+
+      return isNotAPerson ? super.translateActor(actor) : '';
     }
   }
 

@@ -46,7 +46,7 @@ define(['grammar',
             [fi, 'laulan'],
             [nl, 'ik zing'],
             [ru, 'я пою']
-          ], true);
+          ]);
         });
 
         describe('you', function() {
@@ -447,6 +447,8 @@ define(['grammar',
   //TODO: Some languages have special suffixes to show that the action was performed on the object performing action itself
   //TODO: Some action has been performed on an object
   //TODO: Articles for words in English and Dutch. Some languages have articles: English, Dutch, some do not: Finnish, Russian
+  //-- Articles for Dutch
+  //-- Articles for English
 
   //TODO: Telling the other person to do something
   //TODO: Some verbs cannot act as a main action with some subjugated action

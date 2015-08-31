@@ -210,6 +210,16 @@ define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     constructor(translations) {
       super('Dutch', translations);
     }
+
+    translateActor(actor) {
+      var actorTranslation = this.wordTranslations[actor.id];
+      var isNotAPerson = actorTranslation && ('person' in actorTranslation);
+
+      //TODO: Determine the article
+      var article = isNotAPerson ? 'de' : '';
+
+      return `${article} ${super.translateActor(actor)}`;
+    }
   }
 
   return new Dutch(translations);
