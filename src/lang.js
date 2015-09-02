@@ -214,6 +214,12 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
       return actor instanceof Actor ? this.translateWord(actor.person) : this.translateWord(actor);
     }
 
+    isActualPerson(actor) {
+      var actorTranslation = this.wordTranslations[actor.id];
+
+      return !(actorTranslation instanceof ObjectTranslation);
+    }
+
     translateAction(actor, action, time) {
       var secondaryAction;
 

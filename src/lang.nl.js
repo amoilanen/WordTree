@@ -214,14 +214,13 @@ define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
       super('Dutch', translations);
     }
 
+    getArticle(object) {
+      //TODO: Implement getting the actual article
+      return 'de';
+    }
+
     translateActor(actor) {
-      var actorTranslation = this.wordTranslations[actor.id];
-      var isNotAPerson = actorTranslation && ('asActor' in actorTranslation);
-
-      //TODO: Determine the article
-      var article = isNotAPerson ? 'de' : '';
-
-      return `${article} ${super.translateActor(actor)}`;
+      return this.isActualPerson(actor) ? super.translateActor(actor) : `${this.getArticle(actor)} ${super.translateActor(actor)}`;
     }
   }
 

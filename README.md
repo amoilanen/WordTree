@@ -70,3 +70,4 @@ Verbs irregular in one language may be not irregular in other languages? Is this
 
 19. Languages tend to use same grammatical constructions for things as for persons when they are performing some actions
 20. Persons performing actions do not have articles in languages that allow article usage, most likely because it is concrete enough
+21. It is usually objects that have articles

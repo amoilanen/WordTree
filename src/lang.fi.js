@@ -205,10 +205,7 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
     }
 
     translateActor(actor) {
-      var actorTranslation = this.wordTranslations[actor.id];
-      var isNotAPerson = actorTranslation && ('asActor' in actorTranslation);
-
-      return isNotAPerson ? super.translateActor(actor) : '';
+      return this.isActualPerson(actor) ? '' : super.translateActor(actor);
     }
   }
 
