@@ -1,6 +1,6 @@
 define('lang.ru', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
 
-  var {ActionTranslation, Translation, Language, PERSONS, TENSES} = Lang;
+  var {Translation, Language, ActionTranslation, ObjectTranslation} = Lang;
   var {Word} = Grammar;
 
   class ActionTranslationRu extends ActionTranslation {
@@ -95,7 +95,10 @@ define('lang.ru', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
   }
 
   var translations = {
-    sun: new Translation('солнце', Word.it),
+    sun: new ObjectTranslation({
+      defaultForm: 'солнце',
+      asActor: Word.it
+    }),
     sing: new ActionTranslationRu({
       root: 'п',
       keyVowel: 'е',

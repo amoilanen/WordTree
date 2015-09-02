@@ -38,18 +38,23 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
 
   class Translation {
 
-    constructor(form, person) {
-      this.form = form;
-      if (person) {
-        this.person = person;
-      }
+    constructor(defaultForm) {
+      this.defaultForm = defaultForm;
+    }
+  }
+
+  class ObjectTranslation extends Translation {
+
+    constructor({defaultForm, asActor}) {
+      super(defaultForm);
+      this.asActor = asActor;
     }
   }
 
   class ActionTranslation extends Translation {
 
     constructor(opts) {
-      super(opts.root, opts.person);
+      super(opts.root);
       this.root = opts.root;
       this.defaultForm = _.isDefined(opts.defaultForm) ? opts.defaultForm : opts.root;
       this.opts = opts;
@@ -202,7 +207,7 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
     translateWord(word) {
       var translation = this.wordTranslations[word.id];
 
-      return translation ? translation.form : word.id;
+      return translation ? translation.defaultForm : word.id;
     }
 
     translateActor(actor) {
@@ -219,8 +224,8 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
 
       //Handling the case when the actor is some object that can be viewed as a person
       var actorTranslation = this.wordTranslations[actor.id];
-      if (_.isDefined(actorTranslation) && ('person' in actorTranslation)) {
-        actor = actorTranslation.person;
+      if (_.isDefined(actorTranslation) && ('asActor' in actorTranslation)) {
+        actor = actorTranslation.asActor;
       }
 
       var translation = this.wordTranslations[action.id];
@@ -239,6 +244,7 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
   return {
     ActionTranslation,
     Translation,
+    ObjectTranslation,
     Language,
     PERSONS,
     TENSES,

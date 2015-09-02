@@ -1,6 +1,6 @@
 define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
 
-  var {Translation, Language, ActionTranslation} = Lang;
+  var {Translation, Language, ActionTranslation, ObjectTranslation} = Lang;
   var {Word} = Grammar;
 
   class ActionTranslationNl extends ActionTranslation {
@@ -57,7 +57,10 @@ define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
   }
 
   var translations = {
-    sun: new Translation('zon', Word.it),
+    sun: new ObjectTranslation({
+      defaultForm: 'zon',
+      asActor: Word.it
+    }),
     sing: new ActionTranslationNl({
       root: 'zing',
       conjugationRoots: {
@@ -213,7 +216,7 @@ define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
 
     translateActor(actor) {
       var actorTranslation = this.wordTranslations[actor.id];
-      var isNotAPerson = actorTranslation && ('person' in actorTranslation);
+      var isNotAPerson = actorTranslation && ('asActor' in actorTranslation);
 
       //TODO: Determine the article
       var article = isNotAPerson ? 'de' : '';

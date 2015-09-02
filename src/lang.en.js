@@ -1,6 +1,6 @@
 define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
 
-  var {Translation, Language, ActionTranslation} = Lang;
+  var {Translation, Language, ActionTranslation, ObjectTranslation} = Lang;
   var {Word} = Grammar;
 
   class ActionTranslationEn extends ActionTranslation {
@@ -37,7 +37,10 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
   }
 
   var translations = {
-    sun: new Translation('sun', Word.it),
+    sun: new ObjectTranslation({
+      defaultForm: 'sun',
+      asActor: Word.it
+    }),
     sing: new ActionTranslationEn({
       root: 'sing',
       conjugations: {

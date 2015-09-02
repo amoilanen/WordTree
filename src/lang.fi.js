@@ -1,6 +1,6 @@
 define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
 
-  var {Translation, Language, ActionTranslation} = Lang;
+  var {Translation, Language, ActionTranslation, ObjectTranslation} = Lang;
   var {Word} = Grammar;
 
   class ActionTranslationFi extends ActionTranslation {
@@ -50,7 +50,10 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
   }
 
   var translations = {
-    sun: new Translation('aurinko', Word.it),
+    sun: new ObjectTranslation({
+      defaultForm: 'aurinko',
+      asActor: Word.it
+    }),
     sing: new ActionTranslationFi({
       root: 'laul',
       keyVowel: 'a',
@@ -203,7 +206,7 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
 
     translateActor(actor) {
       var actorTranslation = this.wordTranslations[actor.id];
-      var isNotAPerson = actorTranslation && ('person' in actorTranslation);
+      var isNotAPerson = actorTranslation && ('asActor' in actorTranslation);
 
       return isNotAPerson ? super.translateActor(actor) : '';
     }
