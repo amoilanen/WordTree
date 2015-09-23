@@ -442,10 +442,59 @@ define(['grammar',
       ]
     );
   });
+
+  describe('action directed at an object (subject)', function() {
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.I).
+        action(Action.$.
+                primary(Word.see).
+                subject(Word.sun).$
+              ).
+        time(Word.now).$,
+      [
+        [en, 'I see the sun'],
+        [fi, 'Näen auringon'],
+        [nl, 'Ik zie de zon'],
+        [ru, 'Я вижу солнце']
+      ]
+    );
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.I).
+        action(Action.$.
+                primary(Word.see).
+                subject(Word.you).$
+              ).
+        time(Word.past).$,
+      [
+        [en, 'I saw you'],
+        [fi, 'Näin sinut'],
+        [nl, 'Ik zag jij'],
+        [ru, 'Я видел тебя']
+      ]
+    );
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.you).
+        action(Action.$.
+                primary(Word.build).
+                subject(Word.it).$
+              ).
+        time(Word.future).$,
+      [
+        [en, 'You will build it'],
+        [fi, 'Rakentat tämän'],
+        [nl, 'Jij bouw dit'],
+        [ru, 'Ты построишь это']
+      ]
+    );
+  });
 });
 
-  //TODO: Some languages have special suffixes to show that the action was performed on the object performing action itself
-  //TODO: Some action has been performed on an object
+  //TODO: somebody is performing an action directed at themselves (custom case of an action performed on an object)
+    //Some languages have special suffixes to show that the action was performed on the object performing action itself
+  //TODO: 'that' in Russian can have also a gender attached to it
   //TODO: Articles for words in English and Dutch. Some languages have articles: English, Dutch, some do not: Finnish, Russian
   //-- Articles for Dutch
   //-- Articles for English
@@ -465,6 +514,7 @@ define(['grammar',
 
   //TODO: Change the package structure, so that language files do not get too large, smaller files are split from them and they reside in
   //in separate folders
+  //TODO: Extract common vocabulary from the Grammar class
 
   //TODO: Simple action 1, 2, 3 person singular present, subject, place, quality
   //TODO: Simple action 1, 2, 3 person multiple present, subject, place, quality
@@ -536,6 +586,9 @@ define(['grammar',
   //TODO: Questions about future time
 
   //TODO: Same object can be 'he' or 'it' in different languages, for example 'sun'/'zon'
+
+  //TODO: Complex sentences combined from two sentences
+  //TODO: Arbitrary level of nesting for sentences (3 or 4, recursion), although in practice would be rarely used
 
   //TODO: Idiom in one language, is there a nice way to represent an idiom in an abstract way?
   //May be related to the question of text equivalence and representing text as its meaning rather than its (even meta) structure.

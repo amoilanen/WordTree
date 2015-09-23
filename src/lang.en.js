@@ -122,7 +122,9 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     they: new Translation('they'),
     wet_snow_with_mud_and_ground: new Translation('snow'),
     snow_on_tree_branch: new Translation('snow'),
-    snow: new Translation('snow')
+    snow: new Translation('snow'),
+    this: new Translation('this'),
+    that: new Translation('that')
   };
 
   class English extends Language {

@@ -205,7 +205,9 @@ define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     they: new Translation('ze'),
     wet_snow_with_mud_and_ground: new Translation('sneeuw'),
     snow_on_tree_branch: new Translation('sneeuw'),
-    snow: new Translation('sneeuw')
+    snow: new Translation('sneeuw'),
+    this: new Translation('dit'),
+    that: new Translation('dat')
   };
 
   class Dutch extends Language {

@@ -31,7 +31,9 @@ define('grammar', function() {
     'they',
     'wet_snow_with_mud_and_ground',
     'snow_on_tree_branch',
-    'snow'
+    'snow',
+    'this',
+    'that'
   ];
 
   class Word {
@@ -86,16 +88,22 @@ define('grammar', function() {
       return this;
     }
 
+    subject(_subject) {
+      this._subject = _subject;
+      return this;
+    }
+
     get $() {
-      return new Action(this._primary, this._secondary);
+      return new Action(this._primary, this._secondary, this._subject);
     }
   }
 
   class Action {
 
-    constructor(primary, secondary) {
+    constructor(primary, secondary, subject) {
       this.primary = primary;
       this.secondary = secondary;
+      this.subject = subject;
     }
 
     static get $() {

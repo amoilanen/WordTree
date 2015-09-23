@@ -195,7 +195,9 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
     they: new Translation('ne'),
     wet_snow_with_mud_and_ground: new Translation('loska'),
     snow_on_tree_branch: new Translation('tykky'),
-    snow: new Translation('lumi')
+    snow: new Translation('lumi'),
+    this: new Translation('tämä'),
+    that: new Translation('että')
   };
 
   class Finnish extends Language {
