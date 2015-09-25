@@ -454,10 +454,10 @@ define(['grammar',
         time(Word.now).$,
       [
         [en, 'I see the sun'],
-        [fi, 'Näen auringon'],
-        [nl, 'Ik zie de zon'],
-        [ru, 'Я вижу солнце']
-      ]
+        [fi, 'näen auringon'],
+        [nl, 'ik zie de zon'],
+        [ru, 'я вижу солнце']
+      ], true
     );
     shouldTranslate(
       Sentence.$.
@@ -469,9 +469,9 @@ define(['grammar',
         time(Word.past).$,
       [
         [en, 'I saw you'],
-        [fi, 'Näin sinut'],
-        [nl, 'Ik zag jij'],
-        [ru, 'Я видел тебя']
+        [fi, 'näin sinut'],
+        [nl, 'ik zag jij'],
+        [ru, 'я видел тебя']
       ]
     );
     shouldTranslate(
@@ -483,10 +483,10 @@ define(['grammar',
               ).
         time(Word.future).$,
       [
-        [en, 'You will build it'],
-        [fi, 'Rakentat tämän'],
-        [nl, 'Jij bouw dit'],
-        [ru, 'Ты построишь это']
+        [en, 'you will build it'],
+        [fi, 'rakentat tämän'],
+        [nl, 'jij bouw dit'],
+        [ru, 'ты построишь это']
       ]
     );
   });
@@ -498,6 +498,9 @@ define(['grammar',
   //TODO: Articles for words in English and Dutch. Some languages have articles: English, Dutch, some do not: Finnish, Russian
   //-- Articles for Dutch
   //-- Articles for English
+
+  //TODO: Multiple number of something
+  //TODO: In Finnish multiple number of something can be different depending whether it is a definite thing or not
 
   //TODO: Telling the other person to do something
   //TODO: Some verbs cannot act as a main action with some subjugated action

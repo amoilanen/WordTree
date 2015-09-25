@@ -222,9 +222,12 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
 
     translateAction(actor, action, time) {
       var secondaryAction;
+      var actionSubject;
 
+      //If action is not a simple word
       if (!('id' in action)) {
         secondaryAction = action.secondary;
+        actionSubject = action.subject;
         action = action.primary;
       }
 
@@ -242,6 +245,9 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
       if (secondaryAction) {
         result = translation.subjugatingTimeActorForm(time, actor);
         result = result + ' ' + this.wordTranslations[secondaryAction.id].subjugatedActionForm();
+      }
+      if (actionSubject) {
+        result = result + ' ' + this.translateWord(actionSubject);
       }
       return result;
     }
