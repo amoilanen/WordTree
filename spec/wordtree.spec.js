@@ -588,6 +588,8 @@ define(['grammar',
   //TODO: Questions about past time
   //TODO: Questions about future time
 
+  //TODO: Logical constructs: or, and, neither, every, nobody, anybody
+
   //TODO: Same object can be 'he' or 'it' in different languages, for example 'sun'/'zon'
 
   //TODO: Complex sentences combined from two sentences
