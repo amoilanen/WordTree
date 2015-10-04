@@ -63,13 +63,9 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
     }
 
     conjugate() {
-      this.prepareToConjugate();
-      this.determineConjugations();
-    }
-
-    prepareToConjugate() {
       this.prepareConjugationRoots();
       this.expandExceptionalConjugations();
+      this.determineConjugations();
     }
 
     prepareConjugationRoots() {
@@ -119,27 +115,6 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
       });
     }
 
-    getFutureForms() {
-      if (this.opts.futureMatchesNow) {
-        return this.getPresentForms();
-      }
-    }
-
-    timeActorForm(time, actor) {
-      if (actor instanceof Actor) {
-        actor = actor.person;
-      }
-      return this.conjugations[time.id][actor.id];
-    }
-
-    subjugatingTimeActorForm(time, actor) {
-      return this.timeActorForm(time, actor);
-    }
-
-    subjugatedActionForm() {
-      return this.defaultForm;
-    }
-
     determineConjugations() {
       var result = {
         now: this.getPresentForms(),
@@ -147,6 +122,7 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
         past: this.getPastForms()
       };
 
+      //Override with the explicitly specified conjugations in case of irregular conjugations
       TENSES.forEach((time) => {
         PERSONS.forEach((person) => {
           if (_.isDefined(this.conjugations[time])) {
@@ -161,7 +137,28 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
       this.conjugations = result;
     }
 
-    allPersons(form) {
+    getFutureForms() {
+      if (this.opts.futureMatchesNow) {
+        return this.getPresentForms();
+      }
+    }
+
+    timeActorForm(time, actor) {
+      if (actor instanceof Actor) {
+        actor = actor.person;
+      }
+      return this.conjugations[time.id][actor.id];
+    }
+
+    asPrimaryTimeActorForm(time, actor) {
+      return this.timeActorForm(time, actor);
+    }
+
+    asSecondary() {
+      return this.defaultForm;
+    }
+
+    forAllPersons(form) {
       return {
         I: form,
         you: form,
@@ -176,9 +173,6 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
       };
     }
 
-    /**
-     * Default implementation, can be overriden by subclasses.
-     */
     getDefaultConjugationRoot() {
       return this.root;
     }
@@ -243,11 +237,11 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
         translation.timeActorForm(time, actor) : this.translateWord(action);
 
       if (secondaryAction) {
-        result = translation.subjugatingTimeActorForm(time, actor);
-        result = result + ' ' + this.wordTranslations[secondaryAction.id].subjugatedActionForm();
+        result = translation.asPrimaryTimeActorForm(time, actor);
+        result = `${result} ${this.wordTranslations[secondaryAction.id].asSecondary()}`;
       }
       if (actionSubject) {
-        result = result + ' ' + this.translateWord(actionSubject);
+        result = `${result} ${this.translateWord(actionSubject)}`;
       }
       return result;
     }

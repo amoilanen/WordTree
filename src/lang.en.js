@@ -8,13 +8,13 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     constructor(opts) {
       opts.defaultForm = opts.root;
       super(opts);
-      this.subjugationConnector = _.isDefined(this.opts.subjugationConnector) ?
-        this.opts.subjugationConnector : 'to';
+      this.dependentActionConnector = _.isDefined(this.opts.dependentActionConnector) ?
+        this.opts.dependentActionConnector : 'to';
       super.conjugate();
     }
 
     getPresentForms() {
-      return _.extend(this.allPersons(this.defaultForm), {
+      return _.extend(this.forAllPersons(this.defaultForm), {
         he: this.defaultForm + 's',
         she: this.defaultForm + 's',
         it: this.defaultForm + 's'
@@ -22,17 +22,15 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     }
 
     getFutureForms() {
-      return this.allPersons(`will ${this.defaultForm}`);
+      return this.forAllPersons(`will ${this.defaultForm}`);
     }
 
     getPastForms() {
-      return this.allPersons(`${this.defaultForm}ed`);
+      return this.forAllPersons(`${this.defaultForm}ed`);
     }
 
-    subjugatingTimeActorForm(time, actor) {
-      return _.isDefined(this.subjugationConnector) ?
-        [this.timeActorForm(time, actor), this.subjugationConnector].join(' ').trim() :
-        this.timeActorForm(time, actor);
+    asPrimaryTimeActorForm(time, actor) {
+      return `${this.timeActorForm(time, actor)} ${this.dependentActionConnector}`.trim();
     }
   }
 
@@ -94,7 +92,7 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     }),
     can: new ActionTranslationEn({
       root: 'can',
-      subjugationConnector: '',
+      dependentActionConnector: '',
       conjugations: {
         now: 'can',
         future: 'can',
