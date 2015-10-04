@@ -111,13 +111,6 @@ define('grammar', function() {
     }
   }
 
-  class Gender {
-
-    constructor(word) {
-      this.word = word;
-    }
-  }
-
   class Time {
 
     constructor(word) {
@@ -164,7 +157,6 @@ define('grammar', function() {
     Word: Word,
     Actor: Actor,
     Action: Action,
-    Gender: Gender,
     Time: Time,
     Sentence: Sentence
   };
