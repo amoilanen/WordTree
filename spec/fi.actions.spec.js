@@ -277,40 +277,40 @@ define(['grammar', 'lang.fi', 'test.util'],
 
     shouldHaveActionForms(lang, Word.see, {
       now: {
-        I: 'nähdän',
-        you: 'nähdät',
-        you_formal: 'nähdät',
-        he: 'nähdää',
-        she: 'nähdää',
-        it: 'nähdää',
-        we: 'nähdämme',
-        you_plural_formal: 'nähdätte',
-        you_plural: 'nähdätte',
-        they: 'nähdävät'
+        I: 'näen',
+        you: 'näet',
+        you_formal: 'näet',
+        he: 'näkee',
+        she: 'näkee',
+        it: 'näkee',
+        we: 'näemme',
+        you_plural_formal: 'näette',
+        you_plural: 'näette',
+        they: 'näkevät'
       },
       future: {
-        I: 'nähdän',
-        you: 'nähdät',
-        you_formal: 'nähdät',
-        he: 'nähdää',
-        she: 'nähdää',
-        it: 'nähdää',
-        we: 'nähdämme',
-        you_plural_formal: 'nähdätte',
-        you_plural: 'nähdätte',
-        they: 'nähdävät'
+        I: 'näen',
+        you: 'näet',
+        you_formal: 'näet',
+        he: 'näkee',
+        she: 'näkee',
+        it: 'näkee',
+        we: 'näemme',
+        you_plural_formal: 'näette',
+        you_plural: 'näette',
+        they: 'näkevät'
       },
       past: {
-        I: 'nähdin',
-        you: 'nähdit',
-        you_formal: 'nähdit',
-        he: 'nähdi',
-        she: 'nähdi',
-        it: 'nähdi',
-        we: 'nähdimme',
-        you_plural_formal: 'nähditte',
-        you_plural: 'nähditte',
-        they: 'nähdivät'
+        I: 'näin',
+        you: 'näit',
+        you_formal: 'näit',
+        he: 'näki',
+        she: 'näki',
+        it: 'näki',
+        we: 'näimme',
+        you_plural_formal: 'näitte',
+        you_plural: 'näitte',
+        they: 'näkivät'
       }
     });
 

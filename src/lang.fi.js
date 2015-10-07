@@ -142,15 +142,17 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
       }
     }),
     see: new ActionTranslationFi({
-      root: 'nähd',
+      root: 'nä',
       defaultForm: 'nähdä',
-      keyVowel: 'ä',
+      keyVowel: 'e',
       conjugations: {
         now: {
-          they: 'nähdävät'
+          he_she_it: 'näkee',
+          they: 'näkevät'
         },
         past: {
-          they: 'nähdivät'
+          he_she_it: 'näki',
+          they: 'näkivät'
         }
       }
     }),
