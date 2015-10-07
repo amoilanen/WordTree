@@ -1,7 +1,7 @@
 define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
 
   var {Translation, Language, ActionTranslation, ObjectTranslation} = Lang;
-  var {Word} = Grammar;
+  var {Actor, Word} = Grammar;
 
   class ActionTranslationFi extends ActionTranslation {
 
@@ -52,7 +52,8 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
   var translations = {
     sun: new ObjectTranslation({
       defaultForm: 'aurinko',
-      asActor: Word.it
+      asActor: Word.it,
+      asSubject: 'auringon'
     }),
     sing: new ActionTranslationFi({
       root: 'laul',
@@ -186,11 +187,19 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
     future: new Translation('tulevaisuus'),
     past: new Translation('menneisyys'),
     I: new Translation('minä'),
-    you: new Translation('sinä'),
+    you: new ObjectTranslation({
+      defaultForm: 'sinä',
+      asActor: Word.you,
+      asSubject: 'sinut'
+    }),
     you_formal: new Translation('sinä'),
     he: new Translation('hän'),
     she: new Translation('hän'),
-    it: new Translation('se'),
+    it: new ObjectTranslation({
+      defaultForm: 'se',
+      asActor: Word.it,
+      asSubject: 'sitä'
+    }),
     we: new Translation('me'),
     you_plural: new Translation('te'),
     you_plural_formal: new Translation('te'),
@@ -198,7 +207,11 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
     wet_snow_with_mud_and_ground: new Translation('loska'),
     snow_on_tree_branch: new Translation('tykky'),
     snow: new Translation('lumi'),
-    this: new Translation('tämä'),
+    this: new ObjectTranslation({
+      defaultForm: 'tämä',
+      asActor: Word.it,
+      asSubject: 'tämän'
+    }),
     that: new Translation('että')
   };
 
@@ -209,6 +222,9 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
     }
 
     translateActor(actor) {
+      if (actor instanceof Actor) {
+        actor = actor.person;
+      }
       return this.isActualPerson(actor) ? '' : super.translateActor(actor);
     }
   }

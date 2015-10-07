@@ -443,8 +443,7 @@ define(['grammar',
     );
   });
 
-  //TODO: Make the spec pass
-  xdescribe('action directed at an object (subject)', function() {
+  describe('action directed at an object (subject)', function() {
     shouldTranslate(
       Sentence.$.
         actor(Word.I).
@@ -485,7 +484,7 @@ define(['grammar',
         time(Word.future).$,
       [
         [en, 'you will build it'],
-        [fi, 'rakentat tämän'],
+        [fi, 'rakennat sitä'],
         [nl, 'jij bouw dit'],
         [ru, 'ты построишь это']
       ]
@@ -502,6 +501,10 @@ define(['grammar',
 
   //TODO: Multiple number of something
   //TODO: In Finnish multiple number of something can be different depending whether it is a definite thing or not
+
+  //TODO: Description of a word: 'bright sun'
+  //TODO: Description of a personal pronoun like: 'happy you'
+  //TODO: Description of an action: 'do fast', 'do slowly'
 
   //TODO: Telling the other person to do something
   //TODO: Some verbs cannot act as a main action with some subjugated action
@@ -602,5 +605,6 @@ define(['grammar',
     //TODO: Somebody is _going_ to do something
 
   //TODO: 'it can be used to' form
+  //TODO: Actions that act as objects/subjects. Compare 'do' -> 'doing'
 
   //TODO: Arbitrary level of nesting should be possible using the defined grammar so that arbitrarily complex sentences can be built

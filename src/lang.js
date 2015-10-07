@@ -45,9 +45,10 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
 
   class ObjectTranslation extends Translation {
 
-    constructor({defaultForm, asActor}) {
+    constructor({defaultForm, asActor, asSubject}) {
       super(defaultForm);
       this.asActor = asActor;
+      this.asSubject = asSubject;
     }
   }
 
@@ -208,10 +209,22 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
       return actor instanceof Actor ? this.translateWord(actor.person) : this.translateWord(actor);
     }
 
-    isActualPerson(actor) {
-      var actorTranslation = this.wordTranslations[actor.id];
+    translateActionSubject(word) {
+      var subjectTranslation = this.wordTranslations[word.id];
 
-      return !(actorTranslation instanceof ObjectTranslation);
+      if (subjectTranslation instanceof ObjectTranslation) {
+        if (_.isDefined(subjectTranslation)) {
+          return subjectTranslation.asSubject;
+        } else {
+          return subjectTranslation.defaultForm;
+        }
+      } else {
+        return this.translateWord(word);
+      }
+    }
+
+    isActualPerson(actor) {
+      return PERSONS.indexOf(actor.id) >= 0;
     }
 
     translateAction(actor, action, time) {
@@ -241,7 +254,7 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
         result = `${result} ${this.wordTranslations[secondaryAction.id].asSecondary()}`;
       }
       if (actionSubject) {
-        result = `${result} ${this.translateWord(actionSubject)}`;
+        result = `${result} ${this.translateActionSubject(actionSubject)}`;
       }
       return result;
     }
