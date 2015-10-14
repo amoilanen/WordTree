@@ -224,6 +224,9 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
     }
 
     isActualPerson(actor) {
+      if (actor.person) {
+        actor = actor.person;
+      }
       return PERSONS.indexOf(actor.id) >= 0;
     }
 

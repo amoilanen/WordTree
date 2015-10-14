@@ -222,9 +222,6 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
     }
 
     translateActor(actor) {
-      if (actor instanceof Actor) {
-        actor = actor.person;
-      }
       return this.isActualPerson(actor) ? '' : super.translateActor(actor);
     }
   }
