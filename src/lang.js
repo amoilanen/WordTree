@@ -48,6 +48,9 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
     constructor({defaultForm, asActor, asSubject}) {
       super(defaultForm);
       this.asActor = asActor;
+      if (!_.isDefined(asSubject)) {
+        asSubject = defaultForm;
+      }
       this.asSubject = asSubject;
     }
   }

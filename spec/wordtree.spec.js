@@ -499,6 +499,11 @@ define(['grammar',
   //-- Articles for Dutch
   //-- Articles for English
 
+  //TODO: Word cases in Russian: nominative, etc. "нет снега", "к снегу", "под снегом"
+  //TODO: Word cases in Finnish: 'ei lumia'
+
+  //TODO: "She looks at us", translation depending on the language
+
   //TODO: Multiple number of something
   //TODO: In Finnish multiple number of something can be different depending whether it is a definite thing or not
 
@@ -606,5 +611,7 @@ define(['grammar',
 
   //TODO: 'it can be used to' form
   //TODO: Actions that act as objects/subjects. Compare 'do' -> 'doing'
+
+  //TODO: Possesive pronouns, like 'my house', 'your house', etc.
 
   //TODO: Arbitrary level of nesting should be possible using the defined grammar so that arbitrarily complex sentences can be built

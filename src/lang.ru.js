@@ -233,16 +233,52 @@ define('lang.ru', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     now: new Translation('сейчас'),
     future: new Translation('будущее'),
     past: new Translation('прошлое'),
-    I: new Translation('я'),
-    you: new Translation('ты'),
-    you_formal: new Translation('вы'),
-    he: new Translation('он'),
-    she: new Translation('она'),
-    it: new Translation('оно'),
+    I: new ObjectTranslation({
+      defaultForm: 'я',
+      asActor: Word.I,
+      asSubject: 'меня'
+    }),
+    you: new ObjectTranslation({
+      defaultForm: 'ты',
+      asActor: Word.you,
+      asSubject: 'тебя'
+    }),
+    you_formal: new ObjectTranslation({
+      defaultForm: 'вы',
+      asActor: Word.you_formal,
+      asSubject: 'вас'
+    }),
+    he: new ObjectTranslation({
+      defaultForm: 'он',
+      asActor: Word.he,
+      asSubject: 'его'
+    }),
+    she: new ObjectTranslation({
+      defaultForm: 'она',
+      asActor: Word.she,
+      asSubject: 'её'
+    }),
+    it: new ObjectTranslation({
+      defaultForm: 'оно',
+      asActor: Word.it,
+      asSubject: 'это'
+    }),
     we: new Translation('мы'),
-    you_plural: new Translation('вы'),
-    you_plural_formal: new Translation('вы'),
-    they: new Translation('они'),
+    you_plural: new ObjectTranslation({
+      defaultForm: 'вы',
+      asActor: Word.you_plural,
+      asSubject: 'вас'
+    }),
+    you_plural_formal: new ObjectTranslation({
+      defaultForm: 'вы',
+      asActor: Word.you_plural_formal,
+      asSubject: 'вас'
+    }),
+    they: new ObjectTranslation({
+      defaultForm: 'они',
+      asActor: Word.they,
+      asSubject: 'их'
+    }),
     wet_snow_with_mud_and_ground: new Translation('снег'),
     snow_on_tree_branch: new Translation('снег'),
     snow: new Translation('снег'),
