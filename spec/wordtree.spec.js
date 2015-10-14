@@ -470,7 +470,7 @@ define(['grammar',
       [
         [en, 'I saw you'],
         [fi, 'näin sinut'],
-        [nl, 'ik zag jij'],
+        [nl, 'ik zag je'],
         [ru, 'я видел тебя']
       ]
     );
@@ -485,8 +485,8 @@ define(['grammar',
       [
         [en, 'you will build it'],
         [fi, 'rakennat sitä'],
-        [nl, 'jij bouw dit'],
-        [ru, 'ты построишь это']
+        [nl, 'je bouwt het'],
+        [ru, 'ты будешь строить это']
       ]
     );
   });
