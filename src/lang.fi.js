@@ -212,7 +212,9 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
       asActor: Word.it,
       asSubject: 'tämän'
     }),
-    that: new Translation('että')
+    that: new Translation('että'),
+    one: new Translation('yksi'),
+    one_of_some_kind: new Translation('yksi')
   };
 
   class Finnish extends Language {

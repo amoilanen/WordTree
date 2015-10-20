@@ -122,7 +122,9 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     snow_on_tree_branch: new Translation('snow'),
     snow: new Translation('snow'),
     this: new Translation('this'),
-    that: new Translation('that')
+    that: new Translation('that'),
+    one: new Translation('one'),
+    one_of_some_kind: new Translation('a')
   };
 
   class English extends Language {

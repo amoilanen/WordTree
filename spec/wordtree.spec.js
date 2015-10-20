@@ -3,7 +3,7 @@ define(['grammar',
         'lang.fi',
         'lang.nl',
         'lang.ru',
-        'test.util'], function({Word, Actor, Action, Time, Sentence}, en, fi, nl, ru, {shouldTranslate}) {
+        'test.util'], function({Word, Entity, Actor, Action, Time, Sentence}, en, fi, nl, ru, {shouldTranslate}) {
 
   describe('word', function() {
 
@@ -449,7 +449,7 @@ define(['grammar',
         actor(Word.I).
         action(Action.$.
                 primary(Word.see).
-                subject(Word.sun).$
+                subject(Entity.$(Word.sun).specifier(Word.this).$).$
               ).
         time(Word.now).$,
       [
@@ -492,12 +492,12 @@ define(['grammar',
   });
 });
 
+  //TODO: Articles for words in English and Dutch. Some languages have articles: English, Dutch, some do not: Finnish, Russian
+  //-- Articles for Dutch: definite, indefinite, plural form with articles
+  //-- Articles for English: definite, indefinite, plural form with articles
   //TODO: somebody is performing an action directed at themselves (custom case of an action performed on an object)
     //Some languages have special suffixes to show that the action was performed on the object performing action itself
   //TODO: 'that' in Russian can have also a gender attached to it
-  //TODO: Articles for words in English and Dutch. Some languages have articles: English, Dutch, some do not: Finnish, Russian
-  //-- Articles for Dutch
-  //-- Articles for English
 
   //TODO: Word cases in Russian: nominative, etc. "нет снега", "к снегу", "под снегом"
   //TODO: Word cases in Finnish: 'ei lumia'
@@ -612,6 +612,7 @@ define(['grammar',
   //TODO: 'it can be used to' form
   //TODO: Actions that act as objects/subjects. Compare 'do' -> 'doing'
 
+  //TODO: Numbers
   //TODO: Possesive pronouns, like 'my house', 'your house', etc.
 
   //TODO: Arbitrary level of nesting should be possible using the defined grammar so that arbitrarily complex sentences can be built

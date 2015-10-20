@@ -9,7 +9,7 @@
  */
 define('lang', ['grammar', 'util'], function(Grammar, _) {
 
-  var {Word, Actor, Action, Time, Sentence} = Grammar;
+  var {Word, Entity, Actor, Action, Time, Sentence} = Grammar;
 
   const PERSONS = [
     'I',
@@ -212,8 +212,12 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
       return actor instanceof Actor ? this.translateWord(actor.person) : this.translateWord(actor);
     }
 
-    translateActionSubject(word) {
-      var subjectTranslation = this.wordTranslations[word.id];
+    translateActionSubject(subject) {
+      var specifier;
+      if (subject instanceof Entity) {
+        subject = subject.word;
+      }
+      var subjectTranslation = this.wordTranslations[subject.id];
 
       if (subjectTranslation instanceof ObjectTranslation) {
         if (_.isDefined(subjectTranslation)) {
@@ -222,7 +226,7 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
           return subjectTranslation.defaultForm;
         }
       } else {
-        return this.translateWord(word);
+        return this.translateWord(subject);
       }
     }
 

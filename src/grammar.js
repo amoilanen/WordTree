@@ -33,13 +33,42 @@ define('grammar', function() {
     'snow_on_tree_branch',
     'snow',
     'this',
-    'that'
+    'that',
+    'one',
+    'one_of_some_kind'
   ];
 
   class Word {
 
     constructor(id) {
       this.id = id;
+    }
+  }
+
+  class Entity {
+    constructor(word, specifier) {
+      this.word = word;
+      this.specifier = specifier;
+    }
+
+    static $(_word) {
+      return new EntityBuilder(_word);
+    }
+  }
+
+  class EntityBuilder {
+
+    constructor(_word) {
+      this._word = _word;
+    }
+
+    specifier(_specifier) {
+      this._specifier = _specifier;
+      return this;
+    }
+
+    get $() {
+      return new Entity(this._word, this._specifier);
     }
   }
 
@@ -155,6 +184,7 @@ define('grammar', function() {
 
   return {
     Word: Word,
+    Entity: Entity,
     Actor: Actor,
     Action: Action,
     Time: Time,

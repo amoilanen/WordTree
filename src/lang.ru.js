@@ -283,7 +283,9 @@ define('lang.ru', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     snow_on_tree_branch: new Translation('снег'),
     snow: new Translation('снег'),
     this: new Translation('это'),
-    that: new Translation('то')
+    that: new Translation('то'),
+    one: new Translation('один'),
+    one_of_some_kind: new Translation('один')
   };
 
   class Russian extends Language {
