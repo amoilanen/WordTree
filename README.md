@@ -73,3 +73,4 @@ Verbs irregular in one language may be not irregular in other languages? Is this
 21. It is usually objects that have articles
 22. Human languages do not try to compress information as tightly as possible, some of it is excessively preserved
 23. Articles are really not some special constructs, just 'that', 'this', 'one' used so often that they change their form if they are used at all (compare Finnish and English).
+24. Human language as a way to compress information: just an encoding of the universal human language

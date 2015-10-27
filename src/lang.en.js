@@ -132,6 +132,19 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     constructor(translations) {
       super('English', translations);
     }
+
+    getArticle(specifier) {
+      if (specifier === Word.this || specifier === Word.that) {
+        return 'the';
+      }
+      if (specifier === Word.one) {
+        return 'a';
+      }
+    }
+
+    translateObject(object, specifier) {
+      return [this.getArticle(specifier), object].join(' ');
+    }
   }
 
   return new English(translations);

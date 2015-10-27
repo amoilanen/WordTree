@@ -495,6 +495,10 @@ define(['grammar',
   //TODO: Articles for words in English and Dutch. Some languages have articles: English, Dutch, some do not: Finnish, Russian
   //-- Articles for Dutch: definite, indefinite, plural form with articles
   //-- Articles for English: definite, indefinite, plural form with articles
+  //TODO: Difference I see this sun <-> I see the sun. Are they the same? Should we represent them differently?
+  //Same for I see a sun <-> I see one sun. Most likely we should distinguish them as in some languages the interpretation is different, i.e.
+  //some information is still communicated
+
   //TODO: somebody is performing an action directed at themselves (custom case of an action performed on an object)
     //Some languages have special suffixes to show that the action was performed on the object performing action itself
   //TODO: 'that' in Russian can have also a gender attached to it

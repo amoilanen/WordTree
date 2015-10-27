@@ -218,13 +218,26 @@ define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
       super('Dutch', translations);
     }
 
-    getArticle(object) {
-      //TODO: Implement getting the actual article
+    getArticleForObject(object) {
+      //TODO: Implement getting the actual article, should depend also on the specifier, merge with getArticle method
       return 'de';
     }
 
+    getArticle(specifier) {
+      if (specifier === Word.this || specifier === Word.that) {
+        return 'de';
+      }
+      if (specifier === Word.one) {
+        return 'een';
+      }
+    }
+
+    translateObject(object, specifier) {
+      return [this.getArticle(specifier), object].join(' ');
+    }
+
     translateActor(actor) {
-      return this.isActualPerson(actor) ? super.translateActor(actor) : `${this.getArticle(actor)} ${super.translateActor(actor)}`;
+      return this.isActualPerson(actor) ? super.translateActor(actor) : `${this.getArticleForObject(actor)} ${super.translateActor(actor)}`;
     }
   }
 

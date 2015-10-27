@@ -212,19 +212,20 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
       return actor instanceof Actor ? this.translateWord(actor.person) : this.translateWord(actor);
     }
 
+    translateObject(object, specifier) {
+      return object;
+    }
+
     translateActionSubject(subject) {
       var specifier;
       if (subject instanceof Entity) {
+        specifier = subject.specifier;
         subject = subject.word;
       }
       var subjectTranslation = this.wordTranslations[subject.id];
 
       if (subjectTranslation instanceof ObjectTranslation) {
-        if (_.isDefined(subjectTranslation)) {
-          return subjectTranslation.asSubject;
-        } else {
-          return subjectTranslation.defaultForm;
-        }
+        return this.translateObject(subjectTranslation.asSubject, specifier);
       } else {
         return this.translateWord(subject);
       }
