@@ -214,7 +214,10 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
     }),
     that: new Translation('että'),
     one: new Translation('yksi'),
-    one_of_some_kind: new Translation('yksi')
+    one_of_some_kind: new Translation('yksi'),
+    lake: new Translation('järvi'),
+    bird: new Translation('lintu'),
+    wolf: new Translation('susi')
   };
 
   class Finnish extends Language {

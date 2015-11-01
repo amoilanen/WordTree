@@ -124,7 +124,10 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     this: new Translation('this'),
     that: new Translation('that'),
     one: new Translation('one'),
-    one_of_some_kind: new Translation('a')
+    one_of_some_kind: new Translation('a'),
+    lake: new Translation('lake'),
+    bird: new Translation('bird'),
+    wolf: new Translation('wolf')
   };
 
   class English extends Language {

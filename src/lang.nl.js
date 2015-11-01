@@ -209,7 +209,10 @@ define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     this: new Translation('dit'),
     that: new Translation('dat'),
     one: new Translation('een'),
-    one_of_some_kind: new Translation('een')
+    one_of_some_kind: new Translation('een'),
+    lake: new Translation('meer'),
+    bird: new Translation('vogel'),
+    wolf: new Translation('wolf')
   };
 
   class Dutch extends Language {

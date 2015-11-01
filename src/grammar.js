@@ -35,7 +35,10 @@ define('grammar', function() {
     'this',
     'that',
     'one',
-    'one_of_some_kind'
+    'one_of_some_kind',
+    'lake',
+    'bird',
+    'wolf'
   ];
 
   class Word {

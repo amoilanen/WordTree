@@ -457,7 +457,7 @@ define(['grammar',
         [fi, 'näen auringon'],
         [nl, 'ik zie de zon'],
         [ru, 'я вижу солнце']
-      ], true
+      ]
     );
     shouldTranslate(
       Sentence.$.
@@ -490,11 +490,86 @@ define(['grammar',
       ]
     );
   });
+
+  describe('object with specifier: articles and plural case of words', function() {
+    shouldTranslate(
+      Entity.$(Word.sun).specifier(Word.this),
+      [
+        [en, 'the sun'],
+        [fi, 'aurinko'],
+        [nl, 'de zon'],
+        [ru, 'солнце']
+      ]
+    );
+    shouldTranslate(
+      Entity.$(Word.sun).specifier(Word.that),
+      [
+        [en, 'the sun'],
+        [fi, 'aurinko'],
+        [nl, 'de zon'],
+        [ru, 'солнце']
+      ]
+    );
+    shouldTranslate(
+      Entity.$(Word.lake).specifier(Word.this),
+      [
+        [en, 'the lake'],
+        [fi, 'järvi'],
+        [nl, 'het meer'],
+        [ru, 'озеро']
+      ]
+    );
+    shouldTranslate(
+      Entity.$(Word.sun).specifier(Word.one),
+      [
+        [en, 'a sun'],
+        [fi, 'aurinko'],
+        [nl, 'een zon'],
+        [ru, 'солнце']
+      ]
+    );
+    shouldTranslate(
+      Entity.$(Word.snow).specifier(Word.one),
+      [
+        [en, 'snow'],
+        [fi, 'lumi'],
+        [nl, 'sneeuw'],
+        [ru, 'снег']
+      ]
+    );
+    shouldTranslate(
+      Entity.$(Word.lake).specifier(Word.many),
+      [
+        [en, 'lakes'],
+        [fi, 'järviä'],
+        [nl, 'meren'],
+        [ru, 'озера']
+      ]
+    );
+    shouldTranslate(
+      Entity.$(Word.bird).specifier(Word.many),
+      [
+        [en, 'birds'],
+        [fi, 'lintuja'],
+        [nl, 'vogels'],
+        [ru, 'птицы']
+      ]
+    );
+    shouldTranslate(
+      Entity.$(Word.wolf).specifier(Word.many),
+      [
+        [en, 'wolves'],
+        [fi, 'susia'],
+        [nl, 'wolven'],
+        [ru, 'волки']
+      ]
+    );
+  });
 });
 
-  //TODO: Articles for words in English and Dutch. Some languages have articles: English, Dutch, some do not: Finnish, Russian
-  //-- Articles for Dutch: definite, indefinite, plural form with articles
-  //-- Articles for English: definite, indefinite, plural form with articles
+  //TODO: Multiple number of something
+  //TODO: In Finnish multiple number of something can be different depending whether it is a definite thing or not
+
   //TODO: Difference I see this sun <-> I see the sun. Are they the same? Should we represent them differently?
   //Same for I see a sun <-> I see one sun. Most likely we should distinguish them as in some languages the interpretation is different, i.e.
   //some information is still communicated
@@ -507,9 +582,6 @@ define(['grammar',
   //TODO: Word cases in Finnish: 'ei lumia'
 
   //TODO: "She looks at us", translation depending on the language
-
-  //TODO: Multiple number of something
-  //TODO: In Finnish multiple number of something can be different depending whether it is a definite thing or not
 
   //TODO: Description of a word: 'bright sun'
   //TODO: Description of a personal pronoun like: 'happy you'
@@ -620,3 +692,4 @@ define(['grammar',
   //TODO: Possesive pronouns, like 'my house', 'your house', etc.
 
   //TODO: Arbitrary level of nesting should be possible using the defined grammar so that arbitrarily complex sentences can be built
+  //TODO: Objects derived from actions, like 'building' -> 'building'

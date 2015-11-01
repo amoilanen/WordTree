@@ -285,7 +285,10 @@ define('lang.ru', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     this: new Translation('это'),
     that: new Translation('то'),
     one: new Translation('один'),
-    one_of_some_kind: new Translation('один')
+    one_of_some_kind: new Translation('один'),
+    lake: new Translation('озеро'),
+    bird: new Translation('птица'),
+    wolf: new Translation('волк')
   };
 
   class Russian extends Language {
