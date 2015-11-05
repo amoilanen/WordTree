@@ -491,7 +491,7 @@ define(['grammar',
     );
   });
 
-  describe('object with specifier: articles and plural case of words', function() {
+  xdescribe('object with specifier: articles and plural case of words', function() {
     shouldTranslate(
       Entity.$(Word.sun).specifier(Word.this),
       [

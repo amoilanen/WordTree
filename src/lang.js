@@ -73,7 +73,7 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
     }
 
     prepareConjugationRoots() {
-      TENSES.forEach((time) => {
+      TENSES.forEach(time => {
         if (!this.conjugationRoots[time]) {
           this.conjugationRoots[time] = this.getDefaultConjugationRoot();
         }
@@ -89,7 +89,7 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
     }
 
     expandExceptionalConjugations() {
-      TENSES.forEach((time) => {
+      TENSES.forEach(time => {
         if (_.isDefined(this.conjugations[time])) {
           var heSheItConjugation = this.conjugations[time]['he_she_it'];
 
@@ -127,8 +127,8 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
       };
 
       //Override with the explicitly specified conjugations in case of irregular conjugations
-      TENSES.forEach((time) => {
-        PERSONS.forEach((person) => {
+      TENSES.forEach(time => {
+        PERSONS.forEach(person => {
           if (_.isDefined(this.conjugations[time])) {
             if (typeof this.conjugations[time] === 'string') {
               result[time][person] = this.conjugations[time];
