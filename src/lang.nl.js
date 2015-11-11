@@ -235,7 +235,8 @@ define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
       }
     }
 
-    translateObject(object, specifier) {
+    translateObject(object, specifier, context) {
+      object = this.translateWord(object);
       return [this.getArticle(specifier), object].join(' ');
     }
 

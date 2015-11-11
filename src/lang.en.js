@@ -118,9 +118,21 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     you_plural: new Translation('you'),
     you_plural_formal: new Translation('you'),
     they: new Translation('they'),
-    wet_snow_with_mud_and_ground: new Translation('snow'),
-    snow_on_tree_branch: new Translation('snow'),
-    snow: new Translation('snow'),
+    wet_snow_with_mud_and_ground: new ObjectTranslation({
+      defaultForm: 'snow',
+      asActor: Word.it,
+      isCountable: false
+    }),
+    snow_on_tree_branch: new ObjectTranslation({
+      defaultForm: 'snow',
+      asActor: Word.it,
+      isCountable: false
+    }),
+    snow: new ObjectTranslation({
+      defaultForm: 'snow',
+      asActor: Word.it,
+      isCountable: false
+    }),
     this: new Translation('this'),
     that: new Translation('that'),
     one: new Translation('one'),
@@ -136,17 +148,24 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
       super('English', translations);
     }
 
-    getArticle(specifier) {
+    getArticle(specifier, objectTranslation) {
       if (specifier === Word.this || specifier === Word.that) {
         return 'the';
       }
-      if (specifier === Word.one) {
+      if ((specifier === Word.one) && objectTranslation.isCountable) {
         return 'a';
       }
     }
 
-    translateObject(object, specifier) {
-      return [this.getArticle(specifier), object].join(' ');
+    translateObject(object, specifier, context) {
+      var objectTranslation = this.wordTranslations[object.id];
+      var objectForm = this.translateWord(object, context);
+
+      if (specifier === Word.this || specifier === Word.that || specifier === Word.one) {
+        return [this.getArticle(specifier, objectTranslation), objectForm].join(' ').trim();
+      } else if (specifier === Word.many) {
+        return objectForm + 's';
+      }
     }
   }
 

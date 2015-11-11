@@ -491,9 +491,9 @@ define(['grammar',
     );
   });
 
-  xdescribe('object with specifier: articles and plural case of words', function() {
+  describe('object with specifier: articles and plural case of words', function() {
     shouldTranslate(
-      Entity.$(Word.sun).specifier(Word.this),
+      Entity.$(Word.sun).specifier(Word.this).$,
       [
         [en, 'the sun'],
         [fi, 'aurinko'],
@@ -502,7 +502,7 @@ define(['grammar',
       ]
     );
     shouldTranslate(
-      Entity.$(Word.sun).specifier(Word.that),
+      Entity.$(Word.sun).specifier(Word.that).$,
       [
         [en, 'the sun'],
         [fi, 'aurinko'],
@@ -511,7 +511,7 @@ define(['grammar',
       ]
     );
     shouldTranslate(
-      Entity.$(Word.lake).specifier(Word.this),
+      Entity.$(Word.lake).specifier(Word.this).$,
       [
         [en, 'the lake'],
         [fi, 'järvi'],
@@ -520,7 +520,7 @@ define(['grammar',
       ]
     );
     shouldTranslate(
-      Entity.$(Word.sun).specifier(Word.one),
+      Entity.$(Word.sun).specifier(Word.one).$,
       [
         [en, 'a sun'],
         [fi, 'aurinko'],
@@ -529,7 +529,7 @@ define(['grammar',
       ]
     );
     shouldTranslate(
-      Entity.$(Word.snow).specifier(Word.one),
+      Entity.$(Word.snow).specifier(Word.one).$,
       [
         [en, 'snow'],
         [fi, 'lumi'],
@@ -538,7 +538,7 @@ define(['grammar',
       ]
     );
     shouldTranslate(
-      Entity.$(Word.lake).specifier(Word.many),
+      Entity.$(Word.lake).specifier(Word.many).$,
       [
         [en, 'lakes'],
         [fi, 'järviä'],
@@ -547,7 +547,7 @@ define(['grammar',
       ]
     );
     shouldTranslate(
-      Entity.$(Word.bird).specifier(Word.many),
+      Entity.$(Word.bird).specifier(Word.many).$,
       [
         [en, 'birds'],
         [fi, 'lintuja'],
@@ -556,7 +556,7 @@ define(['grammar',
       ]
     );
     shouldTranslate(
-      Entity.$(Word.wolf).specifier(Word.many),
+      Entity.$(Word.wolf).specifier(Word.many).$,
       [
         [en, 'wolves'],
         [fi, 'susia'],
@@ -569,6 +569,9 @@ define(['grammar',
 
   //TODO: Multiple number of something
   //TODO: In Finnish multiple number of something can be different depending whether it is a definite thing or not
+  //TODO: Subject and multiple number of something
+
+  //TODO: Use type annotations? Analyze types?
 
   //TODO: Difference I see this sun <-> I see the sun. Are they the same? Should we represent them differently?
   //Same for I see a sun <-> I see one sun. Most likely we should distinguish them as in some languages the interpretation is different, i.e.

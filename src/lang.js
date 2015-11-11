@@ -45,13 +45,17 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
 
   class ObjectTranslation extends Translation {
 
-    constructor({defaultForm, asActor, asSubject}) {
+    constructor({defaultForm, asActor, asSubject, isCountable}) {
       super(defaultForm);
       this.asActor = asActor;
       if (!_.isDefined(asSubject)) {
         asSubject = defaultForm;
       }
       this.asSubject = asSubject;
+      if (!_.isDefined(isCountable)) {
+        isCountable = true;
+      }
+      this.isCountable = isCountable;
     }
   }
 
@@ -193,6 +197,11 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
       if (fragment instanceof Word) {
         return this.translateWord(fragment);
       }
+      if (fragment instanceof Entity) {
+        var {word, specifier} = fragment;
+
+        return this.translateObject(word, specifier);
+      }
 
       var {actor, action, time} = fragment;
 
@@ -202,20 +211,27 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
       ].join(' ').trim();
     }
 
-    translateWord(word) {
+    translateWord(word, context) {
+      context = context || {};
       var translation = this.wordTranslations[word.id];
 
-      return translation ? translation.defaultForm : word.id;
+      if (translation instanceof ObjectTranslation) {
+        return context.isSubject ? translation.asSubject : translation.defaultForm;
+      } else if (translation) {
+        return translation.defaultForm;
+      }
+      return word.id;
     }
 
     translateActor(actor) {
       return actor instanceof Actor ? this.translateWord(actor.person) : this.translateWord(actor);
     }
 
-    translateObject(object, specifier) {
-      return object;
+    translateObject(object, specifier, context) {
+      return this.translateWord(object, context);
     }
 
+    //TODO: Refactor and simplify this method
     translateActionSubject(subject) {
       var specifier;
       if (subject instanceof Entity) {
@@ -225,7 +241,7 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
       var subjectTranslation = this.wordTranslations[subject.id];
 
       if (subjectTranslation instanceof ObjectTranslation) {
-        return this.translateObject(subjectTranslation.asSubject, specifier);
+        return this.translateObject(subject, specifier, {isSubject: true});
       } else {
         return this.translateWord(subject);
       }
