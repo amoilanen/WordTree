@@ -205,39 +205,62 @@ define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     they: new Translation('ze'),
     wet_snow_with_mud_and_ground: new Translation('sneeuw'),
     snow_on_tree_branch: new Translation('sneeuw'),
-    snow: new Translation('sneeuw'),
+    snow: new ObjectTranslation({
+      defaultForm: 'sneeuw',
+      asActor: Word.it,
+      isCountable: false
+    }),
     this: new Translation('dit'),
     that: new Translation('dat'),
     one: new Translation('een'),
     one_of_some_kind: new Translation('een'),
-    lake: new Translation('meer'),
-    bird: new Translation('vogel'),
+    lake: new ObjectTranslation({
+      defaultForm: 'meer',
+      asActor: Word.it,
+      asSpecificObject: 'het',
+      asMany: 'meren'
+    }),
+    bird: new ObjectTranslation({
+      defaultForm: 'vogel',
+      asActor: Word.it,
+      asMany: 'vogels'
+    }),
     wolf: new Translation('wolf')
   };
 
+  //TODO: Create a separate class ObjectTranslationNl and move most of the logic now in the language class to their: mode modular and object-oriented
+  //TODO: Define the proper articles for all ObjectTranslation for Dutch
   class Dutch extends Language {
 
     constructor(translations) {
       super('Dutch', translations);
     }
 
+    //TODO: Do we need a separate method 'getArticleForObject'?
     getArticleForObject(object) {
       //TODO: Implement getting the actual article, should depend also on the specifier, merge with getArticle method
       return 'de';
     }
 
-    getArticle(specifier) {
+    getArticle(specifier, objectTranslation) {
       if (specifier === Word.this || specifier === Word.that) {
-        return 'de';
+        return _.isDefined(objectTranslation.asSpecificObject) ? objectTranslation.asSpecificObject : 'de';
       }
       if (specifier === Word.one) {
-        return 'een';
+        return objectTranslation.isCountable ? 'een' : '';
       }
+      return '';
     }
 
     translateObject(object, specifier, context) {
-      object = this.translateWord(object);
-      return [this.getArticle(specifier), object].join(' ');
+      var objectTranslation = this.wordTranslations[object.id];
+      var objectForm = this.translateWord(object, context);
+
+      if (specifier !== Word.many) {
+        return [this.getArticle(specifier, objectTranslation), objectForm].join(' ').trim();
+      } else {
+        return _.isDefined(objectTranslation.asMany) ? objectTranslation.asMany : `${objectForm}en`;
+      }
     }
 
     translateActor(actor) {

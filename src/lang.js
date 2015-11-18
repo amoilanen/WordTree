@@ -45,17 +45,18 @@ define('lang', ['grammar', 'util'], function(Grammar, _) {
 
   class ObjectTranslation extends Translation {
 
-    constructor({defaultForm, asActor, asSubject, isCountable}) {
-      super(defaultForm);
-      this.asActor = asActor;
-      if (!_.isDefined(asSubject)) {
-        asSubject = defaultForm;
+    constructor(opts) {
+      super(opts.defaultForm);
+      if (!_.isDefined(opts.asSubject)) {
+        opts.asSubject = opts.defaultForm;
       }
-      this.asSubject = asSubject;
-      if (!_.isDefined(isCountable)) {
-        isCountable = true;
+      if (!_.isDefined(opts.isCountable)) {
+        opts.isCountable = true;
       }
-      this.isCountable = isCountable;
+
+      Object.getOwnPropertyNames(opts).forEach(propertyName => {
+        this[propertyName] = opts[propertyName];
+      });
     }
   }
 

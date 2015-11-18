@@ -569,9 +569,10 @@ define(['grammar',
 
   //TODO: Multiple number of something
   //TODO: In Finnish multiple number of something can be different depending whether it is a definite thing or not
-  //TODO: Subject and multiple number of something
+  //TODO: Subject is used in multiple number
 
-  //TODO: Use type annotations? Analyze types?
+  //TODO: *Technical* Use type annotations? Analyze types? Like Typescript annotations or some experimental similar technology?
+  //TODO: *Technical* Re-factor the existing implementation, get rid of duplication, simplify, extract types
 
   //TODO: Difference I see this sun <-> I see the sun. Are they the same? Should we represent them differently?
   //Same for I see a sun <-> I see one sun. Most likely we should distinguish them as in some languages the interpretation is different, i.e.
