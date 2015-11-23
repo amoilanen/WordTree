@@ -571,6 +571,8 @@ define(['grammar',
   //TODO: In Finnish multiple number of something can be different depending whether it is a definite thing or not
   //TODO: Subject is used in multiple number
 
+  //TODO: Try to re-factor object translations depending on the specifier, extract rules specific for every language, should be similar to how verbs are conjugated
+
   //TODO: *Technical* Use type annotations? Analyze types? Like Typescript annotations or some experimental similar technology?
   //TODO: *Technical* Re-factor the existing implementation, get rid of duplication, simplify, extract types
 

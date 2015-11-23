@@ -1,4 +1,4 @@
-define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
+define('lang.fi', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
 
   var {Translation, Language, ActionTranslation, ObjectTranslation} = Lang;
   var {Actor, Word} = Grammar;
@@ -215,15 +215,37 @@ define('lang.fi', ['lang', 'grammar'], function(Lang, Grammar) {
     that: new Translation('että'),
     one: new Translation('yksi'),
     one_of_some_kind: new Translation('yksi'),
-    lake: new Translation('järvi'),
-    bird: new Translation('lintu'),
-    wolf: new Translation('susi')
+    lake: new ObjectTranslation({
+      defaultForm: 'järvi',
+      asActor: Word.it,
+      asMany: 'järviä'
+    }),
+    bird: new ObjectTranslation({
+      defaultForm: 'lintu',
+      asActor: Word.it,
+      asMany: 'lintuja'
+    }),
+    wolf: new ObjectTranslation({
+      defaultForm: 'susi',
+      asActor: Word.it,
+      asMany: 'susia'
+    })
   };
 
   class Finnish extends Language {
 
     constructor(translations) {
       super('Finnish', translations);
+    }
+
+    translateObject(object, specifier, context) {
+      var objectTranslation = this.wordTranslations[object.id];
+      var objectForm = this.translateWord(object, context);
+
+      if ((specifier === Word.many) && _.isDefined(objectTranslation.asMany)) {
+        return objectTranslation.asMany;
+      }
+      return objectForm;
     }
 
     translateActor(actor) {

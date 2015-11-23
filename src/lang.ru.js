@@ -286,15 +286,37 @@ define('lang.ru', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     that: new Translation('то'),
     one: new Translation('один'),
     one_of_some_kind: new Translation('один'),
-    lake: new Translation('озеро'),
-    bird: new Translation('птица'),
-    wolf: new Translation('волк')
+    lake: new ObjectTranslation({
+      defaultForm: 'озеро',
+      asActor: Word.he,
+      asMany: 'озера'
+    }),
+    bird: new ObjectTranslation({
+      defaultForm: 'птица',
+      asActor: Word.he,
+      asMany: 'птицы'
+    }),
+    wolf: new ObjectTranslation({
+      defaultForm: 'волк',
+      asActor: Word.he,
+      asMany: 'волки'
+    })
   };
 
   class Russian extends Language {
 
     constructor(translations) {
       super('Russian', translations);
+    }
+
+    translateObject(object, specifier, context) {
+      var objectTranslation = this.wordTranslations[object.id];
+      var objectForm = this.translateWord(object, context);
+
+      if ((specifier === Word.many) && _.isDefined(objectTranslation.asMany)) {
+        return objectTranslation.asMany;
+      }
+      return objectForm;
     }
   }
 

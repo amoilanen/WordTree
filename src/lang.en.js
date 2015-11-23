@@ -139,7 +139,11 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
     one_of_some_kind: new Translation('a'),
     lake: new Translation('lake'),
     bird: new Translation('bird'),
-    wolf: new Translation('wolf')
+    wolf: new ObjectTranslation({
+      defaultForm: 'wolf',
+      asActor: Word.it,
+      asMany: 'wolves'
+    })
   };
 
   class English extends Language {
@@ -164,6 +168,9 @@ define('lang.en', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
       if (specifier === Word.this || specifier === Word.that || specifier === Word.one) {
         return [this.getArticle(specifier, objectTranslation), objectForm].join(' ').trim();
       } else if (specifier === Word.many) {
+        if (_.isDefined(objectTranslation.asMany)) {
+          return objectTranslation.asMany;
+        }
         return objectForm + 's';
       }
     }

@@ -225,7 +225,11 @@ define('lang.nl', ['lang', 'grammar', 'util'], function(Lang, Grammar, _) {
       asActor: Word.it,
       asMany: 'vogels'
     }),
-    wolf: new Translation('wolf')
+    wolf: new ObjectTranslation({
+      defaultForm: 'wolf',
+      asActor: Word.it,
+      asMany: 'wolven'
+    })
   };
 
   //TODO: Create a separate class ObjectTranslationNl and move most of the logic now in the language class to their: mode modular and object-oriented
