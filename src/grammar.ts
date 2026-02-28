@@ -38,7 +38,18 @@ const VOCABULARY = [
   'lake',
   'bird',
   'wolf',
-  'many'
+  'many',
+  'be',
+  'bright',
+  'old',
+  'big',
+  'small',
+  'good',
+  'white',
+  'loudly',
+  'slowly',
+  'quickly',
+  'well'
 ] as const;
 
 export type VocabularyTerm = typeof VOCABULARY[number];
@@ -72,15 +83,21 @@ export declare namespace Word {
   export let snow_on_tree_branch: Word; export let snow: Word;
   export let that: Word; export let one: Word; export let one_of_some_kind: Word;
   export let lake: Word; export let bird: Word; export let wolf: Word; export let many: Word;
+  export let be: Word;
+  export let bright: Word; export let old: Word; export let big: Word;
+  export let small: Word; export let good: Word; export let white: Word;
+  export let loudly: Word; export let slowly: Word; export let quickly: Word; export let well: Word;
 }
 
 export class Entity {
   readonly word: Word;
   readonly specifier: Word | undefined;
+  readonly adjective: Word | undefined;
 
-  constructor(word: Word, specifier: Word | undefined) {
+  constructor(word: Word, specifier: Word | undefined, adjective?: Word) {
     this.word = word;
     this.specifier = specifier;
+    this.adjective = adjective;
   }
 
   static $(word: Word): EntityBuilder {
@@ -91,6 +108,7 @@ export class Entity {
 class EntityBuilder {
   private readonly _word: Word;
   private _specifier: Word | undefined;
+  private _adjective: Word | undefined;
 
   constructor(word: Word) {
     this._word = word;
@@ -101,8 +119,13 @@ class EntityBuilder {
     return this;
   }
 
+  adjective(adjective: Word): this {
+    this._adjective = adjective;
+    return this;
+  }
+
   get $(): Entity {
-    return new Entity(this._word, this._specifier);
+    return new Entity(this._word, this._specifier, this._adjective);
   }
 }
 
@@ -143,6 +166,9 @@ class ActionBuilder {
   private _primary: Word | undefined;
   private _secondary: Word | undefined;
   private _subject: Word | Entity | undefined;
+  private _negated: boolean = false;
+  private _adverb: Word | undefined;
+  private _adverbNegated: boolean = false;
 
   primary(primary: Word): this {
     this._primary = primary;
@@ -159,8 +185,21 @@ class ActionBuilder {
     return this;
   }
 
+  negated(): this {
+    this._negated = true;
+    return this;
+  }
+
+  adverb(adverb: Word, opts?: { negated?: boolean }): this {
+    this._adverb = adverb;
+    if (opts?.negated) {
+      this._adverbNegated = true;
+    }
+    return this;
+  }
+
   get $(): Action {
-    return new Action(this._primary!, this._secondary, this._subject);
+    return new Action(this._primary!, this._secondary, this._subject, this._negated, this._adverb, this._adverbNegated);
   }
 }
 
@@ -168,11 +207,17 @@ export class Action {
   readonly primary: Word;
   readonly secondary: Word | undefined;
   readonly subject: Word | Entity | undefined;
+  readonly negated: boolean;
+  readonly adverb: Word | undefined;
+  readonly adverbNegated: boolean;
 
-  constructor(primary: Word, secondary?: Word, subject?: Word | Entity) {
+  constructor(primary: Word, secondary?: Word, subject?: Word | Entity, negated: boolean = false, adverb?: Word, adverbNegated: boolean = false) {
     this.primary = primary;
     this.secondary = secondary;
     this.subject = subject;
+    this.negated = negated;
+    this.adverb = adverb;
+    this.adverbNegated = adverbNegated;
   }
 
   static get $(): ActionBuilder {

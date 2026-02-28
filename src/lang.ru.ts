@@ -1,4 +1,4 @@
-import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, Language, WordTranslations } from './lang';
+import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, AdjectiveTranslation, AdverbTranslation, Language, WordTranslations } from './lang';
 import { Word, Actor } from './grammar';
 import { isDefined, endsWith } from './util';
 
@@ -98,6 +98,14 @@ class ActionTranslationRu extends ActionTranslation {
       you_plural: `${base}ли`,
       they: `${base}ли`
     };
+  }
+
+  getNegatedTimeActorForm(time: Word, actor: Word | Actor): string {
+    return `не ${this.timeActorForm(time, actor)}`;
+  }
+
+  getNegatedPrimaryTimeActorForm(time: Word, actor: Word | Actor): string {
+    return `не ${this.timeActorForm(time, actor)}`;
   }
 }
 
@@ -237,6 +245,29 @@ const translations: WordTranslations = {
       }
     }
   }),
+  be: new ActionTranslationRu({
+    root: 'бы',
+    keyVowel: '',
+    defaultForm: 'быть',
+    conjugationRoots: {
+      past: 'бы'
+    },
+    conjugations: {
+      now: {
+        I: '', you: '', you_formal: '',
+        he: '', she: '', it: '',
+        we: '', you_plural: '', you_plural_formal: '',
+        they: ''
+      },
+      future: {
+        I: 'буду',
+        you: 'будешь', you_formal: 'будете',
+        he: 'будет', she: 'будет', it: 'будет',
+        we: 'будем', you_plural: 'будете', you_plural_formal: 'будете',
+        they: 'будут'
+      }
+    }
+  }),
   now: new Translation('сейчас'),
   future: new Translation('будущее'),
   past: new Translation('прошлое'),
@@ -295,19 +326,47 @@ const translations: WordTranslations = {
   one_of_some_kind: new Translation('один'),
   lake: new ObjectTranslation({
     defaultForm: 'озеро',
-    asActor: Word.he,
+    asActor: Word.it,
     asMany: 'озера'
   }),
   bird: new ObjectTranslation({
     defaultForm: 'птица',
-    asActor: Word.he,
+    asActor: Word.she,
     asMany: 'птицы'
   }),
   wolf: new ObjectTranslation({
     defaultForm: 'волк',
     asActor: Word.he,
     asMany: 'волки'
-  })
+  }),
+  bright: new AdjectiveTranslation({
+    defaultForm: 'яркий',
+    forms: { he: 'яркий', she: 'яркая', it: 'яркое', plural: 'яркие' }
+  }),
+  old: new AdjectiveTranslation({
+    defaultForm: 'старый',
+    forms: { he: 'старый', she: 'старая', it: 'старое', plural: 'старые' }
+  }),
+  big: new AdjectiveTranslation({
+    defaultForm: 'большой',
+    forms: { he: 'большой', she: 'большая', it: 'большое', plural: 'большие' }
+  }),
+  small: new AdjectiveTranslation({
+    defaultForm: 'маленький',
+    forms: { he: 'маленький', she: 'маленькая', it: 'маленькое', plural: 'маленькие' }
+  }),
+  good: new AdjectiveTranslation({
+    defaultForm: 'хороший',
+    forms: { he: 'хороший', she: 'хорошая', it: 'хорошее', plural: 'хорошие' }
+  }),
+  white: new AdjectiveTranslation({
+    defaultForm: 'белый',
+    forms: { he: 'белый', she: 'белая', it: 'белое', plural: 'белые' }
+  }),
+  loudly: new AdverbTranslation('громко'),
+  slowly: new AdverbTranslation('медленно'),
+  quickly: new AdverbTranslation('быстро'),
+  well: new AdverbTranslation('хорошо')
 };
 
 class Russian extends Language {
@@ -316,14 +375,40 @@ class Russian extends Language {
     super('Russian', translations);
   }
 
-  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean }): string {
+  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean; adjective?: Word }): string {
     const objectTranslation = this.wordTranslations[object.id] as ObjectTranslation;
     const objectForm = this.translateWord(object, context);
+    const adjectiveForm = context?.adjective ? this.translateAdjective(context.adjective, object) : undefined;
 
+    let nounForm: string;
     if ((specifier === Word.many) && isDefined(objectTranslation.asMany)) {
-      return objectTranslation.asMany as string;
+      nounForm = objectTranslation.asMany as string;
+    } else {
+      nounForm = objectForm;
     }
-    return objectForm;
+    return adjectiveForm ? `${adjectiveForm} ${nounForm}` : nounForm;
+  }
+
+  translateAdjective(adjective: Word, object?: Word): string {
+    const translation = this.wordTranslations[adjective.id];
+    if (translation instanceof AdjectiveTranslation && translation.forms && object) {
+      const objectTranslation = this.wordTranslations[object.id];
+      if (objectTranslation instanceof ObjectTranslation && objectTranslation.asActor) {
+        const gender = objectTranslation.asActor.id;
+        if (translation.forms[gender]) {
+          return translation.forms[gender];
+        }
+      }
+    }
+    return translation ? translation.defaultForm : adjective.id;
+  }
+
+  insertAdverb(verbPhrase: string, adverbForm: string): string {
+    return `${adverbForm} ${verbPhrase}`;
+  }
+
+  insertNegatedAdverb(verbPhrase: string, adverbForm: string): string {
+    return `не ${adverbForm} ${verbPhrase}`;
   }
 }
 

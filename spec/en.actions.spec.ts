@@ -395,6 +395,45 @@ describe('English action forms', function() {
     }
   });
 
+  shouldHaveActionForms(en, Word.be, {
+    now: {
+      I: 'am',
+      you: 'are',
+      you_formal: 'are',
+      he: 'is',
+      she: 'is',
+      it: 'is',
+      we: 'are',
+      you_plural_formal: 'are',
+      you_plural: 'are',
+      they: 'are'
+    },
+    future: {
+      I: 'will be',
+      you: 'will be',
+      you_formal: 'will be',
+      he: 'will be',
+      she: 'will be',
+      it: 'will be',
+      we: 'will be',
+      you_plural_formal: 'will be',
+      you_plural: 'will be',
+      they: 'will be'
+    },
+    past: {
+      I: 'was',
+      you: 'were',
+      you_formal: 'were',
+      he: 'was',
+      she: 'was',
+      it: 'was',
+      we: 'were',
+      you_plural_formal: 'were',
+      you_plural: 'were',
+      they: 'were'
+    }
+  });
+
   shouldHaveActionForms(en, Word.shine, {
     now: {
       I: 'shine',

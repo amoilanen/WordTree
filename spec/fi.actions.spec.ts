@@ -395,6 +395,45 @@ describe('Finnish action forms', function() {
     }
   });
 
+  shouldHaveActionForms(fi, Word.be, {
+    now: {
+      I: 'olen',
+      you: 'olet',
+      you_formal: 'olet',
+      he: 'on',
+      she: 'on',
+      it: 'on',
+      we: 'olemme',
+      you_plural_formal: 'olette',
+      you_plural: 'olette',
+      they: 'ovat'
+    },
+    future: {
+      I: 'olen',
+      you: 'olet',
+      you_formal: 'olet',
+      he: 'on',
+      she: 'on',
+      it: 'on',
+      we: 'olemme',
+      you_plural_formal: 'olette',
+      you_plural: 'olette',
+      they: 'ovat'
+    },
+    past: {
+      I: 'olin',
+      you: 'olit',
+      you_formal: 'olit',
+      he: 'oli',
+      she: 'oli',
+      it: 'oli',
+      we: 'olimme',
+      you_plural_formal: 'olitte',
+      you_plural: 'olitte',
+      they: 'olivat'
+    }
+  });
+
   shouldHaveActionForms(fi, Word.shine, {
     now: {
       I: 'paistan',

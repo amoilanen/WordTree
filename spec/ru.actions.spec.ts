@@ -475,6 +475,53 @@ describe('Russian action forms', function() {
     }
   });
 
+  shouldHaveActionForms(ru, Word.be, {
+    now: {
+      I: '',
+      you: '',
+      you_formal: '',
+      he: '',
+      she: '',
+      it: '',
+      we: '',
+      you_plural_formal: '',
+      you_plural: '',
+      they: ''
+    },
+    future: {
+      I: 'буду',
+      you: 'будешь',
+      you_formal: 'будете',
+      he: 'будет',
+      she: 'будет',
+      it: 'будет',
+      we: 'будем',
+      you_plural_formal: 'будете',
+      you_plural: 'будете',
+      they: 'будут'
+    },
+    past: {
+      I: {
+        he: 'был',
+        she: 'была',
+        it: 'было'
+      },
+      you: {
+        he: 'был',
+        she: 'была',
+        it: 'было'
+      },
+      you_formal: 'были',
+      he: 'был',
+      she: 'была',
+      it: 'было',
+      we: 'были',
+      you_plural_formal: 'были',
+      you_plural: 'были',
+      they: 'были'
+    }
+  });
+
   shouldHaveActionForms(ru, Word.shine, {
     now: {
       I: 'свечу',

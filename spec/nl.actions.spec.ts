@@ -395,6 +395,45 @@ describe('Dutch action forms', function() {
     }
   });
 
+  shouldHaveActionForms(nl, Word.be, {
+    now: {
+      I: 'ben',
+      you: 'bent',
+      you_formal: 'bent',
+      he: 'is',
+      she: 'is',
+      it: 'is',
+      we: 'zijn',
+      you_plural_formal: 'zijn',
+      you_plural: 'zijn',
+      they: 'zijn'
+    },
+    future: {
+      I: 'ben',
+      you: 'bent',
+      you_formal: 'bent',
+      he: 'is',
+      she: 'is',
+      it: 'is',
+      we: 'zijn',
+      you_plural_formal: 'zijn',
+      you_plural: 'zijn',
+      they: 'zijn'
+    },
+    past: {
+      I: 'was',
+      you: 'was',
+      you_formal: 'was',
+      he: 'was',
+      she: 'was',
+      it: 'was',
+      we: 'waren',
+      you_plural_formal: 'waren',
+      you_plural: 'waren',
+      they: 'waren'
+    }
+  });
+
   shouldHaveActionForms(nl, Word.shine, {
     now: {
       I: 'schijn',

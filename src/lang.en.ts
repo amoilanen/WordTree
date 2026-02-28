@@ -1,6 +1,8 @@
-import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, Language, WordTranslations } from './lang';
-import { Word } from './grammar';
+import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, AdjectiveTranslation, AdverbTranslation, Language, WordTranslations } from './lang';
+import { Word, Actor } from './grammar';
 import { isDefined, extend } from './util';
+
+const THIRD_PERSON_SINGULAR = ['he', 'she', 'it'];
 
 class ActionTranslationEn extends ActionTranslation {
 
@@ -28,8 +30,42 @@ class ActionTranslationEn extends ActionTranslation {
     return this.forAllPersons(`${this.defaultForm}ed`);
   }
 
-  asPrimaryTimeActorForm(time: Word, actor: Word | import('./grammar').Actor): string {
+  asPrimaryTimeActorForm(time: Word, actor: Word | Actor): string {
     return `${this.timeActorForm(time, actor)} ${this.opts.dependentActionConnector}`.trim();
+  }
+
+  private getPersonId(actor: Word | Actor): string {
+    return actor instanceof Actor ? actor.person.id : actor.id;
+  }
+
+  getNegatedTimeActorForm(time: Word, actor: Word | Actor): string {
+    if (this.opts.selfNegating) {
+      if (time === Word.future) return `will not ${this.defaultForm}`;
+      return `${this.timeActorForm(time, actor)} not`;
+    }
+    const personId = this.getPersonId(actor);
+    if (time === Word.future) return `will not ${this.defaultForm}`;
+    if (time === Word.past) return `did not ${this.defaultForm}`;
+    const doForm = THIRD_PERSON_SINGULAR.includes(personId) ? 'does' : 'do';
+    return `${doForm} not ${this.defaultForm}`;
+  }
+
+  getNegatedPrimaryTimeActorForm(time: Word, actor: Word | Actor): string {
+    if (this.opts.selfNegating) {
+      if (time === Word.future) {
+        const connector = this.opts.dependentActionConnector || '';
+        return `will not ${this.defaultForm} ${connector}`.trim();
+      }
+      const negated = `${this.timeActorForm(time, actor)} not`;
+      const connector = this.opts.dependentActionConnector || '';
+      return connector ? `${negated} ${connector}` : negated;
+    }
+    const personId = this.getPersonId(actor);
+    const connector = isDefined(this.opts.dependentActionConnector) ? this.opts.dependentActionConnector : 'to';
+    if (time === Word.future) return `will not ${this.defaultForm} ${connector}`.trim();
+    if (time === Word.past) return `did not ${this.defaultForm} ${connector}`.trim();
+    const doForm = THIRD_PERSON_SINGULAR.includes(personId) ? 'does' : 'do';
+    return `${doForm} not ${this.defaultForm} ${connector}`.trim();
   }
 }
 
@@ -92,6 +128,7 @@ const translations: WordTranslations = {
   can: new ActionTranslationEn({
     root: 'can',
     dependentActionConnector: '',
+    selfNegating: true,
     conjugations: {
       now: 'can',
       future: 'can',
@@ -102,6 +139,25 @@ const translations: WordTranslations = {
     root: 'shine',
     conjugations: {
       past: 'shone'
+    }
+  }),
+  be: new ActionTranslationEn({
+    root: 'be',
+    selfNegating: true,
+    conjugations: {
+      now: {
+        I: 'am',
+        you: 'are', you_formal: 'are',
+        he: 'is', she: 'is', it: 'is',
+        we: 'are', you_plural: 'are', you_plural_formal: 'are', they: 'are'
+      },
+      past: {
+        I: 'was',
+        you: 'were', you_formal: 'were',
+        he: 'was', she: 'was', it: 'was',
+        we: 'were', you_plural: 'were', you_plural_formal: 'were', they: 'were'
+      },
+      future: 'will be'
     }
   }),
   now: new Translation('now'),
@@ -136,13 +192,29 @@ const translations: WordTranslations = {
   that: new Translation('that'),
   one: new Translation('one'),
   one_of_some_kind: new Translation('a'),
-  lake: new Translation('lake'),
-  bird: new Translation('bird'),
+  lake: new ObjectTranslation({
+    defaultForm: 'lake',
+    asActor: Word.it
+  }),
+  bird: new ObjectTranslation({
+    defaultForm: 'bird',
+    asActor: Word.it
+  }),
   wolf: new ObjectTranslation({
     defaultForm: 'wolf',
     asActor: Word.it,
     asMany: 'wolves'
-  })
+  }),
+  bright: new AdjectiveTranslation({ defaultForm: 'bright' }),
+  old: new AdjectiveTranslation({ defaultForm: 'old' }),
+  big: new AdjectiveTranslation({ defaultForm: 'big' }),
+  small: new AdjectiveTranslation({ defaultForm: 'small' }),
+  good: new AdjectiveTranslation({ defaultForm: 'good' }),
+  white: new AdjectiveTranslation({ defaultForm: 'white' }),
+  loudly: new AdverbTranslation('loudly'),
+  slowly: new AdverbTranslation('slowly'),
+  quickly: new AdverbTranslation('quickly'),
+  well: new AdverbTranslation('well')
 };
 
 class English extends Language {
@@ -162,20 +234,19 @@ class English extends Language {
     return undefined;
   }
 
-  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean }): string {
+  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean; adjective?: Word }): string {
     const objectTranslation = this.wordTranslations[object.id] as ObjectTranslation;
     const objectForm = this.translateWord(object, context);
+    const adjectiveForm = context?.adjective ? this.translateAdjective(context.adjective, object) : undefined;
     const wordThis = (Word as unknown as Record<string, Word>)['this'];
 
     if (specifier === wordThis || specifier === Word.that || specifier === Word.one) {
-      return [this.getArticle(specifier, objectTranslation), objectForm].filter(Boolean).join(' ').trim();
+      return [this.getArticle(specifier, objectTranslation), adjectiveForm, objectForm].filter(Boolean).join(' ').trim();
     } else if (specifier === Word.many) {
-      if (isDefined(objectTranslation.asMany)) {
-        return objectTranslation.asMany as string;
-      }
-      return objectForm + 's';
+      const nounForm = isDefined(objectTranslation.asMany) ? objectTranslation.asMany as string : objectForm + 's';
+      return adjectiveForm ? `${adjectiveForm} ${nounForm}` : nounForm;
     }
-    return objectForm;
+    return adjectiveForm ? `${adjectiveForm} ${objectForm}` : objectForm;
   }
 }
 

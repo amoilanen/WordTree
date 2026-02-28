@@ -1,5 +1,5 @@
-import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, Language, WordTranslations } from './lang';
-import { Word } from './grammar';
+import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, AdjectiveTranslation, AdverbTranslation, Language, WordTranslations } from './lang';
+import { Word, Actor } from './grammar';
 import { isDefined } from './util';
 
 class ActionTranslationNl extends ActionTranslation {
@@ -52,6 +52,14 @@ class ActionTranslationNl extends ActionTranslation {
       you_plural: pluralForm,
       they: pluralForm
     };
+  }
+
+  getNegatedTimeActorForm(time: Word, actor: Word | Actor): string {
+    return `${this.timeActorForm(time, actor)} niet`;
+  }
+
+  getNegatedPrimaryTimeActorForm(time: Word, actor: Word | Actor): string {
+    return `${this.timeActorForm(time, actor)} niet`;
   }
 }
 
@@ -189,6 +197,26 @@ const translations: WordTranslations = {
       }
     }
   }),
+  be: new ActionTranslationNl({
+    root: 'zijn',
+    selfNegating: true,
+    conjugations: {
+      now: {
+        I: 'ben',
+        you: 'bent', you_formal: 'bent',
+        he: 'is', she: 'is', it: 'is',
+        we: 'zijn', you_plural: 'zijn', you_plural_formal: 'zijn',
+        they: 'zijn'
+      },
+      past: {
+        I: 'was',
+        you: 'was', you_formal: 'was',
+        he: 'was', she: 'was', it: 'was',
+        we: 'waren', you_plural: 'waren', you_plural_formal: 'waren',
+        they: 'waren'
+      }
+    }
+  }),
   now: new Translation('nu'),
   future: new Translation('toekomst'),
   past: new Translation('verleden'),
@@ -228,7 +256,17 @@ const translations: WordTranslations = {
     defaultForm: 'wolf',
     asActor: Word.it,
     asMany: 'wolven'
-  })
+  }),
+  bright: new AdjectiveTranslation({ defaultForm: 'fel', forms: { attributive: 'felle' } }),
+  old: new AdjectiveTranslation({ defaultForm: 'oud', forms: { attributive: 'oude' } }),
+  big: new AdjectiveTranslation({ defaultForm: 'groot', forms: { attributive: 'grote' } }),
+  small: new AdjectiveTranslation({ defaultForm: 'klein', forms: { attributive: 'kleine' } }),
+  good: new AdjectiveTranslation({ defaultForm: 'goed', forms: { attributive: 'goede' } }),
+  white: new AdjectiveTranslation({ defaultForm: 'wit', forms: { attributive: 'witte' } }),
+  loudly: new AdverbTranslation('hard'),
+  slowly: new AdverbTranslation('langzaam'),
+  quickly: new AdverbTranslation('snel'),
+  well: new AdverbTranslation('goed')
 };
 
 //TODO: Create a separate class ObjectTranslationNl and move most of the logic now in the language class to their: mode modular and object-oriented
@@ -256,15 +294,29 @@ class Dutch extends Language {
     return '';
   }
 
-  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean }): string {
+  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean; adjective?: Word }): string {
     const objectTranslation = this.wordTranslations[object.id] as ObjectTranslation;
     const objectForm = this.translateWord(object, context);
+    const adjectiveForm = context?.adjective ? this.translateAdjective(context.adjective, object) : undefined;
 
     if (specifier !== Word.many) {
-      return [this.getArticle(specifier, objectTranslation), objectForm].filter(s => s !== '').join(' ').trim();
+      return [this.getArticle(specifier, objectTranslation), adjectiveForm, objectForm].filter(s => s !== '' && s !== undefined).join(' ').trim();
     } else {
-      return isDefined(objectTranslation.asMany) ? objectTranslation.asMany as string : `${objectForm}en`;
+      const nounForm = isDefined(objectTranslation.asMany) ? objectTranslation.asMany as string : `${objectForm}en`;
+      return adjectiveForm ? `${adjectiveForm} ${nounForm}` : nounForm;
     }
+  }
+
+  translateAdjective(adjective: Word, _object?: Word): string {
+    const translation = this.wordTranslations[adjective.id];
+    if (translation instanceof AdjectiveTranslation && translation.forms?.attributive) {
+      return translation.forms.attributive;
+    }
+    return translation ? translation.defaultForm : adjective.id;
+  }
+
+  insertNegatedAdverb(verbPhrase: string, adverbForm: string): string {
+    return `${verbPhrase} niet ${adverbForm}`;
   }
 
   translateActor(actor: Word | import('./grammar').Actor): string {

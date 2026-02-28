@@ -1,18 +1,52 @@
-import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, Language, WordTranslations } from './lang';
+import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, AdjectiveTranslation, AdverbTranslation, Language, WordTranslations } from './lang';
 import { Word, Actor } from './grammar';
 import { isDefined } from './util';
 
-class ActionTranslationFi extends ActionTranslation {
+const NEGATIVE_AUX: Record<string, string> = {
+  I: 'en',
+  you: 'et',
+  you_formal: 'et',
+  he: 'ei',
+  she: 'ei',
+  it: 'ei',
+  we: 'emme',
+  you_plural: 'ette',
+  you_plural_formal: 'ette',
+  they: 'eivät'
+};
 
-  constructor(opts: ActionTranslationOpts & { keyVowel?: string }) {
+class ActionTranslationFi extends ActionTranslation {
+  private _pastParticiple: string;
+  private _negationStem: string | undefined;
+
+  constructor(opts: ActionTranslationOpts & { keyVowel?: string; pastParticiple?: string; negationStem?: string }) {
     opts.keyVowel = opts.keyVowel || '';
     opts.futureMatchesNow = true;
     super(opts);
+    this._pastParticiple = opts.pastParticiple || '';
+    this._negationStem = opts.negationStem;
     super.conjugate();
   }
 
   get keyVowel(): string {
     return this.opts.keyVowel || '';
+  }
+
+  get negationStem(): string {
+    return this._negationStem || (this.conjugationRoots.now + this.keyVowel);
+  }
+
+  getNegatedTimeActorForm(time: Word, actor: Word | Actor): string {
+    const personWord = actor instanceof Actor ? actor.person : actor;
+    const aux = NEGATIVE_AUX[personWord.id];
+    if (time === Word.past) {
+      return `${aux} ${this._pastParticiple}`;
+    }
+    return `${aux} ${this.negationStem}`;
+  }
+
+  getNegatedPrimaryTimeActorForm(time: Word, actor: Word | Actor): string {
+    return this.getNegatedTimeActorForm(time, actor);
   }
 
   getPresentForms(): Record<string, string> {
@@ -60,6 +94,7 @@ const translations: WordTranslations = {
     root: 'laul',
     keyVowel: 'a',
     defaultForm: 'laulaa',
+    pastParticiple: 'laulanut',
     conjugationRoots: {
       past: 'laulo'
     }
@@ -68,6 +103,7 @@ const translations: WordTranslations = {
     root: 'te',
     keyVowel: 'e',
     defaultForm: 'tehdä',
+    pastParticiple: 'tehnyt',
     conjugationRoots: {
       now: 'te',
       past: 'te'
@@ -87,6 +123,7 @@ const translations: WordTranslations = {
     root: 'men',
     keyVowel: 'e',
     defaultForm: 'mennä',
+    pastParticiple: 'mennyt',
     conjugations: {
       now: {
         they: 'menevät'
@@ -99,12 +136,14 @@ const translations: WordTranslations = {
   sew: new ActionTranslationFi({
     root: 'omel',
     defaultForm: 'omella',
-    keyVowel: 'e'
+    keyVowel: 'e',
+    pastParticiple: 'omellut'
   }),
   build: new ActionTranslationFi({
     root: 'raken',
     defaultForm: 'rakentaa',
     keyVowel: 'a',
+    pastParticiple: 'rakentanut',
     conjugationRoots: {
       now: 'rakenn',
       past: 'rakens'
@@ -120,6 +159,7 @@ const translations: WordTranslations = {
     root: 'an',
     defaultForm: 'antaa',
     keyVowel: 'a',
+    pastParticiple: 'antanut',
     conjugationRoots: {
       now: 'ann',
       past: 'anno'
@@ -139,6 +179,7 @@ const translations: WordTranslations = {
     root: 'kats',
     defaultForm: 'katsoa',
     keyVowel: 'o',
+    pastParticiple: 'katsonut',
     conjugationRoots: {
       past: 'katso'
     }
@@ -147,6 +188,7 @@ const translations: WordTranslations = {
     root: 'nä',
     defaultForm: 'nähdä',
     keyVowel: 'e',
+    pastParticiple: 'nähnyt',
     conjugations: {
       now: {
         he_she_it: 'näkee',
@@ -161,6 +203,7 @@ const translations: WordTranslations = {
   want: new ActionTranslationFi({
     root: 'halu',
     keyVowel: 'a',
+    pastParticiple: 'halunnut',
     conjugationRoots: {
       past: 'halus'
     }
@@ -168,6 +211,7 @@ const translations: WordTranslations = {
   can: new ActionTranslationFi({
     root: 'vo',
     keyVowel: 'i',
+    pastParticiple: 'voinut',
     conjugationRoots: {
       past: 'vois'
     },
@@ -180,8 +224,32 @@ const translations: WordTranslations = {
   shine: new ActionTranslationFi({
     root: 'paist',
     keyVowel: 'a',
+    pastParticiple: 'paistanut',
     conjugationRoots: {
       past: 'paisto'
+    }
+  }),
+  be: new ActionTranslationFi({
+    root: 'ol',
+    keyVowel: 'e',
+    defaultForm: 'olla',
+    pastParticiple: 'ollut',
+    negationStem: 'ole',
+    conjugations: {
+      now: {
+        I: 'olen',
+        you: 'olet', you_formal: 'olet',
+        he: 'on', she: 'on', it: 'on',
+        we: 'olemme', you_plural: 'olette', you_plural_formal: 'olette',
+        they: 'ovat'
+      },
+      past: {
+        I: 'olin',
+        you: 'olit', you_formal: 'olit',
+        he: 'oli', she: 'oli', it: 'oli',
+        we: 'olimme', you_plural: 'olitte', you_plural_formal: 'olitte',
+        they: 'olivat'
+      }
     }
   }),
   now: new Translation('nyt'),
@@ -230,7 +298,17 @@ const translations: WordTranslations = {
     defaultForm: 'susi',
     asActor: Word.it,
     asMany: 'susia'
-  })
+  }),
+  bright: new AdjectiveTranslation({ defaultForm: 'kirkas' }),
+  old: new AdjectiveTranslation({ defaultForm: 'vanha' }),
+  big: new AdjectiveTranslation({ defaultForm: 'suuri' }),
+  small: new AdjectiveTranslation({ defaultForm: 'pieni' }),
+  good: new AdjectiveTranslation({ defaultForm: 'hyvä' }),
+  white: new AdjectiveTranslation({ defaultForm: 'valkoinen' }),
+  loudly: new AdverbTranslation('kovaa'),
+  slowly: new AdverbTranslation('hitaasti'),
+  quickly: new AdverbTranslation('nopeasti'),
+  well: new AdverbTranslation('hyvin')
 };
 
 class Finnish extends Language {
@@ -239,14 +317,22 @@ class Finnish extends Language {
     super('Finnish', translations);
   }
 
-  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean }): string {
+  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean; adjective?: Word }): string {
     const objectTranslation = this.wordTranslations[object.id] as ObjectTranslation;
     const objectForm = this.translateWord(object, context);
+    const adjectiveForm = context?.adjective ? this.translateAdjective(context.adjective, object) : undefined;
 
+    let nounForm: string;
     if ((specifier === Word.many) && isDefined(objectTranslation.asMany)) {
-      return objectTranslation.asMany as string;
+      nounForm = objectTranslation.asMany as string;
+    } else {
+      nounForm = objectForm;
     }
-    return objectForm;
+    return adjectiveForm ? `${adjectiveForm} ${nounForm}` : nounForm;
+  }
+
+  insertNegatedAdverb(verbPhrase: string, adverbForm: string): string {
+    return `${verbPhrase} ei ${adverbForm}`;
   }
 
   translateActor(actor: Word | Actor): string {
