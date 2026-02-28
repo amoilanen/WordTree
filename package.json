@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "description": "Experiment in building formalized common grammar and vocabulary meta-representation for several languages",
+  "type": "module",
   "files": [
     "LICENSE",
     "README.md"
@@ -18,21 +19,12 @@
     "url": "https://github.com/antivanov/WordTree/issues"
   },
   "homepage": "https://github.com/antivanov/WordTree",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-babel": "^5.0.1",
-    "grunt-cli": "^0.1.13",
-    "grunt-contrib-jshint": "^0.11.2",
-    "grunt-karma": "^0.11.0",
-    "jasmine-core": "^2.3.4",
-    "karma": "^0.12.36",
-    "karma-firefox-launcher": "^0.1.6",
-    "karma-jasmine": "^0.3.5",
-    "karma-phantomjs-launcher": "^0.2.0",
-    "karma-requirejs": "^0.2.2",
-    "karma-spec-reporter": "0.0.19",
-    "load-grunt-tasks": "^3.2.0",
-    "phantomjs": "^1.9.17",
-    "requirejs": "^2.1.18"
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
   }
 }
