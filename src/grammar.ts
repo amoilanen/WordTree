@@ -56,20 +56,22 @@ VOCABULARY.forEach(term => {
 });
 
 // Declaration merging: adds typed static vocabulary properties to the Word class.
+// Both the namespace and its members must be exported for the merge to apply to
+// the exported class type and be visible to consumers of this module.
 // Reserved words 'do' and 'this' cannot appear in a namespace declaration;
-// access those with (Word as any).do / (Word as any)['this'] where needed.
-declare namespace Word {
-  let sun: Word; let sing: Word; let go: Word; let sew: Word;
-  let build: Word; let give: Word; let want: Word; let can: Word;
-  let look: Word; let see: Word; let shine: Word;
-  let now: Word; let future: Word; let past: Word;
-  let I: Word; let you: Word; let you_formal: Word;
-  let he: Word; let she: Word; let it: Word; let we: Word;
-  let you_plural: Word; let you_plural_formal: Word; let they: Word;
-  let wet_snow_with_mud_and_ground: Word;
-  let snow_on_tree_branch: Word; let snow: Word;
-  let that: Word; let one: Word; let one_of_some_kind: Word;
-  let lake: Word; let bird: Word; let wolf: Word; let many: Word;
+// access those with (Word as unknown as Record<string, Word>)['do'] etc.
+export declare namespace Word {
+  export let sun: Word; export let sing: Word; export let go: Word; export let sew: Word;
+  export let build: Word; export let give: Word; export let want: Word; export let can: Word;
+  export let look: Word; export let see: Word; export let shine: Word;
+  export let now: Word; export let future: Word; export let past: Word;
+  export let I: Word; export let you: Word; export let you_formal: Word;
+  export let he: Word; export let she: Word; export let it: Word; export let we: Word;
+  export let you_plural: Word; export let you_plural_formal: Word; export let they: Word;
+  export let wet_snow_with_mud_and_ground: Word;
+  export let snow_on_tree_branch: Word; export let snow: Word;
+  export let that: Word; export let one: Word; export let one_of_some_kind: Word;
+  export let lake: Word; export let bird: Word; export let wolf: Word; export let many: Word;
 }
 
 export class Entity {
