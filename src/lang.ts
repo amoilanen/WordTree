@@ -7,7 +7,7 @@
  * is to be translated into that language
  *
  */
-import { Word, Entity, Actor, Action, Sentence } from './grammar';
+import { Word, Entity, Actor, Action, Sentence, PrepositionalPhrase, CompoundSentence } from './grammar';
 import { isDefined } from './util';
 
 export const PERSONS = [
@@ -58,6 +58,7 @@ export interface ActionTranslationOpts {
   futureMatchesNow?: boolean;
   dependentActionConnector?: string;
   selfNegating?: boolean;
+  imperative?: string;
 }
 
 export class Translation {
@@ -115,6 +116,20 @@ export class AdjectiveTranslation extends Translation {
 export class AdverbTranslation extends Translation {
   constructor(defaultForm: string) {
     super(defaultForm);
+  }
+}
+
+export interface PrepositionTranslationOpts {
+  defaultForm: string;
+  governedCase?: string;
+}
+
+export class PrepositionTranslation extends Translation {
+  governedCase?: string;
+
+  constructor(opts: PrepositionTranslationOpts) {
+    super(opts.defaultForm);
+    this.governedCase = opts.governedCase;
   }
 }
 
@@ -279,9 +294,10 @@ export type WordTranslations = Record<string, TranslationValue>;
 type TranslateContext = {
   isSubject?: boolean;
   adjective?: Word;
+  possessor?: Word;
 };
 
-type Fragment = Word | Entity | Sentence;
+type Fragment = Word | Entity | Sentence | CompoundSentence;
 
 export class Language {
   name: string;
@@ -293,15 +309,22 @@ export class Language {
   }
 
   translate(fragment: Fragment): string {
+    if (fragment instanceof CompoundSentence) {
+      return this.translateCompoundSentence(fragment);
+    }
     if (fragment instanceof Word) {
       return this.translateWord(fragment);
     }
     if (fragment instanceof Entity) {
-      const { word, specifier, adjective } = fragment;
-      return this.translateObject(word, specifier, { adjective });
+      const { word, specifier, adjective, possessor } = fragment;
+      return this.translateObject(word, specifier, { adjective, possessor });
     }
 
     const { actor, action, time } = fragment as Sentence;
+
+    if (time === Word.imperative) {
+      return this.translateAction(actor, action, time).trim();
+    }
 
     return [
       this.translateActor(actor),
@@ -327,7 +350,12 @@ export class Language {
   translateObject(object: Word, specifier: Word | undefined, context?: TranslateContext): string {
     const objectForm = this.translateWord(object, context);
     const adjectiveForm = context?.adjective ? this.translateAdjective(context.adjective, object) : undefined;
-    return adjectiveForm ? `${adjectiveForm} ${objectForm}` : objectForm;
+    const possessiveForm = context?.possessor ? this.translatePossessive(context.possessor, object) : undefined;
+    return [possessiveForm, adjectiveForm, objectForm].filter(Boolean).join(' ');
+  }
+
+  translatePossessive(possessor: Word, _object?: Word): string {
+    return this.translateWord(possessor);
   }
 
   translateAdjective(adjective: Word, _object?: Word): string {
@@ -342,10 +370,12 @@ export class Language {
   translateActionSubject(subject: Word | Entity): string {
     let specifier: Word | undefined;
     let adjective: Word | undefined;
+    let possessor: Word | undefined;
     let subjectWord: Word;
     if (subject instanceof Entity) {
       specifier = subject.specifier;
       adjective = subject.adjective;
+      possessor = subject.possessor;
       subjectWord = subject.word;
     } else {
       subjectWord = subject;
@@ -353,7 +383,7 @@ export class Language {
     const subjectTranslation = this.wordTranslations[subjectWord.id];
 
     if (subjectTranslation instanceof ObjectTranslation) {
-      return this.translateObject(subjectWord, specifier, { isSubject: true, adjective });
+      return this.translateObject(subjectWord, specifier, { isSubject: true, adjective, possessor });
     } else {
       return this.translateWord(subjectWord);
     }
@@ -369,7 +399,24 @@ export class Language {
     return translation ? translation.defaultForm : adverb.id;
   }
 
+  translateImperative(action: Word | Action, _actor: Word | Actor): string {
+    const primaryAction = action instanceof Action ? action.primary : action;
+    const isNegated = action instanceof Action ? action.negated : false;
+    const actionSubject = action instanceof Action ? action.subject : undefined;
+    const translation = this.wordTranslations[primaryAction.id] as ActionTranslation;
+    const form = translation?.opts?.imperative || translation?.defaultForm || this.translateWord(primaryAction);
+    let result = isNegated ? `not ${form}` : form;
+    if (actionSubject) {
+      result = `${result} ${this.translateActionSubject(actionSubject)}`;
+    }
+    return result;
+  }
+
   translateAction(actor: Word | Actor, action: Word | Action, time: Word): string {
+    if (time === Word.imperative) {
+      return this.translateImperative(action, actor);
+    }
+
     let secondaryAction: Word | undefined;
     let actionSubject: Word | Entity | undefined;
     let primaryAction: Word;
@@ -422,7 +469,28 @@ export class Language {
     if (actionSubject) {
       result = `${result} ${this.translateActionSubject(actionSubject)}`;
     }
+    if (action instanceof Action && action.prepositionalPhrase) {
+      result = `${result} ${this.translatePrepositionalPhrase(action.prepositionalPhrase)}`;
+    }
     return result;
+  }
+
+  translatePrepositionalPhrase(pp: PrepositionalPhrase): string {
+    const prepForm = this.translateWord(pp.preposition);
+    let objectForm: string;
+    if (pp.object instanceof Entity) {
+      const { word, specifier, adjective, possessor } = pp.object;
+      objectForm = this.translateObject(word, specifier, { adjective, possessor });
+    } else {
+      objectForm = this.translateWord(pp.object);
+    }
+    return `${prepForm} ${objectForm}`;
+  }
+
+  translateCompoundSentence(compound: CompoundSentence): string {
+    const coordinatorForm = this.translateWord(compound.coordinator);
+    const parts = compound.sentences.map(s => this.translate(s));
+    return parts.join(` ${coordinatorForm} `);
   }
 
   insertAdverb(verbPhrase: string, adverbForm: string): string {

@@ -1,8 +1,14 @@
-import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, AdjectiveTranslation, AdverbTranslation, Language, WordTranslations } from './lang';
-import { Word, Actor } from './grammar';
+import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, AdjectiveTranslation, AdverbTranslation, PrepositionTranslation, Language, WordTranslations } from './lang';
+import { Word, Actor, Action, Entity } from './grammar';
 import { isDefined, extend } from './util';
 
 const THIRD_PERSON_SINGULAR = ['he', 'she', 'it'];
+
+const POSSESSIVE_FORMS: Record<string, string> = {
+  I: 'my', you: 'your', you_formal: 'your',
+  he: 'his', she: 'her', it: 'its',
+  we: 'our', you_plural: 'your', you_plural_formal: 'your', they: 'their'
+};
 
 class ActionTranslationEn extends ActionTranslation {
 
@@ -205,6 +211,10 @@ const translations: WordTranslations = {
     asActor: Word.it,
     asMany: 'wolves'
   }),
+  house: new ObjectTranslation({
+    defaultForm: 'house',
+    asActor: Word.it
+  }),
   bright: new AdjectiveTranslation({ defaultForm: 'bright' }),
   old: new AdjectiveTranslation({ defaultForm: 'old' }),
   big: new AdjectiveTranslation({ defaultForm: 'big' }),
@@ -214,7 +224,15 @@ const translations: WordTranslations = {
   loudly: new AdverbTranslation('loudly'),
   slowly: new AdverbTranslation('slowly'),
   quickly: new AdverbTranslation('quickly'),
-  well: new AdverbTranslation('well')
+  well: new AdverbTranslation('well'),
+  and: new Translation('and'),
+  but: new Translation('but'),
+  or: new Translation('or'),
+  to: new PrepositionTranslation({ defaultForm: 'to' }),
+  from: new PrepositionTranslation({ defaultForm: 'from' }),
+  at: new PrepositionTranslation({ defaultForm: 'at' }),
+  over: new PrepositionTranslation({ defaultForm: 'over' }),
+  behind: new PrepositionTranslation({ defaultForm: 'behind' })
 };
 
 class English extends Language {
@@ -234,11 +252,38 @@ class English extends Language {
     return undefined;
   }
 
-  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean; adjective?: Word }): string {
+  translateImperative(action: Word | Action, _actor: Word | Actor): string {
+    const primaryAction = action instanceof Action ? action.primary : action;
+    const isNegated = action instanceof Action ? action.negated : false;
+    const actionSubject = action instanceof Action ? action.subject : undefined;
+    const translation = this.wordTranslations[primaryAction.id] as ActionTranslation;
+    const form = translation?.defaultForm || this.translateWord(primaryAction);
+    let result = isNegated ? `do not ${form}` : form;
+    if (actionSubject) {
+      result = `${result} ${this.translateActionSubject(actionSubject)}`;
+    }
+    return result;
+  }
+
+  translatePossessive(possessor: Word): string {
+    return POSSESSIVE_FORMS[possessor.id] || possessor.id;
+  }
+
+  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean; adjective?: Word; possessor?: Word }): string {
     const objectTranslation = this.wordTranslations[object.id] as ObjectTranslation;
     const objectForm = this.translateWord(object, context);
     const adjectiveForm = context?.adjective ? this.translateAdjective(context.adjective, object) : undefined;
+    const possessiveForm = context?.possessor ? this.translatePossessive(context.possessor) : undefined;
     const wordThis = (Word as unknown as Record<string, Word>)['this'];
+
+    // Possessive replaces article
+    if (possessiveForm) {
+      if (specifier === Word.many) {
+        const nounForm = isDefined(objectTranslation.asMany) ? objectTranslation.asMany as string : objectForm + 's';
+        return [possessiveForm, adjectiveForm, nounForm].filter(Boolean).join(' ');
+      }
+      return [possessiveForm, adjectiveForm, objectForm].filter(Boolean).join(' ');
+    }
 
     if (specifier === wordThis || specifier === Word.that || specifier === Word.one) {
       return [this.getArticle(specifier, objectTranslation), adjectiveForm, objectForm].filter(Boolean).join(' ').trim();

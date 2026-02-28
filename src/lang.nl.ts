@@ -1,6 +1,12 @@
-import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, AdjectiveTranslation, AdverbTranslation, Language, WordTranslations } from './lang';
-import { Word, Actor } from './grammar';
+import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, AdjectiveTranslation, AdverbTranslation, PrepositionTranslation, Language, WordTranslations } from './lang';
+import { Word, Actor, Action, Entity } from './grammar';
 import { isDefined } from './util';
+
+const POSSESSIVE_FORMS: Record<string, string> = {
+  I: 'mijn', you: 'jouw', you_formal: 'uw',
+  he: 'zijn', she: 'haar', it: 'zijn',
+  we: 'ons', you_plural: 'jullie', you_plural_formal: 'uw', they: 'hun'
+};
 
 class ActionTranslationNl extends ActionTranslation {
 
@@ -257,6 +263,11 @@ const translations: WordTranslations = {
     asActor: Word.it,
     asMany: 'wolven'
   }),
+  house: new ObjectTranslation({
+    defaultForm: 'huis',
+    asActor: Word.it,
+    asSpecificObject: 'het'
+  }),
   bright: new AdjectiveTranslation({ defaultForm: 'fel', forms: { attributive: 'felle' } }),
   old: new AdjectiveTranslation({ defaultForm: 'oud', forms: { attributive: 'oude' } }),
   big: new AdjectiveTranslation({ defaultForm: 'groot', forms: { attributive: 'grote' } }),
@@ -266,7 +277,15 @@ const translations: WordTranslations = {
   loudly: new AdverbTranslation('hard'),
   slowly: new AdverbTranslation('langzaam'),
   quickly: new AdverbTranslation('snel'),
-  well: new AdverbTranslation('goed')
+  well: new AdverbTranslation('goed'),
+  and: new Translation('en'),
+  but: new Translation('maar'),
+  or: new Translation('of'),
+  to: new PrepositionTranslation({ defaultForm: 'naar' }),
+  from: new PrepositionTranslation({ defaultForm: 'van' }),
+  at: new PrepositionTranslation({ defaultForm: 'naar' }),
+  over: new PrepositionTranslation({ defaultForm: 'over' }),
+  behind: new PrepositionTranslation({ defaultForm: 'achter' })
 };
 
 //TODO: Create a separate class ObjectTranslationNl and move most of the logic now in the language class to their: mode modular and object-oriented
@@ -294,10 +313,46 @@ class Dutch extends Language {
     return '';
   }
 
-  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean; adjective?: Word }): string {
+  translateImperative(action: Word | Action, _actor: Word | Actor): string {
+    const primaryAction = action instanceof Action ? action.primary : action;
+    const isNegated = action instanceof Action ? action.negated : false;
+    const actionSubject = action instanceof Action ? action.subject : undefined;
+    const translation = this.wordTranslations[primaryAction.id] as ActionTranslation;
+    // Dutch imperative is the I-form (stem) from present tense
+    const form = translation?.timeActorForm(Word.now, Word.I) || this.translateWord(primaryAction);
+    let result = isNegated ? `${form} niet` : form;
+    if (actionSubject) {
+      result = `${result} ${this.translateActionSubject(actionSubject)}`;
+    }
+    return result;
+  }
+
+  translatePossessive(possessor: Word, object?: Word): string {
+    const form = POSSESSIVE_FORMS[possessor.id] || possessor.id;
+    // "ons" is only for het-words; de-words use "onze"
+    if (form === 'ons' && object) {
+      const objectTranslation = this.wordTranslations[object.id];
+      if (objectTranslation instanceof ObjectTranslation && objectTranslation.asSpecificObject !== 'het') {
+        return 'onze';
+      }
+    }
+    return form;
+  }
+
+  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean; adjective?: Word; possessor?: Word }): string {
     const objectTranslation = this.wordTranslations[object.id] as ObjectTranslation;
     const objectForm = this.translateWord(object, context);
     const adjectiveForm = context?.adjective ? this.translateAdjective(context.adjective, object) : undefined;
+    const possessiveForm = context?.possessor ? this.translatePossessive(context.possessor, object) : undefined;
+
+    // Possessive replaces article
+    if (possessiveForm) {
+      if (specifier === Word.many) {
+        const nounForm = isDefined(objectTranslation.asMany) ? objectTranslation.asMany as string : `${objectForm}en`;
+        return [possessiveForm, adjectiveForm, nounForm].filter(Boolean).join(' ');
+      }
+      return [possessiveForm, adjectiveForm, objectForm].filter(Boolean).join(' ');
+    }
 
     if (specifier !== Word.many) {
       return [this.getArticle(specifier, objectTranslation), adjectiveForm, objectForm].filter(s => s !== '' && s !== undefined).join(' ').trim();

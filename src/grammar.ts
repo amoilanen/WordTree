@@ -49,7 +49,17 @@ const VOCABULARY = [
   'loudly',
   'slowly',
   'quickly',
-  'well'
+  'well',
+  'house',
+  'imperative',
+  'to',
+  'from',
+  'at',
+  'over',
+  'behind',
+  'and',
+  'but',
+  'or'
 ] as const;
 
 export type VocabularyTerm = typeof VOCABULARY[number];
@@ -87,17 +97,24 @@ export declare namespace Word {
   export let bright: Word; export let old: Word; export let big: Word;
   export let small: Word; export let good: Word; export let white: Word;
   export let loudly: Word; export let slowly: Word; export let quickly: Word; export let well: Word;
+  export let house: Word;
+  export let imperative: Word;
+  export let to: Word; export let from: Word; export let at: Word;
+  export let over: Word; export let behind: Word;
+  export let and: Word; export let but: Word; export let or: Word;
 }
 
 export class Entity {
   readonly word: Word;
   readonly specifier: Word | undefined;
   readonly adjective: Word | undefined;
+  readonly possessor: Word | undefined;
 
-  constructor(word: Word, specifier: Word | undefined, adjective?: Word) {
+  constructor(word: Word, specifier: Word | undefined, adjective?: Word, possessor?: Word) {
     this.word = word;
     this.specifier = specifier;
     this.adjective = adjective;
+    this.possessor = possessor;
   }
 
   static $(word: Word): EntityBuilder {
@@ -109,6 +126,7 @@ class EntityBuilder {
   private readonly _word: Word;
   private _specifier: Word | undefined;
   private _adjective: Word | undefined;
+  private _possessor: Word | undefined;
 
   constructor(word: Word) {
     this._word = word;
@@ -124,8 +142,13 @@ class EntityBuilder {
     return this;
   }
 
+  possessor(possessor: Word): this {
+    this._possessor = possessor;
+    return this;
+  }
+
   get $(): Entity {
-    return new Entity(this._word, this._specifier, this._adjective);
+    return new Entity(this._word, this._specifier, this._adjective, this._possessor);
   }
 }
 
@@ -169,6 +192,7 @@ class ActionBuilder {
   private _negated: boolean = false;
   private _adverb: Word | undefined;
   private _adverbNegated: boolean = false;
+  private _prepositionalPhrase: PrepositionalPhrase | undefined;
 
   primary(primary: Word): this {
     this._primary = primary;
@@ -198,8 +222,45 @@ class ActionBuilder {
     return this;
   }
 
+  prepositionalPhrase(pp: PrepositionalPhrase): this {
+    this._prepositionalPhrase = pp;
+    return this;
+  }
+
   get $(): Action {
-    return new Action(this._primary!, this._secondary, this._subject, this._negated, this._adverb, this._adverbNegated);
+    return new Action(this._primary!, this._secondary, this._subject, this._negated, this._adverb, this._adverbNegated, this._prepositionalPhrase);
+  }
+}
+
+export class PrepositionalPhrase {
+  readonly preposition: Word;
+  readonly object: Word | Entity;
+
+  constructor(preposition: Word, object: Word | Entity) {
+    this.preposition = preposition;
+    this.object = object;
+  }
+
+  static $(preposition: Word): PrepositionalPhraseBuilder {
+    return new PrepositionalPhraseBuilder(preposition);
+  }
+}
+
+class PrepositionalPhraseBuilder {
+  private readonly _preposition: Word;
+  private _object: Word | Entity | undefined;
+
+  constructor(preposition: Word) {
+    this._preposition = preposition;
+  }
+
+  object(object: Word | Entity): this {
+    this._object = object;
+    return this;
+  }
+
+  get $(): PrepositionalPhrase {
+    return new PrepositionalPhrase(this._preposition, this._object!);
   }
 }
 
@@ -210,14 +271,16 @@ export class Action {
   readonly negated: boolean;
   readonly adverb: Word | undefined;
   readonly adverbNegated: boolean;
+  readonly prepositionalPhrase: PrepositionalPhrase | undefined;
 
-  constructor(primary: Word, secondary?: Word, subject?: Word | Entity, negated: boolean = false, adverb?: Word, adverbNegated: boolean = false) {
+  constructor(primary: Word, secondary?: Word, subject?: Word | Entity, negated: boolean = false, adverb?: Word, adverbNegated: boolean = false, prepositionalPhrase?: PrepositionalPhrase) {
     this.primary = primary;
     this.secondary = secondary;
     this.subject = subject;
     this.negated = negated;
     this.adverb = adverb;
     this.adverbNegated = adverbNegated;
+    this.prepositionalPhrase = prepositionalPhrase;
   }
 
   static get $(): ActionBuilder {
@@ -271,5 +334,38 @@ export class Sentence {
 
   static get $(): SentenceBuilder {
     return new SentenceBuilder();
+  }
+}
+
+class CompoundSentenceBuilder {
+  private _sentences: Sentence[] = [];
+  private _coordinator: Word | undefined;
+
+  sentence(sentence: Sentence): this {
+    this._sentences.push(sentence);
+    return this;
+  }
+
+  coordinator(coordinator: Word): this {
+    this._coordinator = coordinator;
+    return this;
+  }
+
+  get $(): CompoundSentence {
+    return new CompoundSentence(this._sentences, this._coordinator!);
+  }
+}
+
+export class CompoundSentence {
+  readonly sentences: Sentence[];
+  readonly coordinator: Word;
+
+  constructor(sentences: Sentence[], coordinator: Word) {
+    this.sentences = sentences;
+    this.coordinator = coordinator;
+  }
+
+  static get $(): CompoundSentenceBuilder {
+    return new CompoundSentenceBuilder();
   }
 }

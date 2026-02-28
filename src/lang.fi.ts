@@ -1,6 +1,12 @@
-import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, AdjectiveTranslation, AdverbTranslation, Language, WordTranslations } from './lang';
-import { Word, Actor } from './grammar';
+import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, AdjectiveTranslation, AdverbTranslation, PrepositionTranslation, Language, WordTranslations } from './lang';
+import { Word, Actor, Action, Entity, PrepositionalPhrase } from './grammar';
 import { isDefined } from './util';
+
+const POSSESSIVE_FORMS: Record<string, string> = {
+  I: 'minun', you: 'sinun', you_formal: 'sinun',
+  he: 'hänen', she: 'hänen', it: 'sen',
+  we: 'meidän', you_plural: 'teidän', you_plural_formal: 'teidän', they: 'heidän'
+};
 
 const NEGATIVE_AUX: Record<string, string> = {
   I: 'en',
@@ -94,6 +100,7 @@ const translations: WordTranslations = {
     root: 'laul',
     keyVowel: 'a',
     defaultForm: 'laulaa',
+    imperative: 'laula',
     pastParticiple: 'laulanut',
     conjugationRoots: {
       past: 'laulo'
@@ -103,6 +110,7 @@ const translations: WordTranslations = {
     root: 'te',
     keyVowel: 'e',
     defaultForm: 'tehdä',
+    imperative: 'tee',
     pastParticiple: 'tehnyt',
     conjugationRoots: {
       now: 'te',
@@ -123,6 +131,7 @@ const translations: WordTranslations = {
     root: 'men',
     keyVowel: 'e',
     defaultForm: 'mennä',
+    imperative: 'mene',
     pastParticiple: 'mennyt',
     conjugations: {
       now: {
@@ -136,12 +145,14 @@ const translations: WordTranslations = {
   sew: new ActionTranslationFi({
     root: 'omel',
     defaultForm: 'omella',
+    imperative: 'omele',
     keyVowel: 'e',
     pastParticiple: 'omellut'
   }),
   build: new ActionTranslationFi({
     root: 'raken',
     defaultForm: 'rakentaa',
+    imperative: 'rakenna',
     keyVowel: 'a',
     pastParticiple: 'rakentanut',
     conjugationRoots: {
@@ -158,6 +169,7 @@ const translations: WordTranslations = {
   give: new ActionTranslationFi({
     root: 'an',
     defaultForm: 'antaa',
+    imperative: 'anna',
     keyVowel: 'a',
     pastParticiple: 'antanut',
     conjugationRoots: {
@@ -178,6 +190,7 @@ const translations: WordTranslations = {
   look: new ActionTranslationFi({
     root: 'kats',
     defaultForm: 'katsoa',
+    imperative: 'katso',
     keyVowel: 'o',
     pastParticiple: 'katsonut',
     conjugationRoots: {
@@ -187,6 +200,7 @@ const translations: WordTranslations = {
   see: new ActionTranslationFi({
     root: 'nä',
     defaultForm: 'nähdä',
+    imperative: 'näe',
     keyVowel: 'e',
     pastParticiple: 'nähnyt',
     conjugations: {
@@ -203,6 +217,7 @@ const translations: WordTranslations = {
   want: new ActionTranslationFi({
     root: 'halu',
     keyVowel: 'a',
+    imperative: 'halua',
     pastParticiple: 'halunnut',
     conjugationRoots: {
       past: 'halus'
@@ -211,6 +226,7 @@ const translations: WordTranslations = {
   can: new ActionTranslationFi({
     root: 'vo',
     keyVowel: 'i',
+    imperative: 'voi',
     pastParticiple: 'voinut',
     conjugationRoots: {
       past: 'vois'
@@ -224,6 +240,7 @@ const translations: WordTranslations = {
   shine: new ActionTranslationFi({
     root: 'paist',
     keyVowel: 'a',
+    imperative: 'paista',
     pastParticiple: 'paistanut',
     conjugationRoots: {
       past: 'paisto'
@@ -233,6 +250,7 @@ const translations: WordTranslations = {
     root: 'ol',
     keyVowel: 'e',
     defaultForm: 'olla',
+    imperative: 'ole',
     pastParticiple: 'ollut',
     negationStem: 'ole',
     conjugations: {
@@ -287,17 +305,35 @@ const translations: WordTranslations = {
   lake: new ObjectTranslation({
     defaultForm: 'järvi',
     asActor: Word.it,
-    asMany: 'järviä'
+    asMany: 'järviä',
+    asAllative: 'järvelle',
+    asElative: 'järvestä',
+    asAdessive: 'järvellä',
+    asGenitive: 'järven',
+    asInessive: 'järvessä'
   }),
   bird: new ObjectTranslation({
     defaultForm: 'lintu',
     asActor: Word.it,
-    asMany: 'lintuja'
+    asSubject: 'linnun',
+    asMany: 'lintuja',
+    asAllative: 'linnulle',
+    asElative: 'linnusta',
+    asAdessive: 'linnulla',
+    asPartitive: 'lintua'
   }),
   wolf: new ObjectTranslation({
     defaultForm: 'susi',
     asActor: Word.it,
-    asMany: 'susia'
+    asMany: 'susia',
+    asAllative: 'sudelle',
+    asElative: 'sudesta',
+    asAdessive: 'sudella',
+    asGenitive: 'suden'
+  }),
+  house: new ObjectTranslation({
+    defaultForm: 'talo',
+    asActor: Word.it
   }),
   bright: new AdjectiveTranslation({ defaultForm: 'kirkas' }),
   old: new AdjectiveTranslation({ defaultForm: 'vanha' }),
@@ -308,7 +344,15 @@ const translations: WordTranslations = {
   loudly: new AdverbTranslation('kovaa'),
   slowly: new AdverbTranslation('hitaasti'),
   quickly: new AdverbTranslation('nopeasti'),
-  well: new AdverbTranslation('hyvin')
+  well: new AdverbTranslation('hyvin'),
+  and: new Translation('ja'),
+  but: new Translation('mutta'),
+  or: new Translation('tai'),
+  to: new PrepositionTranslation({ defaultForm: 'to' }),
+  from: new PrepositionTranslation({ defaultForm: 'from' }),
+  at: new PrepositionTranslation({ defaultForm: 'at' }),
+  over: new PrepositionTranslation({ defaultForm: 'yli' }),
+  behind: new PrepositionTranslation({ defaultForm: 'takana' })
 };
 
 class Finnish extends Language {
@@ -317,10 +361,11 @@ class Finnish extends Language {
     super('Finnish', translations);
   }
 
-  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean; adjective?: Word }): string {
+  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean; adjective?: Word; possessor?: Word }): string {
     const objectTranslation = this.wordTranslations[object.id] as ObjectTranslation;
     const objectForm = this.translateWord(object, context);
     const adjectiveForm = context?.adjective ? this.translateAdjective(context.adjective, object) : undefined;
+    const possessiveForm = context?.possessor ? this.translatePossessive(context.possessor) : undefined;
 
     let nounForm: string;
     if ((specifier === Word.many) && isDefined(objectTranslation.asMany)) {
@@ -328,7 +373,59 @@ class Finnish extends Language {
     } else {
       nounForm = objectForm;
     }
-    return adjectiveForm ? `${adjectiveForm} ${nounForm}` : nounForm;
+    return [possessiveForm, adjectiveForm, nounForm].filter(Boolean).join(' ');
+  }
+
+  translatePrepositionalPhrase(pp: PrepositionalPhrase): string {
+    const objectWord = pp.object instanceof Entity ? pp.object.word : pp.object;
+    const objectTranslation = this.wordTranslations[objectWord.id] as ObjectTranslation;
+    // Case-only prepositions (no separate preposition word needed)
+    const caseOnlyMap: Record<string, string> = {
+      to: 'asAllative', from: 'asElative', at: 'asPartitive'
+    };
+    const caseKey = caseOnlyMap[pp.preposition.id];
+    if (caseKey && objectTranslation && objectTranslation[caseKey]) {
+      return objectTranslation[caseKey] as string;
+    }
+    // Postpositions: genitive + postposition word
+    const postpositionMap: Record<string, string> = {
+      over: 'yli', behind: 'takana'
+    };
+    const postposition = postpositionMap[pp.preposition.id];
+    if (postposition && objectTranslation && objectTranslation['asGenitive']) {
+      return `${objectTranslation['asGenitive']} ${postposition}`;
+    }
+    return super.translatePrepositionalPhrase(pp);
+  }
+
+  translateImperative(action: Word | Action, _actor: Word | Actor): string {
+    const primaryAction = action instanceof Action ? action.primary : action;
+    const isNegated = action instanceof Action ? action.negated : false;
+    const actionSubject = action instanceof Action ? action.subject : undefined;
+    const translation = this.wordTranslations[primaryAction.id] as ActionTranslationFi;
+    const form = translation?.opts?.imperative || translation?.negationStem || translation?.defaultForm || this.translateWord(primaryAction);
+    let result = isNegated ? `älä ${form}` : form;
+    if (actionSubject) {
+      // Finnish imperative objects use nominative, not accusative
+      let subjectWord: Word;
+      let specifier: Word | undefined;
+      let adjective: Word | undefined;
+      let possessor: Word | undefined;
+      if (actionSubject instanceof Entity) {
+        subjectWord = actionSubject.word;
+        specifier = actionSubject.specifier;
+        adjective = actionSubject.adjective;
+        possessor = actionSubject.possessor;
+      } else {
+        subjectWord = actionSubject;
+      }
+      result = `${result} ${this.translateObject(subjectWord, specifier, { adjective, possessor })}`;
+    }
+    return result;
+  }
+
+  translatePossessive(possessor: Word): string {
+    return POSSESSIVE_FORMS[possessor.id] || possessor.id;
   }
 
   insertNegatedAdverb(verbPhrase: string, adverbForm: string): string {

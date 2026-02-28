@@ -1,4 +1,4 @@
-import { Word, Entity, Actor, Action, Sentence } from '../src/grammar';
+import { Word, Entity, Actor, Action, Sentence, PrepositionalPhrase, CompoundSentence } from '../src/grammar';
 import en from '../src/lang.en';
 import fi from '../src/lang.fi';
 import nl from '../src/lang.nl';
@@ -1293,5 +1293,374 @@ describe('verb be', function() {
         ]
       );
     });
+  });
+});
+
+describe('possessive pronouns', function() {
+
+  describe('my house', function() {
+    shouldTranslate(
+      Entity.$(Word.house).possessor(Word.I).$,
+      [
+        [en, 'my house'],
+        [fi, 'minun talo'],
+        [nl, 'mijn huis'],
+        [ru, 'мой дом']
+      ]
+    );
+  });
+
+  describe('your bird (Russian feminine agreement)', function() {
+    shouldTranslate(
+      Entity.$(Word.bird).possessor(Word.you).$,
+      [
+        [en, 'your bird'],
+        [fi, 'sinun lintu'],
+        [nl, 'jouw vogel'],
+        [ru, 'твоя птица']
+      ]
+    );
+  });
+
+  describe('his wolf', function() {
+    shouldTranslate(
+      Entity.$(Word.wolf).possessor(Word.he).$,
+      [
+        [en, 'his wolf'],
+        [fi, 'hänen susi'],
+        [nl, 'zijn wolf'],
+        [ru, 'его волк']
+      ]
+    );
+  });
+
+  describe('her lake (Russian neuter agreement)', function() {
+    shouldTranslate(
+      Entity.$(Word.lake).possessor(Word.she).$,
+      [
+        [en, 'her lake'],
+        [fi, 'hänen järvi'],
+        [nl, 'haar meer'],
+        [ru, 'её озеро']
+      ]
+    );
+  });
+
+  describe('our sun', function() {
+    shouldTranslate(
+      Entity.$(Word.sun).possessor(Word.we).$,
+      [
+        [en, 'our sun'],
+        [fi, 'meidän aurinko'],
+        [nl, 'onze zon'],
+        [ru, 'наше солнце']
+      ]
+    );
+  });
+
+  describe('their house', function() {
+    shouldTranslate(
+      Entity.$(Word.house).possessor(Word.they).$,
+      [
+        [en, 'their house'],
+        [fi, 'heidän talo'],
+        [nl, 'hun huis'],
+        [ru, 'их дом']
+      ]
+    );
+  });
+
+  describe('possessive with adjective: my big wolf', function() {
+    shouldTranslate(
+      Entity.$(Word.wolf).possessor(Word.I).adjective(Word.big).$,
+      [
+        [en, 'my big wolf'],
+        [fi, 'minun suuri susi'],
+        [nl, 'mijn grote wolf'],
+        [ru, 'мой большой волк']
+      ]
+    );
+  });
+
+  describe('possessive in sentence: I see my bird', function() {
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.I).
+        action(Action.$.primary(Word.see).subject(Entity.$(Word.bird).possessor(Word.I).$).$).
+        time(Word.now).$,
+      [
+        [en, 'I see my bird'],
+        [fi, 'näen minun linnun'],
+        [nl, 'ik zie mijn vogel'],
+        [ru, 'я вижу мою птицу']
+      ]
+    );
+  });
+});
+
+describe('imperative mood', function() {
+
+  describe('Sing!', function() {
+    shouldTranslate(
+      Sentence.$.actor(Word.you).action(Word.sing).time(Word.imperative).$,
+      [
+        [en, 'sing'],
+        [fi, 'laula'],
+        [nl, 'zing'],
+        [ru, 'пой']
+      ]
+    );
+  });
+
+  describe('Look!', function() {
+    shouldTranslate(
+      Sentence.$.actor(Word.you).action(Word.look).time(Word.imperative).$,
+      [
+        [en, 'look'],
+        [fi, 'katso'],
+        [nl, 'kijk'],
+        [ru, 'смотри']
+      ]
+    );
+  });
+
+  describe('Go!', function() {
+    shouldTranslate(
+      Sentence.$.actor(Word.you).action(Word.go).time(Word.imperative).$,
+      [
+        [en, 'go'],
+        [fi, 'mene'],
+        [nl, 'ga'],
+        [ru, 'иди']
+      ]
+    );
+  });
+
+  describe('Build!', function() {
+    shouldTranslate(
+      Sentence.$.actor(Word.you).action(Word.build).time(Word.imperative).$,
+      [
+        [en, 'build'],
+        [fi, 'rakenna'],
+        [nl, 'bouw'],
+        [ru, 'строй']
+      ]
+    );
+  });
+
+  describe('Do not sing!', function() {
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.you).
+        action(Action.$.primary(Word.sing).negated().$).
+        time(Word.imperative).$,
+      [
+        [en, 'do not sing'],
+        [fi, 'älä laula'],
+        [nl, 'zing niet'],
+        [ru, 'не пой']
+      ]
+    );
+  });
+
+  describe('Do not look!', function() {
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.you).
+        action(Action.$.primary(Word.look).negated().$).
+        time(Word.imperative).$,
+      [
+        [en, 'do not look'],
+        [fi, 'älä katso'],
+        [nl, 'kijk niet'],
+        [ru, 'не смотри']
+      ]
+    );
+  });
+
+  describe('imperative with subject: See the bird!', function() {
+    const wordThis = (Word as unknown as Record<string, Word>)['this'];
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.you).
+        action(Action.$.primary(Word.see).subject(Entity.$(Word.bird).specifier(wordThis).$).$).
+        time(Word.imperative).$,
+      [
+        [en, 'see the bird'],
+        [fi, 'näe lintu'],
+        [nl, 'zie de vogel'],
+        [ru, 'смотри птицу']
+      ]
+    );
+  });
+});
+
+describe('prepositional phrases', function() {
+
+  const wordThis = (Word as unknown as Record<string, Word>)['this'];
+
+  describe('I go to the lake', function() {
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.I).
+        action(Action.$.
+          primary(Word.go).
+          prepositionalPhrase(PrepositionalPhrase.$(Word.to).object(Entity.$(Word.lake).specifier(wordThis).$).$).$).
+        time(Word.now).$,
+      [
+        [en, 'I go to the lake'],
+        [fi, 'menen järvelle'],
+        [nl, 'ik ga naar het meer'],
+        [ru, 'я иду к озеру']
+      ]
+    );
+  });
+
+  describe('she looks at the bird', function() {
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.she).
+        action(Action.$.
+          primary(Word.look).
+          prepositionalPhrase(PrepositionalPhrase.$(Word.at).object(Entity.$(Word.bird).specifier(wordThis).$).$).$).
+        time(Word.now).$,
+      [
+        [en, 'she looks at the bird'],
+        [fi, 'katsoo lintua'],
+        [nl, 'zij kijkt naar de vogel'],
+        [ru, 'она смотрит на птицу']
+      ]
+    );
+  });
+
+  describe('I went from the lake', function() {
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.I).
+        action(Action.$.
+          primary(Word.go).
+          prepositionalPhrase(PrepositionalPhrase.$(Word.from).object(Entity.$(Word.lake).specifier(wordThis).$).$).$).
+        time(Word.past).$,
+      [
+        [en, 'I went from the lake'],
+        [fi, 'menin järvestä'],
+        [nl, 'ik ging van het meer'],
+        [ru, 'я шел из озера']
+      ]
+    );
+  });
+
+  describe('I do not go to the lake', function() {
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.I).
+        action(Action.$.
+          primary(Word.go).
+          negated().
+          prepositionalPhrase(PrepositionalPhrase.$(Word.to).object(Entity.$(Word.lake).specifier(wordThis).$).$).$).
+        time(Word.now).$,
+      [
+        [en, 'I do not go to the lake'],
+        [fi, 'en mene järvelle'],
+        [nl, 'ik ga niet naar het meer'],
+        [ru, 'я не иду к озеру']
+      ]
+    );
+  });
+
+  describe('go over the wolf (preposition with instrumental in Russian)', function() {
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.I).
+        action(Action.$.
+          primary(Word.go).
+          prepositionalPhrase(PrepositionalPhrase.$(Word.over).object(Entity.$(Word.wolf).specifier(wordThis).$).$).$).
+        time(Word.past).$,
+      [
+        [en, 'I went over the wolf'],
+        [fi, 'menin suden yli'],
+        [nl, 'ik ging over de wolf'],
+        [ru, 'я шел над волком']
+      ]
+    );
+  });
+});
+
+describe('compound sentences', function() {
+
+  describe('I sing and you look', function() {
+    shouldTranslate(
+      CompoundSentence.$.
+        sentence(Sentence.$.actor(Word.I).action(Word.sing).time(Word.now).$).
+        coordinator(Word.and).
+        sentence(Sentence.$.actor(Word.you).action(Word.look).time(Word.now).$).$,
+      [
+        [en, 'I sing and you look'],
+        [fi, 'laulan ja katsot'],
+        [nl, 'ik zing en je kijkt'],
+        [ru, 'я пою и ты смотришь']
+      ]
+    );
+  });
+
+  describe('she sang but she did not see', function() {
+    shouldTranslate(
+      CompoundSentence.$.
+        sentence(Sentence.$.actor(Word.she).action(Word.sing).time(Word.past).$).
+        coordinator(Word.but).
+        sentence(Sentence.$.actor(Word.she).action(Action.$.primary(Word.see).negated().$).time(Word.past).$).$,
+      [
+        [en, 'she sang but she did not see'],
+        [fi, 'lauloi mutta ei nähnyt'],
+        [nl, 'zij zong maar zij zag niet'],
+        [ru, 'она пела но она не видела']
+      ]
+    );
+  });
+
+  describe('I sing or you sing', function() {
+    shouldTranslate(
+      CompoundSentence.$.
+        sentence(Sentence.$.actor(Word.I).action(Word.sing).time(Word.now).$).
+        coordinator(Word.or).
+        sentence(Sentence.$.actor(Word.you).action(Word.sing).time(Word.now).$).$,
+      [
+        [en, 'I sing or you sing'],
+        [fi, 'laulan tai laulat'],
+        [nl, 'ik zing of je zingt'],
+        [ru, 'я пою или ты поешь']
+      ]
+    );
+  });
+
+  describe('three sentences: I sing and you look and she goes', function() {
+    shouldTranslate(
+      CompoundSentence.$.
+        sentence(Sentence.$.actor(Word.I).action(Word.sing).time(Word.now).$).
+        coordinator(Word.and).
+        sentence(Sentence.$.actor(Word.you).action(Word.look).time(Word.now).$).
+        sentence(Sentence.$.actor(Word.she).action(Word.go).time(Word.now).$).$,
+      [
+        [en, 'I sing and you look and she goes'],
+        [fi, 'laulan ja katsot ja menee'],
+        [nl, 'ik zing en je kijkt en zij gaat'],
+        [ru, 'я пою и ты смотришь и она идет']
+      ]
+    );
+  });
+
+  describe('compound with future: I will sing and she will look', function() {
+    shouldTranslate(
+      CompoundSentence.$.
+        sentence(Sentence.$.actor(Word.I).action(Word.sing).time(Word.future).$).
+        coordinator(Word.and).
+        sentence(Sentence.$.actor(Word.she).action(Word.look).time(Word.future).$).$,
+      [
+        [en, 'I will sing and she will look'],
+        [fi, 'laulan ja katsoo'],
+        [nl, 'ik zing en zij kijkt'],
+        [ru, 'я буду петь и она будет смотреть']
+      ]
+    );
   });
 });

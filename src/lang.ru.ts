@@ -1,6 +1,33 @@
-import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, AdjectiveTranslation, AdverbTranslation, Language, WordTranslations } from './lang';
-import { Word, Actor } from './grammar';
+import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, AdjectiveTranslation, AdverbTranslation, PrepositionTranslation, Language, WordTranslations } from './lang';
+import { Word, Actor, Action, Entity, PrepositionalPhrase } from './grammar';
 import { isDefined, endsWith } from './util';
+
+const POSSESSIVE_FORMS: Record<string, Record<string, string> | string> = {
+  I:    { he: 'мой', she: 'моя', it: 'моё' },
+  you:  { he: 'твой', she: 'твоя', it: 'твоё' },
+  you_formal: { he: 'ваш', she: 'ваша', it: 'ваше' },
+  he: 'его',
+  she: 'её',
+  it: 'его',
+  we:   { he: 'наш', she: 'наша', it: 'наше' },
+  you_plural: { he: 'ваш', she: 'ваша', it: 'ваше' },
+  you_plural_formal: { he: 'ваш', she: 'ваша', it: 'ваше' },
+  they: 'их'
+};
+
+// Accusative possessive forms (used when the possessed noun is a direct object)
+const POSSESSIVE_FORMS_ACC: Record<string, Record<string, string> | string> = {
+  I:    { he: 'моего', she: 'мою', it: 'моё' },
+  you:  { he: 'твоего', she: 'твою', it: 'твоё' },
+  you_formal: { he: 'вашего', she: 'вашу', it: 'ваше' },
+  he: 'его',
+  she: 'её',
+  it: 'его',
+  we:   { he: 'нашего', she: 'нашу', it: 'наше' },
+  you_plural: { he: 'вашего', she: 'вашу', it: 'ваше' },
+  you_plural_formal: { he: 'вашего', she: 'вашу', it: 'ваше' },
+  they: 'их'
+};
 
 class ActionTranslationRu extends ActionTranslation {
 
@@ -117,17 +144,20 @@ const translations: WordTranslations = {
   sing: new ActionTranslationRu({
     root: 'п',
     keyVowel: 'е',
+    imperative: 'пой',
     conjugationRoots: {
       now: 'по' //пею -> пою, пеешь -> поешь, пеет -> поет
     }
   }),
   do: new ActionTranslationRu({
     root: 'дел',
-    keyVowel: 'а'
+    keyVowel: 'а',
+    imperative: 'делай'
   }),
   go: new ActionTranslationRu({
     root: 'ид',
-    defaultForm: 'идти', //идть -> идти
+    defaultForm: 'идти',
+    imperative: 'иди', //идть -> идти
     conjugationRoots: {
       past: 'ш'
     },
@@ -146,6 +176,7 @@ const translations: WordTranslations = {
   sew: new ActionTranslationRu({
     root: 'ш',
     keyVowel: 'и',
+    imperative: 'шей',
     conjugationRoots: {
       now: 'шь' //шишь -> шьешь, шит -> шьет, шите -> шьете, шим -> шьем
     },
@@ -158,11 +189,13 @@ const translations: WordTranslations = {
   }),
   build: new ActionTranslationRu({
     root: 'стро',
-    keyVowel: 'и'
+    keyVowel: 'и',
+    imperative: 'строй'
   }),
   give: new ActionTranslationRu({
     root: 'дав',
     keyVowel: 'а',
+    imperative: 'давай',
     conjugationRoots: {
       now: 'да' //даваю -> даю, даваешь -> даешь, даваете -> даете, давает -> дает, даваем -> даем, даваете -> даете, давают -> дают
     }
@@ -170,6 +203,7 @@ const translations: WordTranslations = {
   look: new ActionTranslationRu({
     root: 'смотр',
     keyVowel: 'е',
+    imperative: 'смотри',
     conjugationRoots: {
       now: 'смотри' //смотрею -> смотрю, смотреешь -> смотришь, смотреете -> смотрите, смотреет -> смотрит, смотреем -> смотрим, смотреете -> смотрите, смотреют -> смотрят
     }
@@ -177,6 +211,7 @@ const translations: WordTranslations = {
   see: new ActionTranslationRu({
     root: 'вид',
     keyVowel: 'е',
+    imperative: 'смотри',
     conjugationRoots: {
       now: 'види' //видешь -> видишь, видет -> видит, видем -> видим, видют -> видят
     },
@@ -191,6 +226,7 @@ const translations: WordTranslations = {
   want: new ActionTranslationRu({
     root: 'хот',
     keyVowel: 'е',
+    imperative: 'хоти',
     conjugationRoots: {
       now: 'хоч'
     },
@@ -208,6 +244,7 @@ const translations: WordTranslations = {
   can: new ActionTranslationRu({
     root: 'мо',
     keyVowel: '',
+    imperative: 'моги',
     conjugationRoots: {
       now: 'мож',
       past: 'мог'
@@ -239,6 +276,7 @@ const translations: WordTranslations = {
   shine: new ActionTranslationRu({
     root: 'свет',
     keyVowel: 'и',
+    imperative: 'свети',
     conjugations: {
       now: {
         I: 'свечу'
@@ -249,6 +287,7 @@ const translations: WordTranslations = {
     root: 'бы',
     keyVowel: '',
     defaultForm: 'быть',
+    imperative: 'будь',
     conjugationRoots: {
       past: 'бы'
     },
@@ -327,17 +366,39 @@ const translations: WordTranslations = {
   lake: new ObjectTranslation({
     defaultForm: 'озеро',
     asActor: Word.it,
-    asMany: 'озера'
+    asMany: 'озера',
+    asAccusative: 'озеро',
+    asDative: 'озеру',
+    asGenitive: 'озера',
+    asInstrumental: 'озером',
+    asPrepositional: 'озере'
   }),
   bird: new ObjectTranslation({
     defaultForm: 'птица',
     asActor: Word.she,
-    asMany: 'птицы'
+    asSubject: 'птицу',
+    asMany: 'птицы',
+    asAccusative: 'птицу',
+    asDative: 'птице',
+    asGenitive: 'птицы',
+    asInstrumental: 'птицей',
+    asPrepositional: 'птице'
   }),
   wolf: new ObjectTranslation({
     defaultForm: 'волк',
     asActor: Word.he,
-    asMany: 'волки'
+    asSubject: 'волка',
+    asMany: 'волки',
+    asAccusative: 'волка',
+    asDative: 'волку',
+    asGenitive: 'волка',
+    asInstrumental: 'волком',
+    asPrepositional: 'волке'
+  }),
+  house: new ObjectTranslation({
+    defaultForm: 'дом',
+    asActor: Word.he,
+    asMany: 'дома'
   }),
   bright: new AdjectiveTranslation({
     defaultForm: 'яркий',
@@ -366,7 +427,15 @@ const translations: WordTranslations = {
   loudly: new AdverbTranslation('громко'),
   slowly: new AdverbTranslation('медленно'),
   quickly: new AdverbTranslation('быстро'),
-  well: new AdverbTranslation('хорошо')
+  well: new AdverbTranslation('хорошо'),
+  and: new Translation('и'),
+  but: new Translation('но'),
+  or: new Translation('или'),
+  to: new PrepositionTranslation({ defaultForm: 'к', governedCase: 'dative' }),
+  from: new PrepositionTranslation({ defaultForm: 'из', governedCase: 'genitive' }),
+  at: new PrepositionTranslation({ defaultForm: 'на', governedCase: 'accusative' }),
+  over: new PrepositionTranslation({ defaultForm: 'над', governedCase: 'instrumental' }),
+  behind: new PrepositionTranslation({ defaultForm: 'за', governedCase: 'instrumental' })
 };
 
 class Russian extends Language {
@@ -375,10 +444,56 @@ class Russian extends Language {
     super('Russian', translations);
   }
 
-  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean; adjective?: Word }): string {
+  translatePrepositionalPhrase(pp: PrepositionalPhrase): string {
+    const prepTranslation = this.wordTranslations[pp.preposition.id] as PrepositionTranslation;
+    const prepForm = prepTranslation?.defaultForm || pp.preposition.id;
+    const objectWord = pp.object instanceof Entity ? pp.object.word : pp.object;
+    const objectTranslation = this.wordTranslations[objectWord.id] as ObjectTranslation;
+    const caseMap: Record<string, string> = {
+      accusative: 'asAccusative', dative: 'asDative', genitive: 'asGenitive',
+      instrumental: 'asInstrumental', prepositional: 'asPrepositional'
+    };
+    const governedCase = prepTranslation?.governedCase;
+    const caseKey = governedCase ? caseMap[governedCase] : undefined;
+    const objectForm = (caseKey && objectTranslation && objectTranslation[caseKey])
+      ? objectTranslation[caseKey] as string
+      : objectTranslation?.defaultForm || this.translateWord(objectWord);
+    return `${prepForm} ${objectForm}`;
+  }
+
+  translateImperative(action: Word | Action, _actor: Word | Actor): string {
+    const primaryAction = action instanceof Action ? action.primary : action;
+    const isNegated = action instanceof Action ? action.negated : false;
+    const actionSubject = action instanceof Action ? action.subject : undefined;
+    const translation = this.wordTranslations[primaryAction.id] as ActionTranslationRu;
+    const form = translation?.opts?.imperative || translation?.defaultForm || this.translateWord(primaryAction);
+    let result = isNegated ? `не ${form}` : form;
+    if (actionSubject) {
+      result = `${result} ${this.translateActionSubject(actionSubject)}`;
+    }
+    return result;
+  }
+
+  translatePossessive(possessor: Word, object?: Word, accusative?: boolean): string {
+    const table = accusative ? POSSESSIVE_FORMS_ACC : POSSESSIVE_FORMS;
+    const form = table[possessor.id];
+    if (typeof form === 'string') return form;
+    if (form && object) {
+      const objectTranslation = this.wordTranslations[object.id];
+      if (objectTranslation instanceof ObjectTranslation && objectTranslation.asActor) {
+        const gender = objectTranslation.asActor.id;
+        if (form[gender]) return form[gender];
+      }
+    }
+    return form ? (form as Record<string, string>).he : possessor.id;
+  }
+
+  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean; adjective?: Word; possessor?: Word }): string {
     const objectTranslation = this.wordTranslations[object.id] as ObjectTranslation;
+    const isAccusative = context?.isSubject === true;
     const objectForm = this.translateWord(object, context);
     const adjectiveForm = context?.adjective ? this.translateAdjective(context.adjective, object) : undefined;
+    const possessiveForm = context?.possessor ? this.translatePossessive(context.possessor, object, isAccusative) : undefined;
 
     let nounForm: string;
     if ((specifier === Word.many) && isDefined(objectTranslation.asMany)) {
@@ -386,7 +501,7 @@ class Russian extends Language {
     } else {
       nounForm = objectForm;
     }
-    return adjectiveForm ? `${adjectiveForm} ${nounForm}` : nounForm;
+    return [possessiveForm, adjectiveForm, nounForm].filter(Boolean).join(' ');
   }
 
   translateAdjective(adjective: Word, object?: Word): string {
