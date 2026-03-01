@@ -7,7 +7,7 @@
  * is to be translated into that language
  *
  */
-import { Word, Entity, Actor, Action, Sentence, PrepositionalPhrase, CompoundSentence } from './grammar';
+import { Word, Entity, Actor, Action, Sentence, PrepositionalPhrase, CompoundSentence, Question, SubordinateSentence, RelativeClause, AdjectiveDegree } from './grammar';
 import { isDefined } from './util';
 
 export const PERSONS = [
@@ -59,6 +59,8 @@ export interface ActionTranslationOpts {
   dependentActionConnector?: string;
   selfNegating?: boolean;
   imperative?: string;
+  presentParticiple?: string;
+  pastParticiple?: string;
 }
 
 export class Translation {
@@ -294,10 +296,11 @@ export type WordTranslations = Record<string, TranslationValue>;
 type TranslateContext = {
   isSubject?: boolean;
   adjective?: Word;
+  adjectiveDegree?: AdjectiveDegree;
   possessor?: Word;
 };
 
-type Fragment = Word | Entity | Sentence | CompoundSentence;
+type Fragment = Word | Entity | Sentence | CompoundSentence | Question | SubordinateSentence;
 
 export class Language {
   name: string;
@@ -309,6 +312,12 @@ export class Language {
   }
 
   translate(fragment: Fragment): string {
+    if (fragment instanceof SubordinateSentence) {
+      return this.translateSubordinateSentence(fragment);
+    }
+    if (fragment instanceof Question) {
+      return this.translateQuestion(fragment);
+    }
     if (fragment instanceof CompoundSentence) {
       return this.translateCompoundSentence(fragment);
     }
@@ -316,14 +325,26 @@ export class Language {
       return this.translateWord(fragment);
     }
     if (fragment instanceof Entity) {
-      const { word, specifier, adjective, possessor } = fragment;
-      return this.translateObject(word, specifier, { adjective, possessor });
+      const { word, specifier, adjective, adjectiveDegree, possessor, relativeClause } = fragment;
+      let result = this.translateObject(word, specifier, { adjective, adjectiveDegree, possessor });
+      if (relativeClause) {
+        result = `${result} ${this.translateRelativeClause(relativeClause)}`;
+      }
+      return result;
     }
 
-    const { actor, action, time } = fragment as Sentence;
+    const { actor, action, time, aspect } = fragment as Sentence;
 
     if (time === Word.imperative) {
       return this.translateAction(actor, action, time).trim();
+    }
+
+    if (time === Word.conditional) {
+      return this.translateConditional(actor, action);
+    }
+
+    if (aspect) {
+      return this.translateAspectSentence(actor, action, time, aspect);
     }
 
     return [
@@ -343,13 +364,20 @@ export class Language {
     return word.id;
   }
 
-  translateActor(actor: Word | Actor): string {
+  translateActor(actor: Word | Actor | Entity): string {
+    if (actor instanceof Entity) {
+      let result = this.translateObject(actor.word, actor.specifier, { adjective: actor.adjective, adjectiveDegree: actor.adjectiveDegree, possessor: actor.possessor });
+      if (actor.relativeClause) {
+        result = `${result} ${this.translateRelativeClause(actor.relativeClause)}`;
+      }
+      return result;
+    }
     return actor instanceof Actor ? this.translateWord(actor.person) : this.translateWord(actor);
   }
 
   translateObject(object: Word, specifier: Word | undefined, context?: TranslateContext): string {
     const objectForm = this.translateWord(object, context);
-    const adjectiveForm = context?.adjective ? this.translateAdjective(context.adjective, object) : undefined;
+    const adjectiveForm = context?.adjective ? this.translateAdjective(context.adjective, object, context.adjectiveDegree) : undefined;
     const possessiveForm = context?.possessor ? this.translatePossessive(context.possessor, object) : undefined;
     return [possessiveForm, adjectiveForm, objectForm].filter(Boolean).join(' ');
   }
@@ -358,35 +386,49 @@ export class Language {
     return this.translateWord(possessor);
   }
 
-  translateAdjective(adjective: Word, _object?: Word): string {
+  translateAdjective(adjective: Word, _object?: Word, degree?: AdjectiveDegree): string {
     const translation = this.wordTranslations[adjective.id];
     if (translation instanceof AdjectiveTranslation) {
+      if (degree === 'comparative' && translation.forms?.comparative) {
+        return translation.forms.comparative;
+      }
+      if (degree === 'superlative' && translation.forms?.superlative) {
+        return translation.forms.superlative;
+      }
       return translation.defaultForm;
     }
     return translation ? translation.defaultForm : adjective.id;
   }
 
-  //TODO: Refactor and simplify this method
   translateActionSubject(subject: Word | Entity): string {
     let specifier: Word | undefined;
     let adjective: Word | undefined;
+    let adjectiveDegree: AdjectiveDegree | undefined;
     let possessor: Word | undefined;
+    let relativeClause: RelativeClause | undefined;
     let subjectWord: Word;
     if (subject instanceof Entity) {
       specifier = subject.specifier;
       adjective = subject.adjective;
+      adjectiveDegree = subject.adjectiveDegree;
       possessor = subject.possessor;
+      relativeClause = subject.relativeClause;
       subjectWord = subject.word;
     } else {
       subjectWord = subject;
     }
     const subjectTranslation = this.wordTranslations[subjectWord.id];
 
+    let result: string;
     if (subjectTranslation instanceof ObjectTranslation) {
-      return this.translateObject(subjectWord, specifier, { isSubject: true, adjective, possessor });
+      result = this.translateObject(subjectWord, specifier, { isSubject: true, adjective, adjectiveDegree, possessor });
     } else {
-      return this.translateWord(subjectWord);
+      result = this.translateWord(subjectWord);
     }
+    if (relativeClause) {
+      result = `${result} ${this.translateRelativeClause(relativeClause)}`;
+    }
+    return result;
   }
 
   isActualPerson(actor: Word | Actor): boolean {
@@ -399,7 +441,7 @@ export class Language {
     return translation ? translation.defaultForm : adverb.id;
   }
 
-  translateImperative(action: Word | Action, _actor: Word | Actor): string {
+  translateImperative(action: Word | Action, _actor: Word | Actor | Entity): string {
     const primaryAction = action instanceof Action ? action.primary : action;
     const isNegated = action instanceof Action ? action.negated : false;
     const actionSubject = action instanceof Action ? action.subject : undefined;
@@ -409,12 +451,23 @@ export class Language {
     if (actionSubject) {
       result = `${result} ${this.translateActionSubject(actionSubject)}`;
     }
+    if (action instanceof Action && action.complement) {
+      result = `${result} ${this.translateComplement(action.complement, _actor, action.complementDegree)}`;
+    }
+    if (action instanceof Action && action.prepositionalPhrases.length > 0) {
+      const ppForms = action.prepositionalPhrases.map(pp => this.translatePrepositionalPhrase(pp));
+      result = `${result} ${ppForms.join(' ')}`;
+    }
     return result;
   }
 
-  translateAction(actor: Word | Actor, action: Word | Action, time: Word): string {
+  translateAction(actor: Word | Actor | Entity, action: Word | Action, time: Word): string {
     if (time === Word.imperative) {
       return this.translateImperative(action, actor);
+    }
+
+    if (action instanceof Action && action.passive) {
+      return this.translatePassiveAction(actor, action, time);
     }
 
     let secondaryAction: Word | undefined;
@@ -437,7 +490,12 @@ export class Language {
     }
 
     //Handling the case when the actor is some object that can be viewed as a person
-    if (!(actor instanceof Actor)) {
+    if (actor instanceof Entity) {
+      const actorTranslation = this.wordTranslations[actor.word.id];
+      if (isDefined(actorTranslation) && ('asActor' in actorTranslation)) {
+        actor = (actorTranslation as ObjectTranslation).asActor!;
+      }
+    } else if (!(actor instanceof Actor)) {
       const actorTranslation = this.wordTranslations[actor.id];
       if (isDefined(actorTranslation) && ('asActor' in actorTranslation)) {
         actor = (actorTranslation as ObjectTranslation).asActor!;
@@ -445,17 +503,19 @@ export class Language {
     }
 
     const translation = this.wordTranslations[primaryAction.id];
+    // At this point, actor has been resolved from Entity to Word|Actor above
+    const resolvedActor = actor as Word | Actor;
 
     let result: string = translation && (translation as ActionTranslation).conjugations ?
       (isNegated ?
-        (translation as ActionTranslation).getNegatedTimeActorForm(time, actor) :
-        (translation as ActionTranslation).timeActorForm(time, actor)
+        (translation as ActionTranslation).getNegatedTimeActorForm(time, resolvedActor) :
+        (translation as ActionTranslation).timeActorForm(time, resolvedActor)
       ) : this.translateWord(primaryAction);
 
     if (secondaryAction) {
       result = isNegated ?
-        (translation as ActionTranslation).getNegatedPrimaryTimeActorForm(time, actor) :
-        (translation as ActionTranslation).asPrimaryTimeActorForm(time, actor);
+        (translation as ActionTranslation).getNegatedPrimaryTimeActorForm(time, resolvedActor) :
+        (translation as ActionTranslation).asPrimaryTimeActorForm(time, resolvedActor);
       result = `${result} ${(this.wordTranslations[secondaryAction.id] as ActionTranslation).asSecondary()}`;
     }
     if (adverb) {
@@ -469,10 +529,19 @@ export class Language {
     if (actionSubject) {
       result = `${result} ${this.translateActionSubject(actionSubject)}`;
     }
-    if (action instanceof Action && action.prepositionalPhrase) {
-      result = `${result} ${this.translatePrepositionalPhrase(action.prepositionalPhrase)}`;
+    if (action instanceof Action && action.complement) {
+      const complementForm = this.translateComplement(action.complement, actor, action.complementDegree);
+      result = `${result} ${complementForm}`;
     }
-    return result;
+    if (action instanceof Action && action.prepositionalPhrases.length > 0) {
+      const ppForms = action.prepositionalPhrases.map(pp => this.translatePrepositionalPhrase(pp));
+      result = `${result} ${ppForms.join(' ')}`;
+    }
+    return result.replace(/\s+/g, ' ').trim();
+  }
+
+  translateComplement(complement: Word, _actor: Word | Actor | Entity, degree?: AdjectiveDegree): string {
+    return this.translateAdjective(complement, undefined, degree);
   }
 
   translatePrepositionalPhrase(pp: PrepositionalPhrase): string {
@@ -482,7 +551,12 @@ export class Language {
       const { word, specifier, adjective, possessor } = pp.object;
       objectForm = this.translateObject(word, specifier, { adjective, possessor });
     } else {
-      objectForm = this.translateWord(pp.object);
+      const translation = this.wordTranslations[pp.object.id];
+      if (translation instanceof ObjectTranslation && translation['asOblique']) {
+        objectForm = translation['asOblique'] as string;
+      } else {
+        objectForm = this.translateWord(pp.object);
+      }
     }
     return `${prepForm} ${objectForm}`;
   }
@@ -491,6 +565,116 @@ export class Language {
     const coordinatorForm = this.translateWord(compound.coordinator);
     const parts = compound.sentences.map(s => this.translate(s));
     return parts.join(` ${coordinatorForm} `);
+  }
+
+  resolveActorForConjugation(actor: Word | Actor | Entity): Word | Actor {
+    if (actor instanceof Entity) {
+      const actorTranslation = this.wordTranslations[actor.word.id];
+      if (isDefined(actorTranslation) && ('asActor' in actorTranslation)) {
+        return (actorTranslation as ObjectTranslation).asActor!;
+      }
+      return actor.word;
+    }
+    if (!(actor instanceof Actor)) {
+      const actorTranslation = this.wordTranslations[actor.id];
+      if (isDefined(actorTranslation) && ('asActor' in actorTranslation)) {
+        return (actorTranslation as ObjectTranslation).asActor!;
+      }
+    }
+    return actor;
+  }
+
+  getActionRest(action: Word | Action): string {
+    const parts: string[] = [];
+    if (action instanceof Action) {
+      if (action.secondary) {
+        parts.push((this.wordTranslations[action.secondary.id] as ActionTranslation).asSecondary());
+      }
+      if (action.subject) {
+        parts.push(this.translateActionSubject(action.subject));
+      }
+      if (action.complement) {
+        parts.push(this.translateComplement(action.complement, Word.it, action.complementDegree));
+      }
+      if (action.prepositionalPhrases.length > 0) {
+        action.prepositionalPhrases.forEach(pp => {
+          parts.push(this.translatePrepositionalPhrase(pp));
+        });
+      }
+    }
+    return parts.join(' ');
+  }
+
+  translatePassiveAction(actor: Word | Actor | Entity, action: Action, time: Word): string {
+    // Default: be(conjugated) + past participle + optional "by" agent
+    const resolvedActor = this.resolveActorForConjugation(actor);
+    const translation = this.wordTranslations[action.primary.id] as ActionTranslation;
+    const beTranslation = this.wordTranslations['be'] as ActionTranslation;
+    const beForm = beTranslation.timeActorForm(time, resolvedActor);
+    const participle = translation.opts.pastParticiple || translation.defaultForm;
+    const parts = [beForm, participle];
+    if (action.adverb) {
+      const adverbForm = this.translateAdverb(action.adverb);
+      parts.push(adverbForm);
+    }
+    if (action.agent) {
+      const byForm = this.translateWord(Word.by_agent);
+      if (action.agent instanceof Entity) {
+        const { word, specifier, adjective, possessor } = action.agent;
+        parts.push(byForm, this.translateObject(word, specifier, { adjective, possessor }));
+      } else {
+        const agentTranslation = this.wordTranslations[action.agent.id];
+        if (agentTranslation instanceof ObjectTranslation && agentTranslation['asOblique']) {
+          parts.push(byForm, agentTranslation['asOblique'] as string);
+        } else {
+          parts.push(byForm, this.translateWord(action.agent));
+        }
+      }
+    }
+    return parts.filter(Boolean).join(' ');
+  }
+
+  translateAspectSentence(actor: Word | Actor | Entity, action: Word | Action, time: Word, aspect: Word): string {
+    // Default: just translate as regular sentence (languages override this)
+    return [
+      this.translateActor(actor),
+      this.translateAction(actor, action, time)
+    ].join(' ').trim();
+  }
+
+  translateRelativeClause(rc: RelativeClause): string {
+    const pronounForm = this.translateWord(rc.relativePronoun);
+    // Only translate the action — the actor is represented by the relative pronoun
+    const actionForm = this.translateAction(rc.sentence.actor, rc.sentence.action, rc.sentence.time);
+    return `${pronounForm} ${actionForm}`;
+  }
+
+  translateConditional(actor: Word | Actor | Entity, action: Word | Action): string {
+    const primaryAction = action instanceof Action ? action.primary : action;
+    const translation = this.wordTranslations[primaryAction.id] as ActionTranslation;
+    const actorForm = this.translateActor(actor);
+    const verbForm = translation?.defaultForm || this.translateWord(primaryAction);
+    const rest = this.getActionRest(action);
+    return [actorForm, 'would', verbForm, rest].filter(Boolean).join(' ').trim();
+  }
+
+  translateSubordinateSentence(sub: SubordinateSentence): string {
+    const mainForm = this.translate(sub.main);
+    const subordinatorForm = this.translateWord(sub.subordinator);
+    const subordinateForm = this.translate(sub.subordinate);
+    if (sub.isSubordinateFirst) {
+      return `${subordinatorForm} ${subordinateForm}, ${mainForm}`;
+    }
+    return `${mainForm} ${subordinatorForm} ${subordinateForm}`;
+  }
+
+  translateQuestion(question: Question): string {
+    const { sentence, questionWord } = question;
+    const statementForm = this.translate(sentence);
+    if (questionWord) {
+      return `${this.translateWord(questionWord)} ${statementForm}?`;
+    }
+    return `${statementForm}?`;
   }
 
   insertAdverb(verbPhrase: string, adverbForm: string): string {

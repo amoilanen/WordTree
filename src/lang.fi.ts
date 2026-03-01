@@ -1,5 +1,5 @@
 import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, AdjectiveTranslation, AdverbTranslation, PrepositionTranslation, Language, WordTranslations } from './lang';
-import { Word, Actor, Action, Entity, PrepositionalPhrase } from './grammar';
+import { Word, Actor, Action, Entity, PrepositionalPhrase, Question } from './grammar';
 import { isDefined } from './util';
 
 const POSSESSIVE_FORMS: Record<string, string> = {
@@ -27,6 +27,9 @@ class ActionTranslationFi extends ActionTranslation {
 
   constructor(opts: ActionTranslationOpts & { keyVowel?: string; pastParticiple?: string; negationStem?: string }) {
     opts.keyVowel = opts.keyVowel || '';
+    if (!opts.imperative) {
+      opts.imperative = opts.root + opts.keyVowel;
+    }
     opts.futureMatchesNow = true;
     super(opts);
     this._pastParticiple = opts.pastParticiple || '';
@@ -100,7 +103,6 @@ const translations: WordTranslations = {
     root: 'laul',
     keyVowel: 'a',
     defaultForm: 'laulaa',
-    imperative: 'laula',
     pastParticiple: 'laulanut',
     conjugationRoots: {
       past: 'laulo'
@@ -110,7 +112,6 @@ const translations: WordTranslations = {
     root: 'te',
     keyVowel: 'e',
     defaultForm: 'tehdä',
-    imperative: 'tee',
     pastParticiple: 'tehnyt',
     conjugationRoots: {
       now: 'te',
@@ -131,7 +132,6 @@ const translations: WordTranslations = {
     root: 'men',
     keyVowel: 'e',
     defaultForm: 'mennä',
-    imperative: 'mene',
     pastParticiple: 'mennyt',
     conjugations: {
       now: {
@@ -145,7 +145,6 @@ const translations: WordTranslations = {
   sew: new ActionTranslationFi({
     root: 'omel',
     defaultForm: 'omella',
-    imperative: 'omele',
     keyVowel: 'e',
     pastParticiple: 'omellut'
   }),
@@ -190,7 +189,6 @@ const translations: WordTranslations = {
   look: new ActionTranslationFi({
     root: 'kats',
     defaultForm: 'katsoa',
-    imperative: 'katso',
     keyVowel: 'o',
     pastParticiple: 'katsonut',
     conjugationRoots: {
@@ -200,7 +198,6 @@ const translations: WordTranslations = {
   see: new ActionTranslationFi({
     root: 'nä',
     defaultForm: 'nähdä',
-    imperative: 'näe',
     keyVowel: 'e',
     pastParticiple: 'nähnyt',
     conjugations: {
@@ -217,7 +214,6 @@ const translations: WordTranslations = {
   want: new ActionTranslationFi({
     root: 'halu',
     keyVowel: 'a',
-    imperative: 'halua',
     pastParticiple: 'halunnut',
     conjugationRoots: {
       past: 'halus'
@@ -226,7 +222,6 @@ const translations: WordTranslations = {
   can: new ActionTranslationFi({
     root: 'vo',
     keyVowel: 'i',
-    imperative: 'voi',
     pastParticiple: 'voinut',
     conjugationRoots: {
       past: 'vois'
@@ -240,7 +235,6 @@ const translations: WordTranslations = {
   shine: new ActionTranslationFi({
     root: 'paist',
     keyVowel: 'a',
-    imperative: 'paista',
     pastParticiple: 'paistanut',
     conjugationRoots: {
       past: 'paisto'
@@ -250,7 +244,6 @@ const translations: WordTranslations = {
     root: 'ol',
     keyVowel: 'e',
     defaultForm: 'olla',
-    imperative: 'ole',
     pastParticiple: 'ollut',
     negationStem: 'ole',
     conjugations: {
@@ -273,24 +266,72 @@ const translations: WordTranslations = {
   now: new Translation('nyt'),
   future: new Translation('tulevaisuus'),
   past: new Translation('menneisyys'),
-  I: new Translation('minä'),
+  I: new ObjectTranslation({
+    defaultForm: 'minä',
+    asActor: Word.I,
+    asSubject: 'minut',
+    asPartitive: 'minua', asAllative: 'minulle', asElative: 'minusta',
+    asGenitive: 'minun', asAdessive: 'minulla'
+  }),
   you: new ObjectTranslation({
     defaultForm: 'sinä',
     asActor: Word.you,
-    asSubject: 'sinut'
+    asSubject: 'sinut',
+    asPartitive: 'sinua', asAllative: 'sinulle', asElative: 'sinusta',
+    asGenitive: 'sinun', asAdessive: 'sinulla'
   }),
-  you_formal: new Translation('sinä'),
-  he: new Translation('hän'),
-  she: new Translation('hän'),
+  you_formal: new ObjectTranslation({
+    defaultForm: 'sinä',
+    asActor: Word.you_formal,
+    asPartitive: 'sinua', asAllative: 'sinulle', asElative: 'sinusta',
+    asGenitive: 'sinun', asAdessive: 'sinulla'
+  }),
+  he: new ObjectTranslation({
+    defaultForm: 'hän',
+    asActor: Word.he,
+    asSubject: 'hänet',
+    asPartitive: 'häntä', asAllative: 'hänelle', asElative: 'hänestä',
+    asGenitive: 'hänen', asAdessive: 'hänellä'
+  }),
+  she: new ObjectTranslation({
+    defaultForm: 'hän',
+    asActor: Word.she,
+    asSubject: 'hänet',
+    asPartitive: 'häntä', asAllative: 'hänelle', asElative: 'hänestä',
+    asGenitive: 'hänen', asAdessive: 'hänellä'
+  }),
   it: new ObjectTranslation({
     defaultForm: 'se',
     asActor: Word.it,
-    asSubject: 'sitä'
+    asSubject: 'sitä',
+    asPartitive: 'sitä', asAllative: 'sille', asElative: 'siitä',
+    asGenitive: 'sen', asAdessive: 'sillä'
   }),
-  we: new Translation('me'),
-  you_plural: new Translation('te'),
-  you_plural_formal: new Translation('te'),
-  they: new Translation('ne'),
+  we: new ObjectTranslation({
+    defaultForm: 'me',
+    asActor: Word.we,
+    asSubject: 'meidät',
+    asPartitive: 'meitä', asAllative: 'meille', asElative: 'meistä',
+    asGenitive: 'meidän', asAdessive: 'meillä'
+  }),
+  you_plural: new ObjectTranslation({
+    defaultForm: 'te',
+    asActor: Word.you_plural,
+    asPartitive: 'teitä', asAllative: 'teille', asElative: 'teistä',
+    asGenitive: 'teidän', asAdessive: 'teillä'
+  }),
+  you_plural_formal: new ObjectTranslation({
+    defaultForm: 'te',
+    asActor: Word.you_plural_formal,
+    asPartitive: 'teitä', asAllative: 'teille', asElative: 'teistä',
+    asGenitive: 'teidän', asAdessive: 'teillä'
+  }),
+  they: new ObjectTranslation({
+    defaultForm: 'ne',
+    asActor: Word.they,
+    asPartitive: 'niitä', asAllative: 'niille', asElative: 'niistä',
+    asGenitive: 'niiden', asAdessive: 'niillä'
+  }),
   wet_snow_with_mud_and_ground: new Translation('loska'),
   snow_on_tree_branch: new Translation('tykky'),
   snow: new Translation('lumi'),
@@ -335,12 +376,12 @@ const translations: WordTranslations = {
     defaultForm: 'talo',
     asActor: Word.it
   }),
-  bright: new AdjectiveTranslation({ defaultForm: 'kirkas' }),
-  old: new AdjectiveTranslation({ defaultForm: 'vanha' }),
-  big: new AdjectiveTranslation({ defaultForm: 'suuri' }),
-  small: new AdjectiveTranslation({ defaultForm: 'pieni' }),
-  good: new AdjectiveTranslation({ defaultForm: 'hyvä' }),
-  white: new AdjectiveTranslation({ defaultForm: 'valkoinen' }),
+  bright: new AdjectiveTranslation({ defaultForm: 'kirkas', forms: { comparative: 'kirkkaampi', superlative: 'kirkkain' } }),
+  old: new AdjectiveTranslation({ defaultForm: 'vanha', forms: { comparative: 'vanhempi', superlative: 'vanhin' } }),
+  big: new AdjectiveTranslation({ defaultForm: 'suuri', forms: { comparative: 'suurempi', superlative: 'suurin' } }),
+  small: new AdjectiveTranslation({ defaultForm: 'pieni', forms: { comparative: 'pienempi', superlative: 'pienin' } }),
+  good: new AdjectiveTranslation({ defaultForm: 'hyvä', forms: { comparative: 'parempi', superlative: 'paras' } }),
+  white: new AdjectiveTranslation({ defaultForm: 'valkoinen', forms: { comparative: 'valkoisempi', superlative: 'valkoisin' } }),
   loudly: new AdverbTranslation('kovaa'),
   slowly: new AdverbTranslation('hitaasti'),
   quickly: new AdverbTranslation('nopeasti'),
@@ -352,7 +393,215 @@ const translations: WordTranslations = {
   from: new PrepositionTranslation({ defaultForm: 'from' }),
   at: new PrepositionTranslation({ defaultForm: 'at' }),
   over: new PrepositionTranslation({ defaultForm: 'yli' }),
-  behind: new PrepositionTranslation({ defaultForm: 'takana' })
+  behind: new PrepositionTranslation({ defaultForm: 'takana' }),
+  what: new Translation('mitä'),
+  who: new Translation('kuka'),
+  by_agent: new Translation(''),
+  who_rel: new Translation('joka'),
+  which_rel: new Translation('joka'),
+  that_rel: new Translation('joka'),
+  because: new Translation('koska'),
+  that_conj: new Translation('että'),
+  when_conj: new Translation('kun'),
+  // Phase 17: Tom Sawyer vocabulary — nouns
+  lady: new ObjectTranslation({
+    defaultForm: 'rouva', asActor: Word.she, asMany: 'rouvat',
+    asPartitive: 'rouvaa', asAllative: 'rouvalle', asElative: 'rouvasta',
+    asGenitive: 'rouvan', asAdessive: 'rouvalla', asInessive: 'rouvassa'
+  }),
+  room: new ObjectTranslation({
+    defaultForm: 'huone', asActor: Word.it, asMany: 'huoneet',
+    asPartitive: 'huonetta', asAllative: 'huoneelle', asElative: 'huoneesta',
+    asGenitive: 'huoneen', asAdessive: 'huoneella', asInessive: 'huoneessa'
+  }),
+  door: new ObjectTranslation({
+    defaultForm: 'ovi', asActor: Word.it, asMany: 'ovet',
+    asPartitive: 'ovea', asAllative: 'ovelle', asElative: 'ovesta',
+    asGenitive: 'oven', asAdessive: 'ovella', asInessive: 'ovessa'
+  }),
+  boy: new ObjectTranslation({
+    defaultForm: 'poika', asActor: Word.he, asMany: 'pojat',
+    asPartitive: 'poikaa', asAllative: 'pojalle', asElative: 'pojasta',
+    asGenitive: 'pojan', asAdessive: 'pojalla', asInessive: 'pojassa'
+  }),
+  fence: new ObjectTranslation({
+    defaultForm: 'aita', asActor: Word.it, asMany: 'aidat',
+    asPartitive: 'aitaa', asAllative: 'aidalle', asElative: 'aidasta',
+    asGenitive: 'aidan', asAdessive: 'aidalla', asInessive: 'aidassa'
+  }),
+  cat: new ObjectTranslation({
+    defaultForm: 'kissa', asActor: Word.it, asMany: 'kissat',
+    asPartitive: 'kissaa', asAllative: 'kissalle', asElative: 'kissasta',
+    asGenitive: 'kissan', asAdessive: 'kissalla', asInessive: 'kissassa'
+  }),
+  noise: new ObjectTranslation({
+    defaultForm: 'ääni', asActor: Word.it, asMany: 'äänet',
+    asPartitive: 'ääntä', asAllative: 'äänelle', asElative: 'äänestä',
+    asGenitive: 'äänen', asAdessive: 'äänellä', asInessive: 'äänessä'
+  }),
+  air: new ObjectTranslation({
+    defaultForm: 'ilma', asActor: Word.it,
+    asPartitive: 'ilmaa', asAllative: 'ilmalle', asElative: 'ilmasta',
+    asGenitive: 'ilman', asAdessive: 'ilmalla', asInessive: 'ilmassa'
+  }),
+  name_noun: new ObjectTranslation({
+    defaultForm: 'nimi', asActor: Word.it, asMany: 'nimet',
+    asPartitive: 'nimeä', asAllative: 'nimelle', asElative: 'nimestä',
+    asGenitive: 'nimen', asAdessive: 'nimellä', asInessive: 'nimessä'
+  }),
+  lad: new ObjectTranslation({
+    defaultForm: 'nuorukainen', asActor: Word.he, asMany: 'nuorukaiset',
+    asPartitive: 'nuorukaista', asAllative: 'nuorukaiselle', asElative: 'nuorukaisesta',
+    asGenitive: 'nuorukaisen', asAdessive: 'nuorukaisella', asInessive: 'nuorukaisessa'
+  }),
+  stranger: new ObjectTranslation({
+    defaultForm: 'muukalainen', asActor: Word.he, asMany: 'muukalaiset',
+    asPartitive: 'muukalaista', asAllative: 'muukalaiselle', asElative: 'muukalaisesta',
+    asGenitive: 'muukalaisen', asAdessive: 'muukalaisella', asInessive: 'muukalaisessa'
+  }),
+  window: new ObjectTranslation({
+    defaultForm: 'ikkuna', asActor: Word.it, asMany: 'ikkunat',
+    asPartitive: 'ikkunaa', asAllative: 'ikkunalle', asElative: 'ikkunasta',
+    asGenitive: 'ikkunan', asAdessive: 'ikkunalla', asInessive: 'ikkunassa'
+  }),
+  clothes: new ObjectTranslation({
+    defaultForm: 'vaatteet', asActor: Word.it,
+    asPartitive: 'vaatteita', asAllative: 'vaatteille', asElative: 'vaatteista',
+    asGenitive: 'vaatteiden', asAdessive: 'vaatteilla', asInessive: 'vaatteissa'
+  }),
+  switch_noun: new ObjectTranslation({
+    defaultForm: 'vitsa', asActor: Word.it, asMany: 'vitsat',
+    asPartitive: 'vitsaa', asAllative: 'vitsalle', asElative: 'vitsasta',
+    asGenitive: 'vitsan', asAdessive: 'vitsalla', asInessive: 'vitsassa'
+  }),
+  time_noun: new ObjectTranslation({
+    defaultForm: 'aika', asActor: Word.it, asMany: 'ajat',
+    asPartitive: 'aikaa', asAllative: 'ajalle', asElative: 'ajasta',
+    asGenitive: 'ajan', asAdessive: 'ajalla', asInessive: 'ajassa'
+  }),
+  voice: new ObjectTranslation({
+    defaultForm: 'ääni', asActor: Word.it,
+    asPartitive: 'ääntä', asAllative: 'äänelle', asElative: 'äänestä',
+    asGenitive: 'äänen', asAdessive: 'äänellä', asInessive: 'äänessä'
+  }),
+  jam: new ObjectTranslation({ defaultForm: 'hillo', asActor: Word.it }),
+  summer: new ObjectTranslation({
+    defaultForm: 'kesä', asActor: Word.it,
+    asPartitive: 'kesää', asAllative: 'kesälle', asElative: 'kesästä',
+    asGenitive: 'kesän', asAdessive: 'kesällä', asInessive: 'kesässä'
+  }),
+  // Phase 17: Tom Sawyer vocabulary — verbs
+  finish: new ActionTranslationFi({
+    root: 'lopet', keyVowel: 'a', defaultForm: 'lopettaa', pastParticiple: 'lopettanut',
+    negationStem: 'lopeta',
+    conjugationRoots: { now: 'lopett', past: 'lopett' },
+    conjugations: { now: { he_she_it: 'lopettaa', they: 'lopettavat' } }
+  }),
+  shout: new ActionTranslationFi({
+    root: 'huut', keyVowel: 'a', defaultForm: 'huutaa', pastParticiple: 'huutanut',
+    negationStem: 'huuda',
+    conjugationRoots: { now: 'huud', past: 'huus' },
+    conjugations: { now: { he_she_it: 'huutaa', they: 'huutavat' } }
+  }),
+  turn: new ActionTranslationFi({
+    root: 'käänt', keyVowel: 'y', defaultForm: 'kääntyä', pastParticiple: 'kääntynyt',
+    negationStem: 'käänny',
+    conjugationRoots: { now: 'käänn', past: 'käänty' }
+  }),
+  seize: new ActionTranslationFi({
+    root: 'tarttu', keyVowel: 'a', defaultForm: 'tarttua', pastParticiple: 'tarttunut',
+    negationStem: 'tartu',
+    conjugationRoots: { past: 'tarttu' }
+  }),
+  flee: new ActionTranslationFi({
+    root: 'paken', keyVowel: 'e', defaultForm: 'paeta', pastParticiple: 'paennut',
+    negationStem: 'pakene',
+    conjugationRoots: { past: 'paken' },
+    conjugations: { now: { he_she_it: 'pakenee', they: 'pakenevat' } }
+  }),
+  hover: new ActionTranslationFi({
+    root: 'leiju', keyVowel: 'a', defaultForm: 'leijua', pastParticiple: 'leijunut',
+    conjugationRoots: { past: 'leiju' }
+  }),
+  whirl: new ActionTranslationFi({
+    root: 'pyör', keyVowel: 'i', defaultForm: 'pyöriä', pastParticiple: 'pyörinyt',
+    negationStem: 'pyöri',
+    conjugationRoots: { now: 'pyöri', past: 'pyör' },
+    conjugations: { now: { he_she_it: 'pyörii', they: 'pyörivät' } }
+  }),
+  cry: new ActionTranslationFi({
+    root: 'itk', keyVowel: 'e', defaultForm: 'itkeä', pastParticiple: 'itkenyt',
+    negationStem: 'itke',
+    conjugationRoots: { past: 'itk' },
+    conjugations: { now: { he_she_it: 'itkee', they: 'itkevät' } }
+  }),
+  chase: new ActionTranslationFi({
+    root: 'jahd', keyVowel: 'a', defaultForm: 'jahtaa', pastParticiple: 'jahtannut',
+    negationStem: 'jahtaa',
+    conjugationRoots: { now: 'jaht', past: 'jahtas' },
+    conjugations: { now: { he_she_it: 'jahtaa', they: 'jahtaavat' } }
+  }),
+  climb: new ActionTranslationFi({
+    root: 'kiipe', keyVowel: 'ä', defaultForm: 'kiivetä', pastParticiple: 'kiivennyt',
+    negationStem: 'kiipeä',
+    conjugationRoots: { now: 'kiipe', past: 'kiipes' },
+    conjugations: { now: { he_she_it: 'kiipeää', they: 'kiipeävät' } }
+  }),
+  know: new ActionTranslationFi({
+    root: 'tied', keyVowel: 'ä', defaultForm: 'tietää', pastParticiple: 'tiennyt',
+    negationStem: 'tiedä',
+    conjugationRoots: { now: 'tied', past: 'ties' },
+    conjugations: { now: { he_she_it: 'tietää', they: 'tietävät' } }
+  }),
+  lick: new ActionTranslationFi({
+    root: 'lyö', keyVowel: '', defaultForm: 'lyödä', pastParticiple: 'lyönyt',
+    negationStem: 'lyö',
+    conjugationRoots: { past: 'lö' },
+    conjugations: { now: { I: 'lyön', you: 'lyöt', you_formal: 'lyöt', he: 'lyö', she: 'lyö', it: 'lyö', we: 'lyömme', you_plural: 'lyötte', you_plural_formal: 'lyötte', they: 'lyövät' } }
+  }),
+  lift: new ActionTranslationFi({
+    root: 'nost', keyVowel: 'a', defaultForm: 'nostaa', pastParticiple: 'nostanut',
+    negationStem: 'nosta',
+    conjugationRoots: { past: 'nost' },
+    conjugations: { now: { he_she_it: 'nostaa', they: 'nostavat' } }
+  }),
+  disappear: new ActionTranslationFi({
+    root: 'kato', keyVowel: 'a', defaultForm: 'kadota', pastParticiple: 'kadonnut',
+    negationStem: 'katoa',
+    conjugationRoots: { now: 'kato', past: 'katos' },
+    conjugations: { now: { he_she_it: 'katoaa', they: 'katoavat' } }
+  }),
+  play: new ActionTranslationFi({
+    root: 'leikki', keyVowel: '', defaultForm: 'leikkiä', pastParticiple: 'leikkinyt',
+    negationStem: 'leiki',
+    conjugationRoots: { now: 'leikki', past: 'leikk' },
+    conjugations: { now: { he_she_it: 'leikkii', they: 'leikkivät' } }
+  }),
+  dress: new ActionTranslationFi({
+    root: 'puke', keyVowel: 'a', defaultForm: 'pukea', pastParticiple: 'pukenut',
+    negationStem: 'pue',
+    conjugationRoots: { now: 'puke', past: 'puk' },
+    conjugations: { now: { he_she_it: 'pukeaa', they: 'pukeavat' } }
+  }),
+  // Phase 17: Tom Sawyer vocabulary — adjectives
+  long: new AdjectiveTranslation({ defaultForm: 'pitkä', forms: { comparative: 'pidempi', superlative: 'pisin' } }),
+  slight: new AdjectiveTranslation({ defaultForm: 'hiljainen' }),
+  afraid: new AdjectiveTranslation({ defaultForm: 'peloissaan' }),
+  young: new AdjectiveTranslation({ defaultForm: 'nuori', forms: { comparative: 'nuorempi', superlative: 'nuorin' } }),
+  new_adj: new AdjectiveTranslation({ defaultForm: 'uusi', forms: { comparative: 'uudempi', superlative: 'uusin' } }),
+  open_adj: new AdjectiveTranslation({ defaultForm: 'avoin' }),
+  surprised: new AdjectiveTranslation({ defaultForm: 'yllättynyt' }),
+  // Phase 17: Tom Sawyer vocabulary — adverbs
+  cautiously: new AdverbTranslation('varovasti'),
+  round_adv: new AdverbTranslation('ympäri'),
+  home_adv: new AdverbTranslation('kotiin'),
+  // Phase 17: Tom Sawyer vocabulary — prepositions
+  in_loc: new PrepositionTranslation({ defaultForm: 'in_loc' }),
+  through_prep: new PrepositionTranslation({ defaultForm: 'through_prep' }),
+  before_prep: new PrepositionTranslation({ defaultForm: 'before_prep' }),
+  about_prep: new PrepositionTranslation({ defaultForm: 'about_prep' }),
+  // Phase 17: existential
+  there_exists: new Translation('')
 };
 
 class Finnish extends Language {
@@ -361,10 +610,88 @@ class Finnish extends Language {
     super('Finnish', translations);
   }
 
-  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean; adjective?: Word; possessor?: Word }): string {
+  translateAspectSentence(actor: Word | Actor, action: Word | Action, time: Word, aspect: Word): string {
+    if (aspect === Word.progressive) {
+      // Finnish: use simple tense for progressive
+      return [
+        this.translateActor(actor),
+        this.translateAction(actor, action, time)
+      ].join(' ').trim();
+    }
+
+    if (aspect === Word.perfect) {
+      const primaryAction = action instanceof Action ? action.primary : action;
+      const translation = this.wordTranslations[primaryAction.id] as ActionTranslationFi;
+      const resolvedActor = this.resolveActorForConjugation(actor);
+      const actorForm = this.translateActor(actor);
+      const beTranslation = this.wordTranslations['be'] as ActionTranslation;
+      const beForm = beTranslation.timeActorForm(time, resolvedActor);
+      const participle = translation.opts.pastParticiple || '';
+      const rest = this.getActionRest(action);
+      return [actorForm, beForm, participle, rest].filter(Boolean).join(' ').trim();
+    }
+
+    return super.translateAspectSentence(actor, action, time, aspect);
+  }
+
+  translateConditional(actor: Word | Actor | Entity, action: Word | Action): string {
+    const primaryAction = action instanceof Action ? action.primary : action;
+    const translation = this.wordTranslations[primaryAction.id] as ActionTranslationFi;
+    const resolvedActor = this.resolveActorForConjugation(actor);
+    const personId = resolvedActor instanceof Actor ? resolvedActor.person.id : (resolvedActor as Word).id;
+    const isNegated = action instanceof Action ? action.negated : false;
+
+    // Finnish conditional: stem + isi + personal ending
+    // Key vowels a/o/u are kept before -isi-, while e/i are replaced
+    const base = translation.conjugationRoots['now'] || translation.root;
+    const keepVowel = /[aou]/.test(translation.keyVowel);
+    const stem = keepVowel ? base + translation.keyVowel : base;
+    const endings: Record<string, string> = {
+      I: 'n', you: 't', you_formal: 't',
+      he: '', she: '', it: '',
+      we: 'mme', you_plural: 'tte', you_plural_formal: 'tte', they: 'vat'
+    };
+    const conditionalForm = `${stem}isi${endings[personId] || ''}`;
+    const rest = this.getActionRest(action);
+
+    if (isNegated) {
+      const aux = NEGATIVE_AUX[personId];
+      return [aux, `${stem}isi`, rest].filter(Boolean).join(' ').trim();
+    }
+
+    return [conditionalForm, rest].filter(Boolean).join(' ').trim();
+  }
+
+  getQuestionSuffix(verbForm: string): string {
+    return /[aou]/.test(verbForm) ? 'ko' : 'kö';
+  }
+
+  translateQuestion(question: Question): string {
+    const { sentence, questionWord } = question;
+    const { actor, action, time } = sentence;
+
+    const primaryAction = action instanceof Action ? action.primary : action;
+    const translation = this.wordTranslations[primaryAction.id] as ActionTranslationFi;
+    const resolvedActor = this.resolveActorForConjugation(actor);
+    const verbForm = translation.timeActorForm(time, resolvedActor);
+    const actorForm = this.translateActor(actor);
+    const rest = this.getActionRest(action);
+
+    if (questionWord) {
+      const qWordForm = this.translateWord(questionWord);
+      return [qWordForm, verbForm, actorForm, rest].filter(Boolean).join(' ').trim() + '?';
+    }
+
+    // Yes/no: verb+ko/kö
+    const suffix = this.getQuestionSuffix(verbForm);
+    const questionVerb = `${verbForm}${suffix}`;
+    return [questionVerb, actorForm, rest].filter(Boolean).join(' ').trim() + '?';
+  }
+
+  translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean; adjective?: Word; adjectiveDegree?: import('./grammar').AdjectiveDegree; possessor?: Word }): string {
     const objectTranslation = this.wordTranslations[object.id] as ObjectTranslation;
     const objectForm = this.translateWord(object, context);
-    const adjectiveForm = context?.adjective ? this.translateAdjective(context.adjective, object) : undefined;
+    const adjectiveForm = context?.adjective ? this.translateAdjective(context.adjective, object, context.adjectiveDegree) : undefined;
     const possessiveForm = context?.possessor ? this.translatePossessive(context.possessor) : undefined;
 
     let nounForm: string;
@@ -381,19 +708,30 @@ class Finnish extends Language {
     const objectTranslation = this.wordTranslations[objectWord.id] as ObjectTranslation;
     // Case-only prepositions (no separate preposition word needed)
     const caseOnlyMap: Record<string, string> = {
-      to: 'asAllative', from: 'asElative', at: 'asPartitive'
+      to: 'asAllative', from: 'asElative', at: 'asPartitive',
+      in_loc: 'asInessive', through_prep: 'asElative', about_prep: 'asElative'
     };
     const caseKey = caseOnlyMap[pp.preposition.id];
     if (caseKey && objectTranslation && objectTranslation[caseKey]) {
-      return objectTranslation[caseKey] as string;
+      const caseForm = objectTranslation[caseKey] as string;
+      if (pp.object instanceof Entity && pp.object.adjective) {
+        const adjForm = this.translateAdjective(pp.object.adjective, objectWord, pp.object.adjectiveDegree);
+        return `${adjForm} ${caseForm}`;
+      }
+      return caseForm;
     }
     // Postpositions: genitive + postposition word
     const postpositionMap: Record<string, string> = {
-      over: 'yli', behind: 'takana'
+      over: 'yli', behind: 'takana', before_prep: 'edessä'
     };
     const postposition = postpositionMap[pp.preposition.id];
     if (postposition && objectTranslation && objectTranslation['asGenitive']) {
-      return `${objectTranslation['asGenitive']} ${postposition}`;
+      const genForm = objectTranslation['asGenitive'] as string;
+      if (pp.object instanceof Entity && pp.object.adjective) {
+        const adjForm = this.translateAdjective(pp.object.adjective, objectWord, pp.object.adjectiveDegree);
+        return `${adjForm} ${genForm} ${postposition}`;
+      }
+      return `${genForm} ${postposition}`;
     }
     return super.translatePrepositionalPhrase(pp);
   }
@@ -421,6 +759,10 @@ class Finnish extends Language {
       }
       result = `${result} ${this.translateObject(subjectWord, specifier, { adjective, possessor })}`;
     }
+    if (action instanceof Action && action.prepositionalPhrases.length > 0) {
+      const ppForms = action.prepositionalPhrases.map((pp: PrepositionalPhrase) => this.translatePrepositionalPhrase(pp));
+      result = `${result} ${ppForms.join(' ')}`;
+    }
     return result;
   }
 
@@ -432,7 +774,8 @@ class Finnish extends Language {
     return `${verbPhrase} ei ${adverbForm}`;
   }
 
-  translateActor(actor: Word | Actor): string {
+  translateActor(actor: Word | Actor | Entity): string {
+    if (actor instanceof Entity) return super.translateActor(actor);
     return this.isActualPerson(actor) ? '' : super.translateActor(actor);
   }
 }

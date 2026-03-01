@@ -1,4 +1,4 @@
-import { Word, Entity, Actor, Action, Sentence, PrepositionalPhrase, CompoundSentence } from '../src/grammar';
+import { Word, Entity, Actor, Action, Sentence, PrepositionalPhrase, CompoundSentence, Question, SubordinateSentence } from '../src/grammar';
 import en from '../src/lang.en';
 import fi from '../src/lang.fi';
 import nl from '../src/lang.nl';
@@ -1660,6 +1660,368 @@ describe('compound sentences', function() {
         [fi, 'laulan ja katsoo'],
         [nl, 'ik zing en zij kijkt'],
         [ru, 'я буду петь и она будет смотреть']
+      ]
+    );
+  });
+});
+
+describe('pronouns as prepositional phrase objects', function() {
+
+  describe('she looks at him', function() {
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.she).
+        action(Action.$.
+          primary(Word.look).
+          prepositionalPhrase(PrepositionalPhrase.$(Word.at).object(Word.he).$).$).
+        time(Word.now).$,
+      [
+        [en, 'she looks at him'],
+        [fi, 'katsoo häntä'],
+        [nl, 'zij kijkt naar hem'],
+        [ru, 'она смотрит на него']
+      ]
+    );
+  });
+
+  describe('I go to her', function() {
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.I).
+        action(Action.$.
+          primary(Word.go).
+          prepositionalPhrase(PrepositionalPhrase.$(Word.to).object(Word.she).$).$).
+        time(Word.now).$,
+      [
+        [en, 'I go to her'],
+        [fi, 'menen hänelle'],
+        [nl, 'ik ga naar haar'],
+        [ru, 'я иду к ней']
+      ]
+    );
+  });
+
+  describe('he goes behind us', function() {
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.he).
+        action(Action.$.
+          primary(Word.go).
+          prepositionalPhrase(PrepositionalPhrase.$(Word.behind).object(Word.we).$).$).
+        time(Word.now).$,
+      [
+        [en, 'he goes behind us'],
+        [fi, 'menee meidän takana'],
+        [nl, 'hij gaat achter ons'],
+        [ru, 'он идет за нами']
+      ]
+    );
+  });
+
+  describe('they look at me', function() {
+    shouldTranslate(
+      Sentence.$.
+        actor(Word.they).
+        action(Action.$.
+          primary(Word.look).
+          prepositionalPhrase(PrepositionalPhrase.$(Word.at).object(Word.I).$).$).
+        time(Word.now).$,
+      [
+        [en, 'they look at me'],
+        [fi, 'katsovat minua'],
+        [nl, 'ze kijken naar mij'],
+        [ru, 'они смотрят на меня']
+      ]
+    );
+  });
+});
+
+describe('questions', function() {
+
+  describe('yes/no questions', function() {
+
+    describe('do you sing?', function() {
+      shouldTranslate(
+        Question.$.actor(Word.you).action(Word.sing).time(Word.now).$,
+        [
+          [en, 'do you sing?'],
+          [fi, 'laulatko?'],
+          [nl, 'zing je?'],
+          [ru, 'ты поешь?']
+        ]
+      );
+    });
+
+    describe('did she go?', function() {
+      shouldTranslate(
+        Question.$.actor(Word.she).action(Word.go).time(Word.past).$,
+        [
+          [en, 'did she go?'],
+          [fi, 'menikö?'],
+          [nl, 'ging zij?'],
+          [ru, 'она шла?']
+        ]
+      );
+    });
+
+    describe('can you sing?', function() {
+      shouldTranslate(
+        Question.$.actor(Word.you).action(Action.$.primary(Word.can).secondary(Word.sing).$).time(Word.now).$,
+        [
+          [en, 'can you sing?'],
+          [fi, 'voitko laulaa?'],
+          [nl, 'kun je zingen?'],
+          [ru, 'ты можешь петь?']
+        ]
+      );
+    });
+  });
+
+  describe('wh-questions', function() {
+
+    describe('what do you see?', function() {
+      shouldTranslate(
+        Question.$.questionWord(Word.what).actor(Word.you).action(Word.see).time(Word.now).$,
+        [
+          [en, 'what do you see?'],
+          [fi, 'mitä näet?'],
+          [nl, 'wat zie je?'],
+          [ru, 'что ты видишь?']
+        ]
+      );
+    });
+  });
+});
+
+describe('subordinate clauses', function() {
+
+  describe('I sing because she looks', function() {
+    shouldTranslate(
+      SubordinateSentence.$.
+        main(Sentence.$.actor(Word.I).action(Word.sing).time(Word.now).$).
+        subordinator(Word.because).
+        subordinate(Sentence.$.actor(Word.she).action(Word.look).time(Word.now).$).$,
+      [
+        [en, 'I sing because she looks'],
+        [fi, 'laulan koska katsoo'],
+        [nl, 'ik zing omdat zij kijkt'],
+        [ru, 'я пою потому что она смотрит']
+      ]
+    );
+  });
+
+  describe('because she looks, I sing', function() {
+    shouldTranslate(
+      SubordinateSentence.$.
+        main(Sentence.$.actor(Word.I).action(Word.sing).time(Word.now).$).
+        subordinator(Word.because).
+        subordinate(Sentence.$.actor(Word.she).action(Word.look).time(Word.now).$).
+        subordinateFirst().$,
+      [
+        [en, 'because she looks, I sing'],
+        [fi, 'koska katsoo, laulan'],
+        [nl, 'omdat zij kijkt, ik zing'],
+        [ru, 'потому что она смотрит, я пою']
+      ]
+    );
+  });
+
+  describe('when the sun shines, he goes', function() {
+    shouldTranslate(
+      SubordinateSentence.$.
+        main(Sentence.$.actor(Word.he).action(Word.go).time(Word.now).$).
+        subordinator(Word.when_conj).
+        subordinate(Sentence.$.actor(Word.sun).action(Word.shine).time(Word.now).$).
+        subordinateFirst().$,
+      [
+        [en, 'when sun shines, he goes'],
+        [fi, 'kun aurinko paistaa, menee'],
+        [nl, 'wanneer de zon schijnt, hij gaat'],
+        [ru, 'когда солнце светит, он идет']
+      ]
+    );
+  });
+});
+
+describe('progressive aspect', function() {
+
+  describe('I am singing', function() {
+    shouldTranslate(
+      Sentence.$.actor(Word.I).action(Word.sing).time(Word.now).aspect(Word.progressive).$,
+      [
+        [en, 'I am singing'],
+        [fi, 'laulan'],
+        [nl, 'ik ben aan het zingen'],
+        [ru, 'я пою']
+      ]
+    );
+  });
+
+  describe('she was singing', function() {
+    shouldTranslate(
+      Sentence.$.actor(Word.she).action(Word.sing).time(Word.past).aspect(Word.progressive).$,
+      [
+        [en, 'she was singing'],
+        [fi, 'lauloi'],
+        [nl, 'zij was aan het zingen'],
+        [ru, 'она пела']
+      ]
+    );
+  });
+});
+
+describe('perfect aspect', function() {
+
+  describe('I have seen', function() {
+    shouldTranslate(
+      Sentence.$.actor(Word.I).action(Word.see).time(Word.now).aspect(Word.perfect).$,
+      [
+        [en, 'I have seen'],
+        [fi, 'olen nähnyt'],
+        [nl, 'ik heb gezien'],
+        [ru, 'я видел']
+      ]
+    );
+  });
+
+  describe('she had gone', function() {
+    shouldTranslate(
+      Sentence.$.actor(Word.she).action(Word.go).time(Word.past).aspect(Word.perfect).$,
+      [
+        [en, 'she had gone'],
+        [fi, 'oli mennyt'],
+        [nl, 'zij had gegaan'],
+        [ru, 'она шла']
+      ]
+    );
+  });
+});
+
+describe('passive voice', function() {
+
+  const wordThis = (Word as unknown as Record<string, Word>)['this'];
+
+  describe('the house was built', function() {
+    shouldTranslate(
+      Sentence.$.actor(Entity.$(Word.house).specifier(wordThis).$).action(Action.$.primary(Word.build).passive().$).time(Word.past).$,
+      [
+        [en, 'the house was built'],
+        [fi, 'talo oli rakentanut'],
+        [nl, 'het huis was gebouwd'],
+        [ru, 'дом был построен']
+      ]
+    );
+  });
+
+  describe('the house was built by him', function() {
+    shouldTranslate(
+      Sentence.$.actor(Entity.$(Word.house).specifier(wordThis).$).action(Action.$.primary(Word.build).passive().agent(Word.he).$).time(Word.past).$,
+      [
+        [en, 'the house was built by him'],
+        [fi, 'talo oli rakentanut hän'],
+        [nl, 'het huis was gebouwd door hem'],
+        [ru, 'дом был построен ним']
+      ]
+    );
+  });
+});
+
+describe('relative clauses', function() {
+
+  const wordThis = (Word as unknown as Record<string, Word>)['this'];
+
+  describe('the bird that sings', function() {
+    shouldTranslate(
+      Entity.$(Word.bird).specifier(wordThis).relativeClause(Word.that_rel,
+        Sentence.$.actor(Word.it).action(Word.sing).time(Word.now).$).$,
+      [
+        [en, 'the bird that sings'],
+        [fi, 'lintu joka laulaa'],
+        [nl, 'de vogel die zingt'],
+        [ru, 'птица который поет']
+      ]
+    );
+  });
+
+  describe('I see the bird that sings', function() {
+    shouldTranslate(
+      Sentence.$.actor(Word.I).action(Action.$.primary(Word.see).subject(
+        Entity.$(Word.bird).specifier(wordThis).relativeClause(Word.that_rel,
+          Sentence.$.actor(Word.it).action(Word.sing).time(Word.now).$).$
+      ).$).time(Word.now).$,
+      [
+        [en, 'I see the bird that sings'],
+        [fi, 'näen linnun joka laulaa'],
+        [nl, 'ik zie de vogel die zingt'],
+        [ru, 'я вижу птицу который поет']
+      ]
+    );
+  });
+});
+
+describe('conditional mood', function() {
+
+  describe('I would sing', function() {
+    shouldTranslate(
+      Sentence.$.actor(Word.I).action(Word.sing).time(Word.conditional).$,
+      [
+        [en, 'I would sing'],
+        [fi, 'laulaisin'],
+        [nl, 'ik zou zingen'],
+        [ru, 'я пел бы']
+      ]
+    );
+  });
+
+  describe('she would go', function() {
+    shouldTranslate(
+      Sentence.$.actor(Word.she).action(Word.go).time(Word.conditional).$,
+      [
+        [en, 'she would go'],
+        [fi, 'menisi'],
+        [nl, 'zij zou gaan'],
+        [ru, 'она шла бы']
+      ]
+    );
+  });
+});
+
+describe('comparative adjectives', function() {
+
+  const wordThis = (Word as unknown as Record<string, Word>)['this'];
+
+  describe('bigger house', function() {
+    shouldTranslate(
+      Entity.$(Word.house).adjective(Word.big, 'comparative').$,
+      [
+        [en, 'bigger house'],
+        [fi, 'suurempi talo'],
+        [nl, 'grotere huis'],
+        [ru, 'больше дом']
+      ]
+    );
+  });
+
+  describe('the biggest house', function() {
+    shouldTranslate(
+      Entity.$(Word.house).specifier(wordThis).adjective(Word.big, 'superlative').$,
+      [
+        [en, 'the biggest house'],
+        [fi, 'suurin talo'],
+        [nl, 'het grootste huis'],
+        [ru, 'самый большой дом']
+      ]
+    );
+  });
+
+  describe('the best bird', function() {
+    shouldTranslate(
+      Entity.$(Word.bird).specifier(wordThis).adjective(Word.good, 'superlative').$,
+      [
+        [en, 'the best bird'],
+        [fi, 'paras lintu'],
+        [nl, 'de beste vogel'],
+        [ru, 'лучший птица']
       ]
     );
   });
