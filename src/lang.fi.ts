@@ -601,7 +601,86 @@ const translations: WordTranslations = {
   before_prep: new PrepositionTranslation({ defaultForm: 'before_prep' }),
   about_prep: new PrepositionTranslation({ defaultForm: 'about_prep' }),
   // Phase 17: existential
-  there_exists: new Translation('')
+  there_exists: new Translation(''),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — nouns
+  hand: new ObjectTranslation({
+    defaultForm: 'käsi', asActor: Word.it, asMany: 'kädet',
+    asPartitive: 'kättä', asAllative: 'kädelle', asElative: 'kädestä',
+    asGenitive: 'käden', asAdessive: 'kädellä', asInessive: 'kädessä'
+  }),
+  mouth: new ObjectTranslation({
+    defaultForm: 'suu', asActor: Word.it, asMany: 'suut',
+    asPartitive: 'suuta', asAllative: 'suulle', asElative: 'suusta',
+    asGenitive: 'suun', asAdessive: 'suulla', asInessive: 'suussa'
+  }),
+  stone: new ObjectTranslation({
+    defaultForm: 'kivi', asActor: Word.it, asMany: 'kivet',
+    asPartitive: 'kiveä', asAllative: 'kivelle', asElative: 'kivestä',
+    asGenitive: 'kiven', asAdessive: 'kivellä', asInessive: 'kivessä'
+  }),
+  bed: new ObjectTranslation({
+    defaultForm: 'sänky', asActor: Word.it, asMany: 'sängyt',
+    asPartitive: 'sänkyä', asAllative: 'sängylle', asElative: 'sängystä',
+    asGenitive: 'sängyn', asAdessive: 'sängyllä', asInessive: 'sängyssä'
+  }),
+  closet: new ObjectTranslation({
+    defaultForm: 'kaappi', asActor: Word.it, asMany: 'kaapit',
+    asPartitive: 'kaappia', asAllative: 'kaapille', asElative: 'kaapista',
+    asGenitive: 'kaapin', asAdessive: 'kaapilla', asInessive: 'kaapissa'
+  }),
+  garden: new ObjectTranslation({
+    defaultForm: 'puutarha', asActor: Word.it, asMany: 'puutarhat',
+    asPartitive: 'puutarhaa', asAllative: 'puutarhalle', asElative: 'puutarhasta',
+    asGenitive: 'puutarhan', asAdessive: 'puutarhalla', asInessive: 'puutarhassa'
+  }),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — verbs
+  stand: new ActionTranslationFi({
+    root: 'seis', keyVowel: 'o', defaultForm: 'seisoa', pastParticiple: 'seisonut',
+    conjugationRoots: { past: 'seiso' }
+  }),
+  laugh: new ActionTranslationFi({
+    root: 'naur', keyVowel: 'a', defaultForm: 'nauraa', pastParticiple: 'nauranut',
+    conjugationRoots: { now: 'naur', past: 'nauro' },
+    conjugations: { now: { he_she_it: 'nauraa', they: 'nauravat' } }
+  }),
+  say: new ActionTranslationFi({
+    root: 'san', keyVowel: 'o', defaultForm: 'sanoa', pastParticiple: 'sanonut',
+    conjugationRoots: { past: 'sano' }
+  }),
+  think: new ActionTranslationFi({
+    root: 'ajattel', keyVowel: 'e', defaultForm: 'ajatella', pastParticiple: 'ajatellut',
+    negationStem: 'ajattele',
+    conjugationRoots: { now: 'ajattel', past: 'ajattel' },
+    conjugations: { now: { he_she_it: 'ajattelee', they: 'ajattelevat' } }
+  }),
+  run: new ActionTranslationFi({
+    root: 'juoks', keyVowel: 'e', defaultForm: 'juosta', pastParticiple: 'juossut',
+    negationStem: 'juokse',
+    conjugationRoots: { now: 'juoks', past: 'juoks' },
+    conjugations: { now: { he_she_it: 'juoksee', they: 'juoksevat' } }
+  }),
+  hit: new ActionTranslationFi({
+    root: 'isk', keyVowel: 'e', defaultForm: 'iskeä', pastParticiple: 'iskenyt',
+    negationStem: 'iske',
+    conjugationRoots: { now: 'isk', past: 'isk' },
+    conjugations: { now: { he_she_it: 'iskee', they: 'iskevät' } }
+  }),
+  throw_action: new ActionTranslationFi({
+    root: 'heitt', keyVowel: 'ä', defaultForm: 'heittää', pastParticiple: 'heittänyt',
+    negationStem: 'heitä',
+    conjugationRoots: { now: 'heit', past: 'heitt' },
+    conjugations: { now: { he_she_it: 'heittää', they: 'heittävät' } }
+  }),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — adjectives
+  dark: new AdjectiveTranslation({ defaultForm: 'pimeä', forms: { comparative: 'pimeämpi', superlative: 'pimein' } }),
+  warm: new AdjectiveTranslation({ defaultForm: 'lämmin', forms: { comparative: 'lämpimämpi', superlative: 'lämpimin' } }),
+  quiet: new AdjectiveTranslation({ defaultForm: 'hiljainen', forms: { comparative: 'hiljaisempi', superlative: 'hiljaisin' } }),
+  gentle: new AdjectiveTranslation({ defaultForm: 'lempeä', forms: { comparative: 'lempeämpi', superlative: 'lempein' } }),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — adverbs
+  late_adv: new AdverbTranslation('myöhään'),
+  gently: new AdverbTranslation('lempeästi'),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — prepositions
+  under: new PrepositionTranslation({ defaultForm: 'under' })
 };
 
 class Finnish extends Language {
@@ -722,7 +801,7 @@ class Finnish extends Language {
     }
     // Postpositions: genitive + postposition word
     const postpositionMap: Record<string, string> = {
-      over: 'yli', behind: 'takana', before_prep: 'edessä'
+      over: 'yli', behind: 'takana', before_prep: 'edessä', under: 'alla'
     };
     const postposition = postpositionMap[pp.preposition.id];
     if (postposition && objectTranslation && objectTranslation['asGenitive']) {

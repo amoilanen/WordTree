@@ -81,7 +81,13 @@ const VOCABULARY = [
   'long', 'slight', 'afraid', 'young', 'new_adj', 'open_adj', 'surprised',
   'cautiously', 'round_adv', 'home_adv',
   'in_loc', 'through_prep', 'before_prep', 'about_prep',
-  'there_exists'
+  'there_exists',
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary
+  'hand', 'mouth', 'stone', 'bed', 'closet', 'garden',
+  'stand', 'laugh', 'say', 'think', 'run', 'hit', 'throw_action',
+  'dark', 'warm', 'quiet', 'gentle',
+  'late_adv', 'gently',
+  'under'
 ] as const;
 
 export type VocabularyTerm = typeof VOCABULARY[number];
@@ -150,6 +156,14 @@ export declare namespace Word {
   export let in_loc: Word; export let through_prep: Word;
   export let before_prep: Word; export let about_prep: Word;
   export let there_exists: Word;
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary
+  export let hand: Word; export let mouth: Word; export let stone: Word;
+  export let bed: Word; export let closet: Word; export let garden: Word;
+  export let stand: Word; export let laugh: Word; export let say: Word;
+  export let think: Word; export let run: Word; export let hit: Word; export let throw_action: Word;
+  export let dark: Word; export let warm: Word; export let quiet: Word; export let gentle: Word;
+  export let late_adv: Word; export let gently: Word;
+  export let under: Word;
 }
 
 export class RelativeClause {

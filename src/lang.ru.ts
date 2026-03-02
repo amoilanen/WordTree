@@ -677,7 +677,99 @@ const translations: WordTranslations = {
   before_prep: new PrepositionTranslation({ defaultForm: 'перед', governedCase: 'instrumental' }),
   about_prep: new PrepositionTranslation({ defaultForm: 'о', governedCase: 'prepositional' }),
   // Phase 17: existential
-  there_exists: new Translation('')
+  there_exists: new Translation(''),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — nouns
+  hand: new ObjectTranslation({
+    defaultForm: 'рука', asActor: Word.she, asMany: 'руки',
+    asAccusative: 'руку', asGenitive: 'руки', asDative: 'руке',
+    asInstrumental: 'рукой', asPrepositional: 'руке'
+  }),
+  mouth: new ObjectTranslation({
+    defaultForm: 'рот', asActor: Word.he, asMany: 'рты',
+    asAccusative: 'рот', asGenitive: 'рта', asDative: 'рту',
+    asInstrumental: 'ртом', asPrepositional: 'рте'
+  }),
+  stone: new ObjectTranslation({
+    defaultForm: 'камень', asActor: Word.he, asMany: 'камни',
+    asAccusative: 'камень', asGenitive: 'камня', asDative: 'камню',
+    asInstrumental: 'камнем', asPrepositional: 'камне'
+  }),
+  bed: new ObjectTranslation({
+    defaultForm: 'кровать', asActor: Word.she, asMany: 'кровати',
+    asAccusative: 'кровать', asGenitive: 'кровати', asDative: 'кровати',
+    asInstrumental: 'кроватью', asPrepositional: 'кровати'
+  }),
+  closet: new ObjectTranslation({
+    defaultForm: 'шкаф', asActor: Word.he, asMany: 'шкафы',
+    asAccusative: 'шкаф', asGenitive: 'шкафа', asDative: 'шкафу',
+    asInstrumental: 'шкафом', asPrepositional: 'шкафе'
+  }),
+  garden: new ObjectTranslation({
+    defaultForm: 'сад', asActor: Word.he, asMany: 'сады',
+    asAccusative: 'сад', asGenitive: 'сада', asDative: 'саду',
+    asInstrumental: 'садом', asPrepositional: 'саду'
+  }),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — verbs
+  stand: new ActionTranslationRu({
+    root: 'сто', keyVowel: 'я', defaultForm: 'стоять', imperative: 'стой',
+    conjugationRoots: { now: 'стои', past: 'стоя' },
+    conjugations: { now: { I: 'стою', they: 'стоят' } }
+  }),
+  laugh: new ActionTranslationRu({
+    root: 'смея', keyVowel: '', defaultForm: 'смеяться', imperative: 'смейся',
+    conjugationRoots: { now: 'сме', past: 'смея' },
+    conjugations: {
+      now: { I: 'смеюсь', you: 'смеёшься', you_formal: 'смеётесь', he: 'смеётся', she: 'смеётся', it: 'смеётся', we: 'смеёмся', you_plural: 'смеётесь', you_plural_formal: 'смеётесь', they: 'смеются' },
+      past: { I: 'смеялся', you: 'смеялся', you_formal: 'смеялись', he: 'смеялся', she: 'смеялась', it: 'смеялось', we: 'смеялись', you_plural: 'смеялись', you_plural_formal: 'смеялись', they: 'смеялись' }
+    }
+  }),
+  say: new ActionTranslationRu({
+    root: 'говор', keyVowel: 'и', defaultForm: 'говорить', imperative: 'говори',
+    conjugationRoots: { now: 'говори', past: 'говори' },
+    conjugations: { now: { I: 'говорю', they: 'говорят' } }
+  }),
+  think: new ActionTranslationRu({
+    root: 'дум', keyVowel: 'а', defaultForm: 'думать', imperative: 'думай',
+    conjugationRoots: { now: 'дума' }
+  }),
+  run: new ActionTranslationRu({
+    root: 'беж', keyVowel: 'а', defaultForm: 'бежать', imperative: 'беги',
+    conjugationRoots: { now: 'бежи', past: 'бежа' },
+    conjugations: {
+      now: { I: 'бегу', you: 'бежишь', you_formal: 'бежите', he: 'бежит', she: 'бежит', it: 'бежит', we: 'бежим', you_plural: 'бежите', you_plural_formal: 'бежите', they: 'бегут' }
+    }
+  }),
+  hit: new ActionTranslationRu({
+    root: 'удар', keyVowel: 'я', defaultForm: 'ударять', imperative: 'ударь',
+    conjugationRoots: { now: 'удар', past: 'ударя' },
+    conjugations: { now: { I: 'ударяю', you: 'ударяешь', you_formal: 'ударяете', he: 'ударяет', she: 'ударяет', it: 'ударяет', we: 'ударяем', you_plural: 'ударяете', you_plural_formal: 'ударяете', they: 'ударяют' } }
+  }),
+  throw_action: new ActionTranslationRu({
+    root: 'брос', keyVowel: 'а', defaultForm: 'бросать', imperative: 'бросай',
+    conjugationRoots: { now: 'броса' }
+  }),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — adjectives
+  dark: new AdjectiveTranslation({
+    defaultForm: 'тёмный',
+    forms: { he: 'тёмный', she: 'тёмная', it: 'тёмное', plural: 'тёмные', comparative: 'темнее', superlative: 'самый тёмный' }
+  }),
+  warm: new AdjectiveTranslation({
+    defaultForm: 'тёплый',
+    forms: { he: 'тёплый', she: 'тёплая', it: 'тёплое', plural: 'тёплые', comparative: 'теплее', superlative: 'самый тёплый' }
+  }),
+  quiet: new AdjectiveTranslation({
+    defaultForm: 'тихий',
+    forms: { he: 'тихий', she: 'тихая', it: 'тихое', plural: 'тихие', comparative: 'тише', superlative: 'самый тихий' }
+  }),
+  gentle: new AdjectiveTranslation({
+    defaultForm: 'нежный',
+    forms: { he: 'нежный', she: 'нежная', it: 'нежное', plural: 'нежные', comparative: 'нежнее', superlative: 'самый нежный' }
+  }),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — adverbs
+  late_adv: new AdverbTranslation('поздно'),
+  gently: new AdverbTranslation('нежно'),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — prepositions
+  under: new PrepositionTranslation({ defaultForm: 'под', governedCase: 'instrumental' })
 };
 
 class Russian extends Language {
@@ -700,11 +792,20 @@ class Russian extends Language {
     const objectForm = (caseKey && objectTranslation && objectTranslation[caseKey])
       ? objectTranslation[caseKey] as string
       : objectTranslation?.defaultForm || this.translateWord(objectWord);
-    if (pp.object instanceof Entity && pp.object.adjective) {
-      const adjForm = this.translateAdjective(pp.object.adjective, objectWord, pp.object.adjectiveDegree);
-      return `${prepForm} ${adjForm} ${objectForm}`;
+    // Russian preposition alternations: к→ко, в→во, с→со before consonant clusters
+    let resolvedPrep = prepForm;
+    const firstWord = (pp.object instanceof Entity && pp.object.adjective)
+      ? this.translateAdjective(pp.object.adjective, objectWord, pp.object.adjectiveDegree)
+      : objectForm;
+    if (/^(мн|вс|сн)/.test(firstWord)) {
+      if (prepForm === 'к') resolvedPrep = 'ко';
+      else if (prepForm === 'в') resolvedPrep = 'во';
+      else if (prepForm === 'с') resolvedPrep = 'со';
     }
-    return `${prepForm} ${objectForm}`;
+    if (pp.object instanceof Entity && pp.object.adjective) {
+      return `${resolvedPrep} ${firstWord} ${objectForm}`;
+    }
+    return `${resolvedPrep} ${objectForm}`;
   }
 
   translatePassiveAction(actor: Word | Actor | Entity, action: Action, time: Word): string {

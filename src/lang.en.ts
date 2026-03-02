@@ -311,7 +311,32 @@ const translations: WordTranslations = {
   before_prep: new PrepositionTranslation({ defaultForm: 'before' }),
   about_prep: new PrepositionTranslation({ defaultForm: 'about' }),
   // Phase 17: existential
-  there_exists: new Translation('there')
+  there_exists: new Translation('there'),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — nouns
+  hand: new ObjectTranslation({ defaultForm: 'hand', asActor: Word.it }),
+  mouth: new ObjectTranslation({ defaultForm: 'mouth', asActor: Word.it }),
+  stone: new ObjectTranslation({ defaultForm: 'stone', asActor: Word.it }),
+  bed: new ObjectTranslation({ defaultForm: 'bed', asActor: Word.it }),
+  closet: new ObjectTranslation({ defaultForm: 'closet', asActor: Word.it }),
+  garden: new ObjectTranslation({ defaultForm: 'garden', asActor: Word.it }),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — verbs
+  stand: new ActionTranslationEn({ root: 'stand', pastParticiple: 'stood', conjugations: { past: 'stood' } }),
+  laugh: new ActionTranslationEn({ root: 'laugh' }),
+  say: new ActionTranslationEn({ root: 'say', conjugations: { now: { he_she_it: 'says' }, past: 'said' } }),
+  think: new ActionTranslationEn({ root: 'think', pastParticiple: 'thought', conjugations: { past: 'thought' } }),
+  run: new ActionTranslationEn({ root: 'run', presentParticiple: 'running', pastParticiple: 'run', conjugations: { past: 'ran' } }),
+  hit: new ActionTranslationEn({ root: 'hit', presentParticiple: 'hitting', pastParticiple: 'hit', conjugations: { now: 'hit', past: 'hit' } }),
+  throw_action: new ActionTranslationEn({ root: 'throw', presentParticiple: 'throwing', pastParticiple: 'thrown', conjugations: { past: 'threw' } }),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — adjectives
+  dark: new AdjectiveTranslation({ defaultForm: 'dark', forms: { comparative: 'darker', superlative: 'darkest' } }),
+  warm: new AdjectiveTranslation({ defaultForm: 'warm', forms: { comparative: 'warmer', superlative: 'warmest' } }),
+  quiet: new AdjectiveTranslation({ defaultForm: 'quiet', forms: { comparative: 'quieter', superlative: 'quietest' } }),
+  gentle: new AdjectiveTranslation({ defaultForm: 'gentle', forms: { comparative: 'gentler', superlative: 'gentlest' } }),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — adverbs
+  late_adv: new AdverbTranslation('late'),
+  gently: new AdverbTranslation('gently'),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — prepositions
+  under: new PrepositionTranslation({ defaultForm: 'under' })
 };
 
 class English extends Language {

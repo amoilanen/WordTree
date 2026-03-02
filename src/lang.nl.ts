@@ -155,7 +155,7 @@ const translations: WordTranslations = {
     }
   }),
   see: new ActionTranslationNl({
-    root: 'zie',
+    root: 'zie', defaultForm: 'zien',
     pastParticiple: 'gezien',
     conjugationRoots: {
       past: 'zag'
@@ -332,7 +332,7 @@ const translations: WordTranslations = {
   cry: new ActionTranslationNl({ root: 'huil', conjugationRoots: { past: 'huilde' }, conjugations: { past: { plural: 'huilden' } } }),
   chase: new ActionTranslationNl({ root: 'achtervolg', conjugationRoots: { past: 'achtervolgde' }, conjugations: { past: { plural: 'achtervolgden' } } }),
   climb: new ActionTranslationNl({ root: 'klim', conjugationRoots: { past: 'klom' }, conjugations: { past: { plural: 'klommen' } } }),
-  know: new ActionTranslationNl({ root: 'weet', defaultForm: 'weten', conjugationRoots: { past: 'wist' }, conjugations: { now: { plural: 'weten' }, past: { plural: 'wisten' } } }),
+  know: new ActionTranslationNl({ root: 'weet', defaultForm: 'weten', conjugationRoots: { past: 'wist' }, conjugations: { now: { other_single: 'weet', plural: 'weten' }, past: { plural: 'wisten' } } }),
   lick: new ActionTranslationNl({ root: 'sla', defaultForm: 'slaan', conjugationRoots: { past: 'sloeg' }, conjugations: { now: { other_single: 'slaat', plural: 'slaan' }, past: { plural: 'sloegen' } } }),
   lift: new ActionTranslationNl({ root: 'til', conjugationRoots: { past: 'tilde' }, conjugations: { past: { plural: 'tilden' } } }),
   disappear: new ActionTranslationNl({ root: 'verdwijn', defaultForm: 'verdwijnen', conjugationRoots: { past: 'verdween' }, conjugations: { now: { plural: 'verdwijnen' }, past: { plural: 'verdwenen' } } }),
@@ -356,7 +356,39 @@ const translations: WordTranslations = {
   before_prep: new PrepositionTranslation({ defaultForm: 'voor' }),
   about_prep: new PrepositionTranslation({ defaultForm: 'over' }),
   // Phase 17: existential
-  there_exists: new Translation('er')
+  there_exists: new Translation('er'),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — nouns
+  hand: new ObjectTranslation({ defaultForm: 'hand', asActor: Word.it, asMany: 'handen' }),
+  mouth: new ObjectTranslation({ defaultForm: 'mond', asActor: Word.it, asMany: 'monden' }),
+  stone: new ObjectTranslation({ defaultForm: 'steen', asActor: Word.it, asMany: 'stenen' }),
+  bed: new ObjectTranslation({ defaultForm: 'bed', asActor: Word.it, asSpecificObject: 'het', asMany: 'bedden' }),
+  closet: new ObjectTranslation({ defaultForm: 'kast', asActor: Word.it, asMany: 'kasten' }),
+  garden: new ObjectTranslation({ defaultForm: 'tuin', asActor: Word.it, asMany: 'tuinen' }),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — verbs
+  stand: new ActionTranslationNl({ root: 'sta', defaultForm: 'staan', conjugationRoots: { past: 'stond' },
+    conjugations: { now: { other_single: 'staat', plural: 'staan' }, past: { plural: 'stonden' } } }),
+  laugh: new ActionTranslationNl({ root: 'lach', conjugationRoots: { past: 'lachte' },
+    conjugations: { past: { plural: 'lachten' } } }),
+  say: new ActionTranslationNl({ root: 'zeg', conjugationRoots: { past: 'zei' },
+    conjugations: { now: { plural: 'zeggen' }, past: { plural: 'zeiden' } } }),
+  think: new ActionTranslationNl({ root: 'denk', conjugationRoots: { past: 'dacht' },
+    conjugations: { past: { plural: 'dachten' } } }),
+  run: new ActionTranslationNl({ root: 'ren', defaultForm: 'rennen', conjugationRoots: { past: 'rende' },
+    conjugations: { past: { plural: 'renden' } } }),
+  hit: new ActionTranslationNl({ root: 'raak', conjugationRoots: { past: 'raakte' },
+    conjugations: { past: { plural: 'raakten' } } }),
+  throw_action: new ActionTranslationNl({ root: 'gooi', conjugationRoots: { past: 'gooide' },
+    conjugations: { past: { plural: 'gooiden' } } }),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — adjectives
+  dark: new AdjectiveTranslation({ defaultForm: 'donker', forms: { attributive: 'donkere', comparative: 'donkerder', superlative: 'donkerste' } }),
+  warm: new AdjectiveTranslation({ defaultForm: 'warm', forms: { attributive: 'warme', comparative: 'warmer', superlative: 'warmste' } }),
+  quiet: new AdjectiveTranslation({ defaultForm: 'stil', forms: { attributive: 'stille', comparative: 'stiller', superlative: 'stilste' } }),
+  gentle: new AdjectiveTranslation({ defaultForm: 'zacht', forms: { attributive: 'zachte', comparative: 'zachter', superlative: 'zachtste' } }),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — adverbs
+  late_adv: new AdverbTranslation('laat'),
+  gently: new AdverbTranslation('zachtjes'),
+  // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — prepositions
+  under: new PrepositionTranslation({ defaultForm: 'onder' })
 };
 
 //TODO: Create a separate class ObjectTranslationNl and move most of the logic now in the language class to their: mode modular and object-oriented
@@ -497,7 +529,16 @@ class Dutch extends Language {
   translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean; adjective?: Word; adjectiveDegree?: import('./grammar').AdjectiveDegree; possessor?: Word }): string {
     const objectTranslation = this.wordTranslations[object.id] as ObjectTranslation;
     const objectForm = this.translateWord(object, context);
-    const adjectiveForm = context?.adjective ? this.translateAdjective(context.adjective, object, context.adjectiveDegree) : undefined;
+    let adjectiveForm = context?.adjective ? this.translateAdjective(context.adjective, object, context.adjectiveDegree) : undefined;
+
+    // Dutch grammar: indefinite neuter nouns use base adjective form, not attributive
+    // e.g., "een zacht geluid" (correct) not "een zachte geluid"
+    if (adjectiveForm && specifier === Word.one && objectTranslation.asSpecificObject === 'het') {
+      const adjTranslation = this.wordTranslations[context!.adjective!.id];
+      if (adjTranslation instanceof AdjectiveTranslation) {
+        adjectiveForm = adjTranslation.defaultForm;
+      }
+    }
     const possessiveForm = context?.possessor ? this.translatePossessive(context.possessor, object) : undefined;
 
     // Possessive replaces article

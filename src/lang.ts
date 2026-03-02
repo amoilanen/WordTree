@@ -300,7 +300,7 @@ type TranslateContext = {
   possessor?: Word;
 };
 
-type Fragment = Word | Entity | Sentence | CompoundSentence | Question | SubordinateSentence;
+export type Fragment = Word | Entity | Sentence | CompoundSentence | Question | SubordinateSentence;
 
 export class Language {
   name: string;
@@ -311,7 +311,14 @@ export class Language {
     this.wordTranslations = wordTranslations;
   }
 
-  translate(fragment: Fragment): string {
+  translate(fragment: Fragment | Fragment[]): string {
+    if (Array.isArray(fragment)) {
+      return fragment.map(f => {
+        const translated = this.translate(f);
+        if (/[.!?]$/.test(translated)) return translated;
+        return translated + '.';
+      }).join(' ');
+    }
     if (fragment instanceof SubordinateSentence) {
       return this.translateSubordinateSentence(fragment);
     }
