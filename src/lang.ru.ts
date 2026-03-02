@@ -796,6 +796,11 @@ const translations: WordTranslations = {
     defaultForm: 'долг', asActor: Word.he, asMany: 'долги',
     asAccusative: 'долг', asGenitive: 'долга', asDative: 'долгу',
     asInstrumental: 'долгом', asPrepositional: 'долге'
+  }),
+  traitor: new ObjectTranslation({
+    defaultForm: 'предатель', asActor: Word.he, asMany: 'предатели',
+    asAccusative: 'предателя', asGenitive: 'предателя', asDative: 'предателю',
+    asInstrumental: 'предателем', asPrepositional: 'предателе'
   })
 };
 
@@ -940,6 +945,8 @@ class Russian extends Language {
     let nounForm: string;
     if ((specifier === Word.many) && isDefined(objectTranslation.asMany)) {
       nounForm = objectTranslation.asMany as string;
+    } else if (isAccusative && objectTranslation.asSubject === objectTranslation.defaultForm && isDefined(objectTranslation['asAccusative'])) {
+      nounForm = objectTranslation['asAccusative'] as string;
     } else {
       nounForm = objectForm;
     }

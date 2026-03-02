@@ -704,6 +704,10 @@ const translations: WordTranslations = {
   duty: new ObjectTranslation({
     defaultForm: 'velvollisuus', asActor: Word.it,
     asPartitive: 'velvollisuutta', asGenitive: 'velvollisuuden'
+  }),
+  traitor: new ObjectTranslation({
+    defaultForm: 'petturi', asActor: Word.he, asMany: 'petturit',
+    asPartitive: 'petturia', asGenitive: 'petturin'
   })
 };
 

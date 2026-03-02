@@ -352,9 +352,9 @@ const text: Fragment[] = [
     .time(Word.past).$,
 
   // Original: "Tom chased the traitor home"
-  // Encoded:  "he chased him home"
+  // Encoded:  "he chased the traitor home"
   Sentence.$.actor(Word.he)
-    .action(Action.$.primary(Word.chase).subject(Word.he).adverb(Word.home_adv).$)
+    .action(Action.$.primary(Word.chase).subject(Entity.$(Word.traitor).specifier(wordThis).$).adverb(Word.home_adv).$)
     .time(Word.past).$,
 
   // ── 9. TOM SNEAKS HOME ────────────────────────────────────────────────
@@ -483,7 +483,7 @@ describe('Tom Sawyer Chapter 1', function() {
       'the boy was dressed well. the stranger was bigger. he was young. ' +
       'the boy looked at the stranger. I can lick you. what is your name? ' +
       'I am not afraid. he was not afraid. the boy was crying. the boy cried loudly. ' +
-      'he threw a stone and hit him. he ran quickly. the new boy went off. he chased him home. ' +
+      'he threw a stone and hit him. he ran quickly. the new boy went off. he chased the traitor home. ' +
       'he went home. he climbed cautiously in at the window. she saw his clothes. ' +
       'she thought. he shouted because he was afraid. she knew that he played. ' +
       'when she looked, he fled. the old lady laughed. she thought about him. ' +
@@ -504,7 +504,7 @@ describe('Tom Sawyer Chapter 1', function() {
       'poika oli pukenut hyvin. muukalainen oli suurempi. oli nuori. ' +
       'poika katsoi muukalaista. voin lyödä sinut. mitä on sinun nimi? ' +
       'en ole peloissaan. ei ollut peloissaan. poika itki. poika itki kovaa. ' +
-      'heitti kivi ja iski hänet. juoksi nopeasti. uusi poika meni pois. jahtasi hänet kotiin. ' +
+      'heitti kivi ja iski hänet. juoksi nopeasti. uusi poika meni pois. jahtasi petturi kotiin. ' +
       'meni kotiin. kiipesi varovasti ikkunasta. näki hänen vaatteet. ' +
       'ajatteli. huusi koska oli peloissaan. tiesi että leikki. ' +
       'kun katsoi, pakeni. vanha rouva nauroi. ajatteli hänestä. ' +
@@ -525,7 +525,7 @@ describe('Tom Sawyer Chapter 1', function() {
       'de jongen was gekleed goed. de vreemdeling was groter. hij was jong. ' +
       'de jongen keek naar de vreemdeling. ik kan slaan je. wat is jouw naam? ' +
       'ik ben niet bang. hij was niet bang. de jongen was aan het huilen. de jongen huilde hard. ' +
-      'hij gooide een steen en raakte hem. hij rende snel. de nieuwe jongen ging weg. hij achtervolgde hem naar huis. ' +
+      'hij gooide een steen en raakte hem. hij rende snel. de nieuwe jongen ging weg. hij achtervolgde de verrader naar huis. ' +
       'hij ging naar huis. hij klom voorzichtig door het raam. zij zag zijn kleren. ' +
       'zij dacht. hij schreeuwde omdat hij was bang. zij wist dat hij speelde. ' +
       'wanneer zij keek, hij vluchtte. de oude dame lachte. zij dacht over hem. ' +
@@ -538,7 +538,7 @@ describe('Tom Sawyer Chapter 1', function() {
       'она находила кота. она шла к открытая двери. она стояла в двери. ' +
       'она поднимала её голос и кричала. она повернула и хватала маленький мальчика. ' +
       'смотри на руку. смотри на рот. я не знаю. оно варенье. ' +
-      'давай розга ко мне. розга парила в воздухе. смотри за тобой. ' +
+      'давай розгу ко мне. розга парила в воздухе. смотри за тобой. ' +
       'старая дама кругом кружила. парень убегал и исчез над забором. ' +
       'его дама стояла удивлённая. она нежно смеялась. он играл трюки. он может мучить меня. я не делаю моего долг. ' +
       'мальчик был тихий. оно было тёплое. он играл и оно было хорошее. лето было длинное. ' +
@@ -546,8 +546,8 @@ describe('Tom Sawyer Chapter 1', function() {
       'мальчик был одет хорошо. незнакомец был больше. он был молодой. ' +
       'мальчик смотрел на незнакомца. я могу побить тебя. что твоё имя? ' +
       'я не испуган. он не был испуган. мальчик плакал. мальчик громко плакал. ' +
-      'он бросал камень и ударял его. он быстро бежал. новый мальчик прочь шел. он домой гнал его. ' +
-      'он домой шел. он осторожно лез в окно. она видела его одежда. ' +
+      'он бросал камень и ударял его. он быстро бежал. новый мальчик прочь шел. он домой гнал предателя. ' +
+      'он домой шел. он осторожно лез в окно. она видела его одежду. ' +
       'она думала. он кричал потому что он был испуган. она знала что он играл. ' +
       'когда она смотрела, он убегал. старая дама смеялась. она думала о нём. ' +
       'мальчик домой бежал. он говорил. незнакомец быстро бежал. она смотрела на него. ' +

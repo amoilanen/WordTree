@@ -2376,7 +2376,7 @@ describe('Tom Sawyer Chapter 1', function() {
         [en, 'she saw his clothes'],
         [fi, 'näki hänen vaatteet'],
         [nl, 'zij zag zijn kleren'],
-        [ru, 'она видела его одежда']
+        [ru, 'она видела его одежду']
       ]
     );
   });
@@ -2421,7 +2421,7 @@ describe('Tom Sawyer Chapter 1', function() {
         [en, 'give the switch'],
         [fi, 'anna vitsa'],
         [nl, 'geef de roede'],
-        [ru, 'давай розга']
+        [ru, 'давай розгу']
       ]
     );
   });

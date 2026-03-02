@@ -404,7 +404,8 @@ const translations: WordTranslations = {
     conjugations: { past: { plural: 'kwelden' } }
   }),
   off_adv: new AdverbTranslation('weg'),
-  duty: new ObjectTranslation({ defaultForm: 'plicht', asActor: Word.it, asSpecificObject: 'de', asMany: 'plichten' })
+  duty: new ObjectTranslation({ defaultForm: 'plicht', asActor: Word.it, asSpecificObject: 'de', asMany: 'plichten' }),
+  traitor: new ObjectTranslation({ defaultForm: 'verrader', asActor: Word.he, asMany: 'verraders' })
 };
 
 //TODO: Create a separate class ObjectTranslationNl and move most of the logic now in the language class to their: mode modular and object-oriented

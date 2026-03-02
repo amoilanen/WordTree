@@ -343,7 +343,8 @@ const translations: WordTranslations = {
   trick: new ObjectTranslation({ defaultForm: 'trick', asActor: Word.it, asMany: 'tricks' }),
   torment: new ActionTranslationEn({ root: 'torment' }),
   off_adv: new AdverbTranslation('off'),
-  duty: new ObjectTranslation({ defaultForm: 'duty', asActor: Word.it })
+  duty: new ObjectTranslation({ defaultForm: 'duty', asActor: Word.it }),
+  traitor: new ObjectTranslation({ defaultForm: 'traitor', asActor: Word.he, asMany: 'traitors' })
 };
 
 class English extends Language {
