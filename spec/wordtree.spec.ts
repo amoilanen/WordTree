@@ -1603,17 +1603,17 @@ describe('compound sentences', function() {
     );
   });
 
-  describe('she sang but she did not see', function() {
+  describe('she sang but did not see', function() {
     shouldTranslate(
       CompoundSentence.$.
         sentence(Sentence.$.actor(Word.she).action(Word.sing).time(Word.past).$).
         coordinator(Word.but).
         sentence(Sentence.$.actor(Word.she).action(Action.$.primary(Word.see).negated().$).time(Word.past).$).$,
       [
-        [en, 'she sang but she did not see'],
+        [en, 'she sang but did not see'],
         [fi, 'lauloi mutta ei nähnyt'],
-        [nl, 'zij zong maar zij zag niet'],
-        [ru, 'она пела но она не видела']
+        [nl, 'zij zong maar zag niet'],
+        [ru, 'она пела но не видела']
       ]
     );
   });
@@ -2088,10 +2088,10 @@ describe('Tom Sawyer Chapter 1', function() {
         .coordinator(Word.and)
         .sentence(Sentence.$.actor(Word.she).action(Word.shout).time(Word.past).$).$,
       [
-        [en, 'she lifted her voice and she shouted'],
+        [en, 'she lifted her voice and shouted'],
         [fi, 'nosti hänen ääni ja huusi'],
-        [nl, 'zij tilde haar stem en zij schreeuwde'],
-        [ru, 'она поднимала её голос и она кричала']
+        [nl, 'zij tilde haar stem en schreeuwde'],
+        [ru, 'она поднимала её голос и кричала']
       ]
     );
   });
@@ -2106,10 +2106,10 @@ describe('Tom Sawyer Chapter 1', function() {
           .action(Action.$.primary(Word.seize).subject(Entity.$(Word.boy).specifier(Word.one).adjective(Word.small).$).$)
           .time(Word.past).$).$,
       [
-        [en, 'she turned and she seized a small boy'],
+        [en, 'she turned and seized a small boy'],
         [fi, 'kääntyi ja tarttui pieni poika'],
-        [nl, 'zij draaide en zij greep een kleine jongen'],
-        [ru, 'она повернула и она хватала маленький мальчика']
+        [nl, 'zij draaide en greep een kleine jongen'],
+        [ru, 'она повернула и хватала маленький мальчика']
       ]
     );
   });
@@ -2140,10 +2140,10 @@ describe('Tom Sawyer Chapter 1', function() {
             .prepositionalPhrase(PrepositionalPhrase.$(Word.over).object(Entity.$(Word.fence).specifier(wordThis).$).$).$)
           .time(Word.past).$).$,
       [
-        [en, 'the lad fled and the lad disappeared over the fence'],
-        [fi, 'nuorukainen pakeni ja nuorukainen katosi aidan yli'],
-        [nl, 'de knaap vluchtte en de knaap verdween over het hek'],
-        [ru, 'парень убегал и парень исчез над забором']
+        [en, 'the lad fled and disappeared over the fence'],
+        [fi, 'nuorukainen pakeni ja katosi aidan yli'],
+        [nl, 'de knaap vluchtte en verdween over het hek'],
+        [ru, 'парень убегал и исчез над забором']
       ]
     );
   });

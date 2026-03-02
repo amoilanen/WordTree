@@ -769,7 +769,34 @@ const translations: WordTranslations = {
   late_adv: new AdverbTranslation('поздно'),
   gently: new AdverbTranslation('нежно'),
   // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — prepositions
-  under: new PrepositionTranslation({ defaultForm: 'под', governedCase: 'instrumental' })
+  under: new PrepositionTranslation({ defaultForm: 'под', governedCase: 'instrumental' }),
+  in_at: new PrepositionTranslation({ defaultForm: 'в', governedCase: 'accusative' }),
+  // Phase 19: Faithful Tom Sawyer encoding
+  find: new ActionTranslationRu({
+    root: 'наход', keyVowel: 'и', defaultForm: 'находить', imperative: 'находи',
+    conjugationRoots: { now: 'наход', past: 'находи' },
+    conjugations: {
+      now: { I: 'нахожу', you: 'находишь', you_formal: 'находите', he: 'находит', she: 'находит', it: 'находит', we: 'находим', you_plural: 'находите', you_plural_formal: 'находите', they: 'находят' }
+    }
+  }),
+  trick: new ObjectTranslation({
+    defaultForm: 'трюк', asActor: Word.he, asMany: 'трюки',
+    asAccusative: 'трюк', asGenitive: 'трюка', asDative: 'трюку',
+    asInstrumental: 'трюком', asPrepositional: 'трюке'
+  }),
+  torment: new ActionTranslationRu({
+    root: 'муч', keyVowel: 'и', defaultForm: 'мучить', imperative: 'мучь',
+    conjugationRoots: { now: 'муч', past: 'мучи' },
+    conjugations: {
+      now: { I: 'мучу', you: 'мучишь', you_formal: 'мучите', he: 'мучит', she: 'мучит', it: 'мучит', we: 'мучим', you_plural: 'мучите', you_plural_formal: 'мучите', they: 'мучат' }
+    }
+  }),
+  off_adv: new AdverbTranslation('прочь'),
+  duty: new ObjectTranslation({
+    defaultForm: 'долг', asActor: Word.he, asMany: 'долги',
+    asAccusative: 'долг', asGenitive: 'долга', asDative: 'долгу',
+    asInstrumental: 'долгом', asPrepositional: 'долге'
+  })
 };
 
 class Russian extends Language {

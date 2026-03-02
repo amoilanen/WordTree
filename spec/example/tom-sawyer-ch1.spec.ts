@@ -28,6 +28,7 @@ import ru from '../../src/lang.ru';
 import { shouldTranslate } from '../util';
 
 const wordThis = (Word as unknown as Record<string, Word>)['this'];
+const wordDo = (Word as unknown as Record<string, Word>)['do'];
 
 /**
  * The text: 60 sentences encoding the narrative arc of Tom Sawyer Chapter 1.
@@ -42,7 +43,7 @@ const wordThis = (Word as unknown as Record<string, Word>)['this'];
  *   7. The confrontation
  *   8. The fight
  *   9. Tom sneaks home
- *  10. Extended narrative (subordinate clauses, additional actions)
+ *  10. Additional scenes from Chapter 1
  */
 const text: Fragment[] = [
 
@@ -71,9 +72,9 @@ const text: Fragment[] = [
     .time(Word.past).$,
 
   // Original: "She resurrected nothing but the cat."
-  // Encoded:  "the cat fled"
-  Sentence.$.actor(Entity.$(Word.cat).specifier(wordThis).$)
-    .action(Word.flee)
+  // Encoded:  "she found the cat"
+  Sentence.$.actor(Word.she)
+    .action(Action.$.primary(Word.find).subject(Entity.$(Word.cat).specifier(wordThis).$).$)
     .time(Word.past).$,
 
   // Original: "She went to the open door and stood in it and looked out
@@ -92,7 +93,7 @@ const text: Fragment[] = [
 
   // Original: "she lifted up her voice at an angle calculated for distance
   //            and shouted"
-  // Encoded:  "she lifted her voice and she shouted"
+  // Encoded:  "she lifted her voice and shouted"
   CompoundSentence.$
     .sentence(Sentence.$.actor(Word.she)
       .action(Action.$.primary(Word.lift).subject(Entity.$(Word.voice).possessor(Word.she).$).$)
@@ -104,7 +105,7 @@ const text: Fragment[] = [
 
   // Original: "she turned just in time to seize a small boy by the slack
   //            of his roundabout"
-  // Encoded:  "she turned and she seized a small boy"
+  // Encoded:  "she turned and seized a small boy"
   CompoundSentence.$
     .sentence(Sentence.$.actor(Word.she).action(Word.turn).time(Word.past).$)
     .coordinator(Word.and)
@@ -113,10 +114,9 @@ const text: Fragment[] = [
       .time(Word.past).$).$,
 
   // Original: "Look at your hands."
-  // Encoded:  "look at your hand" (no plural support)
   Sentence.$.actor(Word.you)
     .action(Action.$.primary(Word.look)
-      .prepositionalPhrase(PrepositionalPhrase.$(Word.at).object(Entity.$(Word.hand).possessor(Word.you).$).$).$)
+      .prepositionalPhrase(PrepositionalPhrase.$(Word.at).object(Entity.$(Word.hand).specifier(Word.many).possessor(Word.you).$).$).$)
     .time(Word.imperative).$,
 
   // Original: "And look at your mouth."
@@ -170,7 +170,7 @@ const text: Fragment[] = [
 
   // Original: "The lad fled on the instant, scrambled up the high
   //            board-fence, and disappeared over it."
-  // Encoded:  "the lad fled and the lad disappeared over the fence"
+  // Encoded:  "the lad fled and disappeared over the fence"
   CompoundSentence.$
     .sentence(Sentence.$.actor(Entity.$(Word.lad).specifier(wordThis).$).action(Word.flee).time(Word.past).$)
     .coordinator(Word.and)
@@ -194,18 +194,22 @@ const text: Fragment[] = [
   // ── 4. AUNT POLLY'S MONOLOGUE ─────────────────────────────────────────
 
   // Original: "Ain't he played me tricks enough"
-  // Encoded:  "he played"
-  Sentence.$.actor(Word.he).action(Word.play).time(Word.past).$,
+  // Encoded:  "he played tricks"
+  Sentence.$.actor(Word.he)
+    .action(Action.$.primary(Word.play).subject(Entity.$(Word.trick).specifier(Word.many).$).$)
+    .time(Word.past).$,
 
   // Original: "He 'pears to know just how long he can torment me"
-  // Encoded:  "he knows"
-  Sentence.$.actor(Word.he).action(Word.know).time(Word.now).$,
+  // Encoded:  "he can torment me"
+  Sentence.$.actor(Word.he)
+    .action(Action.$.primary(Word.can).secondary(Word.torment).subject(Word.I).$)
+    .time(Word.now).$,
 
   // Original: "I ain't doing my duty by that boy, and that's the Lord's
   //            truth, goodness knows."
-  // Encoded:  "I do not think"
+  // Encoded:  "I do not do my duty"
   Sentence.$.actor(Word.I)
-    .action(Action.$.primary(Word.think).negated().$)
+    .action(Action.$.primary(wordDo).subject(Entity.$(Word.duty).possessor(Word.I).$).negated().$)
     .time(Word.now).$,
 
   // ── 5. TOM'S EVENING ──────────────────────────────────────────────────
@@ -267,9 +271,9 @@ const text: Fragment[] = [
     .time(Word.past).$,
 
   // Original: "a boy a shade larger than himself"
-  // Encoded:  "the stranger was big" (no comparative support for "larger than")
+  // Encoded:  "the stranger was bigger"
   Sentence.$.actor(Entity.$(Word.stranger).specifier(wordThis).$)
-    .action(Action.$.primary(Word.be).complement(Word.big).$)
+    .action(Action.$.primary(Word.be).complement(Word.big, 'comparative').$)
     .time(Word.past).$,
 
   // Encoded:  "he was young"
@@ -326,7 +330,7 @@ const text: Fragment[] = [
 
   // Original: "the new boy snatched up a stone, threw it and hit him
   //            between the shoulders"
-  // Encoded:  "he threw a stone and he hit him"
+  // Encoded:  "he threw a stone and hit him"
   CompoundSentence.$
     .sentence(Sentence.$.actor(Word.he)
       .action(Action.$.primary(Word.throw_action).subject(Entity.$(Word.stone).specifier(Word.one).$).$)
@@ -342,15 +346,15 @@ const text: Fragment[] = [
     .time(Word.past).$,
 
   // Original: "The new boy went off brushing the dust from his clothes"
-  // Encoded:  "the boy ran"
-  Sentence.$.actor(Entity.$(Word.boy).specifier(wordThis).$)
-    .action(Word.run)
+  // Encoded:  "the new boy went off"
+  Sentence.$.actor(Entity.$(Word.boy).specifier(wordThis).adjective(Word.new_adj).$)
+    .action(Action.$.primary(Word.go).adverb(Word.off_adv).$)
     .time(Word.past).$,
 
   // Original: "Tom chased the traitor home"
-  // Encoded:  "he chased him"
+  // Encoded:  "he chased him home"
   Sentence.$.actor(Word.he)
-    .action(Action.$.primary(Word.chase).subject(Word.he).$)
+    .action(Action.$.primary(Word.chase).subject(Word.he).adverb(Word.home_adv).$)
     .time(Word.past).$,
 
   // ── 9. TOM SNEAKS HOME ────────────────────────────────────────────────
@@ -362,14 +366,13 @@ const text: Fragment[] = [
     .time(Word.past).$,
 
   // Original: "and when he climbed cautiously in at the window"
-  // Encoded:  "he climbed cautiously through the window"
   Sentence.$.actor(Word.he)
     .action(Action.$.primary(Word.climb).adverb(Word.cautiously)
-      .prepositionalPhrase(PrepositionalPhrase.$(Word.through_prep).object(Entity.$(Word.window).specifier(wordThis).$).$).$)
+      .prepositionalPhrase(PrepositionalPhrase.$(Word.in_at).object(Entity.$(Word.window).specifier(wordThis).$).$).$)
     .time(Word.past).$,
 
   // Original: "when she saw the state his clothes were in her resolution
-  //            became adamantine"
+  //            to turn his Saturday holiday into captivity...became adamantine"
   // Encoded:  "she saw his clothes"
   Sentence.$.actor(Word.she)
     .action(Action.$.primary(Word.see).subject(Entity.$(Word.clothes).possessor(Word.he).$).$)
@@ -378,9 +381,9 @@ const text: Fragment[] = [
   // Encoded:  "she thought"
   Sentence.$.actor(Word.she).action(Word.think).time(Word.past).$,
 
-  // ── 10. EXTENDED NARRATIVE ────────────────────────────────────────────
+  // ── 10. ADDITIONAL SCENES FROM CHAPTER 1 ──────────────────────────────
 
-  // Encoded:  "he shouted because he was afraid"
+  // Original: "he shouted because he was afraid"
   SubordinateSentence.$
     .main(Sentence.$.actor(Word.he).action(Word.shout).time(Word.past).$)
     .subordinator(Word.because)
@@ -388,65 +391,77 @@ const text: Fragment[] = [
       .action(Action.$.primary(Word.be).complement(Word.afraid).$)
       .time(Word.past).$).$,
 
-  // Encoded:  "she knew that he played"
+  // Original: "she knew that he played"
   SubordinateSentence.$
     .main(Sentence.$.actor(Word.she).action(Word.know).time(Word.past).$)
     .subordinator(Word.that_conj)
     .subordinate(Sentence.$.actor(Word.he).action(Word.play).time(Word.past).$).$,
 
-  // Encoded:  "when she looked, he fled"
+  // Original: "when she looked, he fled"
   SubordinateSentence.$
     .main(Sentence.$.actor(Word.he).action(Word.flee).time(Word.past).$)
     .subordinator(Word.when_conj)
     .subordinate(Sentence.$.actor(Word.she).action(Word.look).time(Word.past).$)
     .subordinateFirst().$,
 
-  // Encoded:  "she stood in the garden"
+  // Original: "and then broke into a gentle laugh"
+  // Encoded:  "the old lady laughed"
+  Sentence.$.actor(Entity.$(Word.lady).specifier(wordThis).adjective(Word.old).$)
+    .action(Word.laugh).time(Word.past).$,
+
+  // Original: Aunt Polly's reflections on Tom
+  // Encoded:  "she thought about him"
   Sentence.$.actor(Word.she)
-    .action(Action.$.primary(Word.stand)
-      .prepositionalPhrase(PrepositionalPhrase.$(Word.in_loc).object(Entity.$(Word.garden).specifier(wordThis).$).$).$)
+    .action(Action.$.primary(Word.think)
+      .prepositionalPhrase(PrepositionalPhrase.$(Word.about_prep).object(Word.he).$).$)
     .time(Word.past).$,
 
-  // Encoded:  "she laughed"
-  Sentence.$.actor(Word.she).action(Word.laugh).time(Word.past).$,
+  // Original: "The new boy went off"
+  // Encoded:  "the boy ran home"
+  Sentence.$.actor(Entity.$(Word.boy).specifier(wordThis).$)
+    .action(Action.$.primary(Word.run).adverb(Word.home_adv).$)
+    .time(Word.past).$,
 
+  // Original: dialogue markers throughout chapter
   // Encoded:  "he said"
   Sentence.$.actor(Word.he).action(Word.say).time(Word.past).$,
 
-  // Encoded:  "he climbed over the fence"
-  Sentence.$.actor(Word.he)
+  // Original: "The new boy went off brushing the dust from his clothes"
+  // Encoded:  "the stranger ran quickly"
+  Sentence.$.actor(Entity.$(Word.stranger).specifier(wordThis).$)
+    .action(Action.$.primary(Word.run).adverb(Word.quickly).$)
+    .time(Word.past).$,
+
+  // Original: multiple looking scenes throughout chapter
+  // Encoded:  "she looked at him"
+  Sentence.$.actor(Word.she)
+    .action(Action.$.primary(Word.look)
+      .prepositionalPhrase(PrepositionalPhrase.$(Word.at).object(Word.he).$).$)
+    .time(Word.past).$,
+
+  // Original: "scrambled up the high board-fence"
+  // Encoded:  "the boy climbed over the fence"
+  Sentence.$.actor(Entity.$(Word.boy).specifier(wordThis).$)
     .action(Action.$.primary(Word.climb)
       .prepositionalPhrase(PrepositionalPhrase.$(Word.over).object(Entity.$(Word.fence).specifier(wordThis).$).$).$)
     .time(Word.past).$,
 
-  // Encoded:  "the lady shouted loudly"
-  Sentence.$.actor(Entity.$(Word.lady).specifier(wordThis).$)
-    .action(Action.$.primary(Word.shout).adverb(Word.loudly).$)
-    .time(Word.past).$,
-
-  // Encoded:  "the boy was small"
-  Sentence.$.actor(Entity.$(Word.boy).specifier(wordThis).$)
-    .action(Action.$.primary(Word.be).complement(Word.small).$)
-    .time(Word.past).$,
-
-  // Encoded:  "she wanted to seize him"
-  Sentence.$.actor(Word.she)
-    .action(Action.$.primary(Word.want).secondary(Word.seize).subject(Word.he).$)
-    .time(Word.past).$,
-
-  // Encoded:  "the lad wanted to run"
-  Sentence.$.actor(Entity.$(Word.lad).specifier(wordThis).$)
-    .action(Action.$.primary(Word.want).secondary(Word.run).$)
-    .time(Word.past).$,
-
+  // Original: "he...crept to where he could contemplate"
   // Encoded:  "she could not see him"
   Sentence.$.actor(Word.she)
     .action(Action.$.primary(Word.can).secondary(Word.see).subject(Word.he).negated().$)
     .time(Word.past).$,
 
+  // Original: "he had a very good time"
   // Encoded:  "it was good"
   Sentence.$.actor(Word.it)
     .action(Action.$.primary(Word.be).complement(Word.good).$)
+    .time(Word.past).$,
+
+  // Original: "She resurrected nothing but the cat"
+  // Encoded:  "the cat was small"
+  Sentence.$.actor(Entity.$(Word.cat).specifier(wordThis).$)
+    .action(Action.$.primary(Word.be).complement(Word.small).$)
     .time(Word.past).$,
 
 ];
@@ -457,86 +472,86 @@ describe('Tom Sawyer Chapter 1', function() {
 
     [en,
       'the old lady looked about the room. she did not finish. she looked under the bed. ' +
-      'the cat fled. she went to the open door. she stood in the door. ' +
-      'she lifted her voice and she shouted. she turned and she seized a small boy. ' +
-      'look at your hand. look at your mouth. I do not know. it is jam. ' +
+      'she found the cat. she went to the open door. she stood in the door. ' +
+      'she lifted her voice and shouted. she turned and seized a small boy. ' +
+      'look at your hands. look at your mouth. I do not know. it is jam. ' +
       'give the switch to me. the switch hovered in the air. look behind you. ' +
-      'the old lady whirled round. the lad fled and the lad disappeared over the fence. ' +
-      'his lady stood surprised. she laughed gently. he played. he knows. I do not think. ' +
+      'the old lady whirled round. the lad fled and disappeared over the fence. ' +
+      'his lady stood surprised. she laughed gently. he played tricks. he can torment me. I do not do my duty. ' +
       'the boy was quiet. it was warm. he played and it was good. summer was long. ' +
       'it was not dark. a slight noise was behind her. a stranger was before him. ' +
-      'the boy was dressed well. the stranger was big. he was young. ' +
+      'the boy was dressed well. the stranger was bigger. he was young. ' +
       'the boy looked at the stranger. I can lick you. what is your name? ' +
       'I am not afraid. he was not afraid. the boy was crying. the boy cried loudly. ' +
-      'he threw a stone and he hit him. he ran quickly. the boy ran. he chased him. ' +
-      'he went home. he climbed cautiously through the window. she saw his clothes. ' +
+      'he threw a stone and hit him. he ran quickly. the new boy went off. he chased him home. ' +
+      'he went home. he climbed cautiously in at the window. she saw his clothes. ' +
       'she thought. he shouted because he was afraid. she knew that he played. ' +
-      'when she looked, he fled. she stood in the garden. she laughed. he said. ' +
-      'he climbed over the fence. the lady shouted loudly. the boy was small. ' +
-      'she wanted to seize him. the lad wanted to run. she could not see him. it was good.'
+      'when she looked, he fled. the old lady laughed. she thought about him. ' +
+      'the boy ran home. he said. the stranger ran quickly. she looked at him. ' +
+      'the boy climbed over the fence. she could not see him. it was good. the cat was small.'
     ],
 
     [fi,
       'vanha rouva katsoi huoneesta. ei lopettanut. katsoi sängyn alla. ' +
-      'kissa pakeni. meni avoin ovelle. seisoi ovessa. ' +
+      'löysi kissa. meni avoin ovelle. seisoi ovessa. ' +
       'nosti hänen ääni ja huusi. kääntyi ja tarttui pieni poika. ' +
       'katso kättä. katso suuta. en tiedä. on hillo. ' +
       'anna vitsa minulle. vitsa leijui ilmassa. katso sinun takana. ' +
-      'vanha rouva pyöri ympäri. nuorukainen pakeni ja nuorukainen katosi aidan yli. ' +
-      'hänen rouva seisoi yllättynyt. nauroi lempeästi. leikki. tietää. en ajattele. ' +
+      'vanha rouva pyöri ympäri. nuorukainen pakeni ja katosi aidan yli. ' +
+      'hänen rouva seisoi yllättynyt. nauroi lempeästi. leikki temppuja. voi kiusata minut. en tee minun velvollisuus. ' +
       'poika oli hiljainen. oli lämmin. leikki ja oli hyvä. kesä oli pitkä. ' +
       'ei ollut pimeä. hiljainen ääni oli hänen takana. muukalainen oli hänen edessä. ' +
-      'poika oli pukenut hyvin. muukalainen oli suuri. oli nuori. ' +
+      'poika oli pukenut hyvin. muukalainen oli suurempi. oli nuori. ' +
       'poika katsoi muukalaista. voin lyödä sinut. mitä on sinun nimi? ' +
       'en ole peloissaan. ei ollut peloissaan. poika itki. poika itki kovaa. ' +
-      'heitti kivi ja iski hänet. juoksi nopeasti. poika juoksi. jahtasi hänet. ' +
+      'heitti kivi ja iski hänet. juoksi nopeasti. uusi poika meni pois. jahtasi hänet kotiin. ' +
       'meni kotiin. kiipesi varovasti ikkunasta. näki hänen vaatteet. ' +
       'ajatteli. huusi koska oli peloissaan. tiesi että leikki. ' +
-      'kun katsoi, pakeni. seisoi puutarhassa. nauroi. sanoi. ' +
-      'kiipesi aidan yli. rouva huusi kovaa. poika oli pieni. ' +
-      'halusi tarttua hänet. nuorukainen halusi juosta. ei voinut nähdä hänet. oli hyvä.'
+      'kun katsoi, pakeni. vanha rouva nauroi. ajatteli hänestä. ' +
+      'poika juoksi kotiin. sanoi. muukalainen juoksi nopeasti. katsoi häntä. ' +
+      'poika kiipesi aidan yli. ei voinut nähdä hänet. oli hyvä. kissa oli pieni.'
     ],
 
     [nl,
       'de oude dame keek over de kamer. zij eindigde niet. zij keek onder het bed. ' +
-      'de kat vluchtte. zij ging naar de open deur. zij stond in de deur. ' +
-      'zij tilde haar stem en zij schreeuwde. zij draaide en zij greep een kleine jongen. ' +
-      'kijk naar jouw hand. kijk naar jouw mond. ik weet niet. het is jam. ' +
+      'zij vond de kat. zij ging naar de open deur. zij stond in de deur. ' +
+      'zij tilde haar stem en schreeuwde. zij draaide en greep een kleine jongen. ' +
+      'kijk naar jouw handen. kijk naar jouw mond. ik weet niet. het is jam. ' +
       'geef de roede naar mij. de roede zweefde in de lucht. kijk achter jou. ' +
-      'de oude dame draaide rond. de knaap vluchtte en de knaap verdween over het hek. ' +
-      'zijn dame stond verrast. zij lachte zachtjes. hij speelde. hij weet. ik denk niet. ' +
+      'de oude dame draaide rond. de knaap vluchtte en verdween over het hek. ' +
+      'zijn dame stond verrast. zij lachte zachtjes. hij speelde streken. hij kan kwellen mij. ik doe niet mijn plicht. ' +
       'de jongen was stil. het was warm. hij speelde en het was goed. de zomer was lang. ' +
       'het was niet donker. een zacht geluid was achter haar. een vreemdeling was voor hem. ' +
-      'de jongen was gekleed goed. de vreemdeling was groot. hij was jong. ' +
+      'de jongen was gekleed goed. de vreemdeling was groter. hij was jong. ' +
       'de jongen keek naar de vreemdeling. ik kan slaan je. wat is jouw naam? ' +
       'ik ben niet bang. hij was niet bang. de jongen was aan het huilen. de jongen huilde hard. ' +
-      'hij gooide een steen en hij raakte hem. hij rende snel. de jongen rende. hij achtervolgde hem. ' +
+      'hij gooide een steen en raakte hem. hij rende snel. de nieuwe jongen ging weg. hij achtervolgde hem naar huis. ' +
       'hij ging naar huis. hij klom voorzichtig door het raam. zij zag zijn kleren. ' +
       'zij dacht. hij schreeuwde omdat hij was bang. zij wist dat hij speelde. ' +
-      'wanneer zij keek, hij vluchtte. zij stond in de tuin. zij lachte. hij zei. ' +
-      'hij klom over het hek. de dame schreeuwde hard. de jongen was klein. ' +
-      'zij wilde grijpen hem. de knaap wilde rennen. zij kon niet zien hem. het was goed.'
+      'wanneer zij keek, hij vluchtte. de oude dame lachte. zij dacht over hem. ' +
+      'de jongen rende naar huis. hij zei. de vreemdeling rende snel. zij keek naar hem. ' +
+      'de jongen klom over het hek. zij kon niet zien hem. het was goed. de kat was klein.'
     ],
 
     [ru,
       'старая дама смотрела о комнате. она не заканчивала. она смотрела под кроватью. ' +
-      'кот убегал. она шла к открытая двери. она стояла в двери. ' +
-      'она поднимала её голос и она кричала. она повернула и она хватала маленький мальчика. ' +
+      'она находила кота. она шла к открытая двери. она стояла в двери. ' +
+      'она поднимала её голос и кричала. она повернула и хватала маленький мальчика. ' +
       'смотри на руку. смотри на рот. я не знаю. оно варенье. ' +
       'давай розга ко мне. розга парила в воздухе. смотри за тобой. ' +
-      'старая дама кругом кружила. парень убегал и парень исчез над забором. ' +
-      'его дама стояла удивлённая. она нежно смеялась. он играл. он знает. я не думаю. ' +
+      'старая дама кругом кружила. парень убегал и исчез над забором. ' +
+      'его дама стояла удивлённая. она нежно смеялась. он играл трюки. он может мучить меня. я не делаю моего долг. ' +
       'мальчик был тихий. оно было тёплое. он играл и оно было хорошее. лето было длинное. ' +
       'оно не было тёмное. тихий шум был за ней. незнакомец был перед ним. ' +
-      'мальчик был одет хорошо. незнакомец был большой. он был молодой. ' +
+      'мальчик был одет хорошо. незнакомец был больше. он был молодой. ' +
       'мальчик смотрел на незнакомца. я могу побить тебя. что твоё имя? ' +
       'я не испуган. он не был испуган. мальчик плакал. мальчик громко плакал. ' +
-      'он бросал камень и он ударял его. он быстро бежал. мальчик бежал. он гнал его. ' +
-      'он домой шел. он осторожно лез через окно. она видела его одежда. ' +
+      'он бросал камень и ударял его. он быстро бежал. новый мальчик прочь шел. он домой гнал его. ' +
+      'он домой шел. он осторожно лез в окно. она видела его одежда. ' +
       'она думала. он кричал потому что он был испуган. она знала что он играл. ' +
-      'когда она смотрела, он убегал. она стояла в саду. она смеялась. он говорил. ' +
-      'он лез над забором. дама громко кричала. мальчик был маленький. ' +
-      'она хотела хватать его. парень хотел бежать. она не могла видеть его. оно было хорошее.'
+      'когда она смотрела, он убегал. старая дама смеялась. она думала о нём. ' +
+      'мальчик домой бежал. он говорил. незнакомец быстро бежал. она смотрела на него. ' +
+      'мальчик лез над забором. она не могла видеть его. оно было хорошее. кот был маленький.'
     ],
 
   ]);

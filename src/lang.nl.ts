@@ -388,7 +388,23 @@ const translations: WordTranslations = {
   late_adv: new AdverbTranslation('laat'),
   gently: new AdverbTranslation('zachtjes'),
   // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — prepositions
-  under: new PrepositionTranslation({ defaultForm: 'onder' })
+  under: new PrepositionTranslation({ defaultForm: 'onder' }),
+  in_at: new PrepositionTranslation({ defaultForm: 'door' }),
+  // Phase 19: Faithful Tom Sawyer encoding
+  find: new ActionTranslationNl({
+    root: 'vind',
+    conjugationRoots: { past: 'vond' },
+    conjugations: { past: { plural: 'vonden' } }
+  }),
+  trick: new ObjectTranslation({ defaultForm: 'streek', asActor: Word.it, asSpecificObject: 'de', asMany: 'streken' }),
+  torment: new ActionTranslationNl({
+    root: 'kwel',
+    defaultForm: 'kwellen',
+    conjugationRoots: { past: 'kwelde' },
+    conjugations: { past: { plural: 'kwelden' } }
+  }),
+  off_adv: new AdverbTranslation('weg'),
+  duty: new ObjectTranslation({ defaultForm: 'plicht', asActor: Word.it, asSpecificObject: 'de', asMany: 'plichten' })
 };
 
 //TODO: Create a separate class ObjectTranslationNl and move most of the logic now in the language class to their: mode modular and object-oriented
@@ -578,7 +594,11 @@ class Dutch extends Language {
     // Predicate adjectives use base form in Dutch, not attributive
     const translation = this.wordTranslations[complement.id];
     if (translation instanceof AdjectiveTranslation) {
-      if (degree === 'comparative' && translation.forms?.comparative) return translation.forms.comparative;
+      if (degree === 'comparative' && translation.forms?.comparative) {
+        // Predicative comparative: strip attributive -e suffix (grotere → groter)
+        const comp = translation.forms.comparative;
+        return comp.endsWith('ere') ? comp.slice(0, -1) : comp;
+      }
       if (degree === 'superlative' && translation.forms?.superlative) return translation.forms.superlative;
       return translation.defaultForm;
     }

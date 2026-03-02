@@ -680,7 +680,31 @@ const translations: WordTranslations = {
   late_adv: new AdverbTranslation('myöhään'),
   gently: new AdverbTranslation('lempeästi'),
   // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — prepositions
-  under: new PrepositionTranslation({ defaultForm: 'under' })
+  under: new PrepositionTranslation({ defaultForm: 'under' }),
+  in_at: new PrepositionTranslation({ defaultForm: 'in_at' }),
+  // Phase 19: Faithful Tom Sawyer encoding
+  find: new ActionTranslationFi({
+    root: 'löy', keyVowel: 'tä', defaultForm: 'löytää', pastParticiple: 'löytänyt',
+    negationStem: 'löydä',
+    conjugationRoots: { now: 'löydä', past: 'löys' },
+    conjugations: { now: { he_she_it: 'löytää', they: 'löytävät' } }
+  }),
+  trick: new ObjectTranslation({
+    defaultForm: 'temppu', asActor: Word.it, asMany: 'temppuja',
+    asPartitive: 'temppua', asAllative: 'tempulle', asElative: 'tempusta',
+    asGenitive: 'tempun', asInessive: 'tempussa'
+  }),
+  torment: new ActionTranslationFi({
+    root: 'kiusaa', keyVowel: '', defaultForm: 'kiusata', pastParticiple: 'kiusannut',
+    negationStem: 'kiusaa',
+    conjugationRoots: { now: 'kiusaa', past: 'kiusas' },
+    conjugations: { now: { he_she_it: 'kiusaa', they: 'kiusaavat' } }
+  }),
+  off_adv: new AdverbTranslation('pois'),
+  duty: new ObjectTranslation({
+    defaultForm: 'velvollisuus', asActor: Word.it,
+    asPartitive: 'velvollisuutta', asGenitive: 'velvollisuuden'
+  })
 };
 
 class Finnish extends Language {
@@ -788,7 +812,7 @@ class Finnish extends Language {
     // Case-only prepositions (no separate preposition word needed)
     const caseOnlyMap: Record<string, string> = {
       to: 'asAllative', from: 'asElative', at: 'asPartitive',
-      in_loc: 'asInessive', through_prep: 'asElative', about_prep: 'asElative'
+      in_loc: 'asInessive', through_prep: 'asElative', about_prep: 'asElative', in_at: 'asElative'
     };
     const caseKey = caseOnlyMap[pp.preposition.id];
     if (caseKey && objectTranslation && objectTranslation[caseKey]) {

@@ -525,6 +525,9 @@ export class Language {
         (translation as ActionTranslation).asPrimaryTimeActorForm(time, resolvedActor);
       result = `${result} ${(this.wordTranslations[secondaryAction.id] as ActionTranslation).asSecondary()}`;
     }
+    if (actionSubject) {
+      result = `${result} ${this.translateActionSubject(actionSubject)}`;
+    }
     if (adverb) {
       const adverbForm = this.translateAdverb(adverb);
       if (adverbNegated) {
@@ -532,9 +535,6 @@ export class Language {
       } else {
         result = this.insertAdverb(result, adverbForm);
       }
-    }
-    if (actionSubject) {
-      result = `${result} ${this.translateActionSubject(actionSubject)}`;
     }
     if (action instanceof Action && action.complement) {
       const complementForm = this.translateComplement(action.complement, actor, action.complementDegree);
@@ -570,8 +570,29 @@ export class Language {
 
   translateCompoundSentence(compound: CompoundSentence): string {
     const coordinatorForm = this.translateWord(compound.coordinator);
-    const parts = compound.sentences.map(s => this.translate(s));
+    const parts: string[] = [];
+    for (let i = 0; i < compound.sentences.length; i++) {
+      const s = compound.sentences[i];
+      if (i > 0 && this.sameActor(compound.sentences[i - 1].actor, s.actor)) {
+        parts.push(this.translateElidedSentence(s));
+      } else {
+        parts.push(this.translate(s));
+      }
+    }
     return parts.join(` ${coordinatorForm} `);
+  }
+
+  protected sameActor(a: Word | Actor | Entity, b: Word | Actor | Entity): boolean {
+    if (a === b) return true;
+    if (a instanceof Entity && b instanceof Entity) {
+      return a.word === b.word && a.specifier === b.specifier
+        && a.adjective === b.adjective && a.possessor === b.possessor;
+    }
+    return false;
+  }
+
+  protected translateElidedSentence(s: Sentence): string {
+    return this.translateAction(s.actor, s.action, s.time);
   }
 
   resolveActorForConjugation(actor: Word | Actor | Entity): Word | Actor {

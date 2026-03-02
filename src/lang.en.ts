@@ -313,7 +313,7 @@ const translations: WordTranslations = {
   // Phase 17: existential
   there_exists: new Translation('there'),
   // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — nouns
-  hand: new ObjectTranslation({ defaultForm: 'hand', asActor: Word.it }),
+  hand: new ObjectTranslation({ defaultForm: 'hand', asActor: Word.it, asMany: 'hands' }),
   mouth: new ObjectTranslation({ defaultForm: 'mouth', asActor: Word.it }),
   stone: new ObjectTranslation({ defaultForm: 'stone', asActor: Word.it }),
   bed: new ObjectTranslation({ defaultForm: 'bed', asActor: Word.it }),
@@ -336,7 +336,14 @@ const translations: WordTranslations = {
   late_adv: new AdverbTranslation('late'),
   gently: new AdverbTranslation('gently'),
   // Phase 18: Tom Sawyer Chapter 1 extended vocabulary — prepositions
-  under: new PrepositionTranslation({ defaultForm: 'under' })
+  under: new PrepositionTranslation({ defaultForm: 'under' }),
+  in_at: new PrepositionTranslation({ defaultForm: 'in at' }),
+  // Phase 19: Faithful Tom Sawyer encoding
+  find: new ActionTranslationEn({ root: 'find', pastParticiple: 'found', conjugations: { past: 'found' } }),
+  trick: new ObjectTranslation({ defaultForm: 'trick', asActor: Word.it, asMany: 'tricks' }),
+  torment: new ActionTranslationEn({ root: 'torment' }),
+  off_adv: new AdverbTranslation('off'),
+  duty: new ObjectTranslation({ defaultForm: 'duty', asActor: Word.it })
 };
 
 class English extends Language {
