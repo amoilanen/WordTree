@@ -405,7 +405,12 @@ const translations: WordTranslations = {
   }),
   off_adv: new AdverbTranslation('weg'),
   duty: new ObjectTranslation({ defaultForm: 'plicht', asActor: Word.it, asSpecificObject: 'de', asMany: 'plichten' }),
-  traitor: new ObjectTranslation({ defaultForm: 'verrader', asActor: Word.he, asMany: 'verraders' })
+  traitor: new ObjectTranslation({ defaultForm: 'verrader', asActor: Word.he, asMany: 'verraders' }),
+  large: new AdjectiveTranslation({ defaultForm: 'groot', forms: { attributive: 'grote', comparative: 'grotere', superlative: 'grootste' } }),
+  pull: new ActionTranslationNl({ root: 'trek', defaultForm: 'trekken', conjugationRoots: { past: 'trok' }, conjugations: { past: { plural: 'trokken' } } }),
+  spectacles: new ObjectTranslation({ defaultForm: 'bril', asActor: Word.he }),
+  down_adv: new AdverbTranslation('omlaag'),
+  around_prep: new PrepositionTranslation({ defaultForm: 'door' })
 };
 
 //TODO: Create a separate class ObjectTranslationNl and move most of the logic now in the language class to their: mode modular and object-oriented

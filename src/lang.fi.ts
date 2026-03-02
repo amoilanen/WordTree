@@ -708,7 +708,19 @@ const translations: WordTranslations = {
   traitor: new ObjectTranslation({
     defaultForm: 'petturi', asActor: Word.he, asMany: 'petturit',
     asPartitive: 'petturia', asGenitive: 'petturin'
-  })
+  }),
+  large: new AdjectiveTranslation({ defaultForm: 'suuri', forms: { comparative: 'suurempi', superlative: 'suurin' } }),
+  pull: new ActionTranslationFi({
+    root: 'vet', keyVowel: 'ä',
+    conjugationRoots: { now: 'vedä', past: 'vet' },
+    conjugations: { now: { he_she_it: 'vetää', they: 'vetävät' }, past: { I: 'veti', other_single: 'veti', plural: 'vetivät' } }
+  }),
+  spectacles: new ObjectTranslation({
+    defaultForm: 'silmälasit', asActor: Word.they,
+    asPartitive: 'silmälaseja', asGenitive: 'silmälasien'
+  }),
+  down_adv: new AdverbTranslation('alas'),
+  around_prep: new PrepositionTranslation({ defaultForm: 'around_prep' })
 };
 
 class Finnish extends Language {
@@ -829,7 +841,7 @@ class Finnish extends Language {
     }
     // Postpositions: genitive + postposition word
     const postpositionMap: Record<string, string> = {
-      over: 'yli', behind: 'takana', before_prep: 'edessä', under: 'alla'
+      over: 'yli', behind: 'takana', before_prep: 'edessä', under: 'alla', around_prep: 'ympäri'
     };
     const postposition = postpositionMap[pp.preposition.id];
     if (postposition && objectTranslation && objectTranslation['asGenitive']) {

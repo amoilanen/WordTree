@@ -51,11 +51,17 @@ const text: Fragment[] = [
 
   // Original: "The old lady pulled her spectacles down and looked over
   //            them about the room"
-  // Encoded:  "the old lady looked about the room"
-  Sentence.$.actor(Entity.$(Word.lady).specifier(wordThis).adjective(Word.old).$)
-    .action(Action.$.primary(Word.look)
-      .prepositionalPhrase(PrepositionalPhrase.$(Word.about_prep).object(Entity.$(Word.room).specifier(wordThis).$).$).$)
-    .time(Word.past).$,
+  // Encoded:  "the old lady pulled her spectacles down and looked over them about the room"
+  CompoundSentence.$
+    .sentence(Sentence.$.actor(Entity.$(Word.lady).specifier(wordThis).adjective(Word.old).$)
+      .action(Action.$.primary(Word.pull).subject(Entity.$(Word.spectacles).possessor(Word.she).$).adverb(Word.down_adv).$)
+      .time(Word.past).$)
+    .coordinator(Word.and)
+    .sentence(Sentence.$.actor(Entity.$(Word.lady).specifier(wordThis).adjective(Word.old).$)
+      .action(Action.$.primary(Word.look)
+        .prepositionalPhrase(PrepositionalPhrase.$(Word.over).object(Word.they).$)
+        .prepositionalPhrase(PrepositionalPhrase.$(Word.around_prep).object(Entity.$(Word.room).specifier(wordThis).$).$).$)
+      .time(Word.past).$).$,
 
   // Original: "She did not finish, for by this time she was bending down
   //            and punching under the bed with the broom"
@@ -271,9 +277,9 @@ const text: Fragment[] = [
     .time(Word.past).$,
 
   // Original: "a boy a shade larger than himself"
-  // Encoded:  "the stranger was bigger"
+  // Encoded:  "the stranger was larger"
   Sentence.$.actor(Entity.$(Word.stranger).specifier(wordThis).$)
-    .action(Action.$.primary(Word.be).complement(Word.big, 'comparative').$)
+    .action(Action.$.primary(Word.be).complement(Word.large, 'comparative').$)
     .time(Word.past).$,
 
   // Encoded:  "he was young"
@@ -471,7 +477,7 @@ describe('Tom Sawyer Chapter 1', function() {
   shouldTranslate(text, [
 
     [en,
-      'the old lady looked about the room. she did not finish. she looked under the bed. ' +
+      'the old lady pulled her spectacles down and looked over them about the room. she did not finish. she looked under the bed. ' +
       'she found the cat. she went to the open door. she stood in the door. ' +
       'she lifted her voice and shouted. she turned and seized a small boy. ' +
       'look at your hands. look at your mouth. I do not know. it is jam. ' +
@@ -480,7 +486,7 @@ describe('Tom Sawyer Chapter 1', function() {
       'his lady stood surprised. she laughed gently. he played tricks. he can torment me. I do not do my duty. ' +
       'the boy was quiet. it was warm. he played and it was good. summer was long. ' +
       'it was not dark. a slight noise was behind her. a stranger was before him. ' +
-      'the boy was dressed well. the stranger was bigger. he was young. ' +
+      'the boy was dressed well. the stranger was larger. he was young. ' +
       'the boy looked at the stranger. I can lick you. what is your name? ' +
       'I am not afraid. he was not afraid. the boy was crying. the boy cried loudly. ' +
       'he threw a stone and hit him. he ran quickly. the new boy went off. he chased the traitor home. ' +
@@ -492,7 +498,7 @@ describe('Tom Sawyer Chapter 1', function() {
     ],
 
     [fi,
-      'vanha rouva katsoi huoneesta. ei lopettanut. katsoi sängyn alla. ' +
+      'vanha rouva veti hänen silmälasit alas ja katsoi niiden yli huoneen ympäri. ei lopettanut. katsoi sängyn alla. ' +
       'löysi kissa. meni avoin ovelle. seisoi ovessa. ' +
       'nosti hänen ääni ja huusi. kääntyi ja tarttui pieni poika. ' +
       'katso kättä. katso suuta. en tiedä. on hillo. ' +
@@ -513,7 +519,7 @@ describe('Tom Sawyer Chapter 1', function() {
     ],
 
     [nl,
-      'de oude dame keek over de kamer. zij eindigde niet. zij keek onder het bed. ' +
+      'de oude dame trok haar bril omlaag en keek over hen door de kamer. zij eindigde niet. zij keek onder het bed. ' +
       'zij vond de kat. zij ging naar de open deur. zij stond in de deur. ' +
       'zij tilde haar stem en schreeuwde. zij draaide en greep een kleine jongen. ' +
       'kijk naar jouw handen. kijk naar jouw mond. ik weet niet. het is jam. ' +
@@ -534,7 +540,7 @@ describe('Tom Sawyer Chapter 1', function() {
     ],
 
     [ru,
-      'старая дама смотрела о комнате. она не заканчивала. она смотрела под кроватью. ' +
+      'старая дама вниз тянула её очки и смотрела над ними по комнате. она не заканчивала. она смотрела под кроватью. ' +
       'она находила кота. она шла к открытая двери. она стояла в двери. ' +
       'она поднимала её голос и кричала. она повернула и хватала маленький мальчика. ' +
       'смотри на руку. смотри на рот. я не знаю. оно варенье. ' +

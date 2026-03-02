@@ -344,7 +344,12 @@ const translations: WordTranslations = {
   torment: new ActionTranslationEn({ root: 'torment' }),
   off_adv: new AdverbTranslation('off'),
   duty: new ObjectTranslation({ defaultForm: 'duty', asActor: Word.it }),
-  traitor: new ObjectTranslation({ defaultForm: 'traitor', asActor: Word.he, asMany: 'traitors' })
+  traitor: new ObjectTranslation({ defaultForm: 'traitor', asActor: Word.he, asMany: 'traitors' }),
+  large: new AdjectiveTranslation({ defaultForm: 'large', forms: { comparative: 'larger', superlative: 'largest' } }),
+  pull: new ActionTranslationEn({ root: 'pull', conjugations: { past: 'pulled' } }),
+  spectacles: new ObjectTranslation({ defaultForm: 'spectacles', asActor: Word.they }),
+  down_adv: new AdverbTranslation('down'),
+  around_prep: new PrepositionTranslation({ defaultForm: 'about' })
 };
 
 class English extends Language {

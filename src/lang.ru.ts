@@ -801,7 +801,20 @@ const translations: WordTranslations = {
     defaultForm: 'предатель', asActor: Word.he, asMany: 'предатели',
     asAccusative: 'предателя', asGenitive: 'предателя', asDative: 'предателю',
     asInstrumental: 'предателем', asPrepositional: 'предателе'
-  })
+  }),
+  large: new AdjectiveTranslation({ defaultForm: 'большой', forms: { comparative: 'больше', superlative: 'самый большой' } }),
+  pull: new ActionTranslationRu({
+    root: 'тяну', keyVowel: '',
+    conjugations: { now: { I: 'тяну', he: 'тянет', she: 'тянет', it: 'тянет', we: 'тянем', they: 'тянут' },
+                    past: { he: 'тянул', she: 'тянула', it: 'тянуло', they: 'тянули' } }
+  }),
+  spectacles: new ObjectTranslation({
+    defaultForm: 'очки', asActor: Word.they,
+    asAccusative: 'очки', asGenitive: 'очков', asDative: 'очкам',
+    asInstrumental: 'очками', asPrepositional: 'очках'
+  }),
+  down_adv: new AdverbTranslation('вниз'),
+  around_prep: new PrepositionTranslation({ defaultForm: 'по', governedCase: 'dative' })
 };
 
 class Russian extends Language {
