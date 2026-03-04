@@ -2091,7 +2091,7 @@ describe('Tom Sawyer Chapter 1', function() {
         [en, 'she lifted her voice and shouted'],
         [fi, 'nosti hänen ääni ja huusi'],
         [nl, 'zij tilde haar stem en schreeuwde'],
-        [ru, 'она поднимала её голос и кричала']
+        [ru, 'она поднимала свой голос и кричала']
       ]
     );
   });

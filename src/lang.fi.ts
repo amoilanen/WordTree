@@ -720,7 +720,18 @@ const translations: WordTranslations = {
     asPartitive: 'silmälaseja', asGenitive: 'silmälasien'
   }),
   down_adv: new AdverbTranslation('alas'),
-  around_prep: new PrepositionTranslation({ defaultForm: 'around_prep' })
+  around_prep: new PrepositionTranslation({ defaultForm: 'around_prep' }),
+  punch: new ActionTranslationFi({
+    root: 'tunk', keyVowel: 'e', defaultForm: 'tunkea', pastParticiple: 'tunkenut',
+    negationStem: 'tunge',
+    conjugationRoots: { past: 'tunk' }
+  }),
+  broom: new ObjectTranslation({
+    defaultForm: 'luuta', asActor: Word.it, asMany: 'luudat',
+    asPartitive: 'luutaa', asAllative: 'luudalle', asElative: 'luudasta',
+    asGenitive: 'luudan', asAdessive: 'luudalla', asInessive: 'luudassa'
+  }),
+  with_prep: new PrepositionTranslation({ defaultForm: 'with_prep' })
 };
 
 class Finnish extends Language {
@@ -828,7 +839,8 @@ class Finnish extends Language {
     // Case-only prepositions (no separate preposition word needed)
     const caseOnlyMap: Record<string, string> = {
       to: 'asAllative', from: 'asElative', at: 'asPartitive',
-      in_loc: 'asInessive', through_prep: 'asElative', about_prep: 'asElative', in_at: 'asElative'
+      in_loc: 'asInessive', through_prep: 'asElative', about_prep: 'asElative', in_at: 'asElative',
+      with_prep: 'asAdessive'
     };
     const caseKey = caseOnlyMap[pp.preposition.id];
     if (caseKey && objectTranslation && objectTranslation[caseKey]) {

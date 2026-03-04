@@ -349,7 +349,10 @@ const translations: WordTranslations = {
   pull: new ActionTranslationEn({ root: 'pull', conjugations: { past: 'pulled' } }),
   spectacles: new ObjectTranslation({ defaultForm: 'spectacles', asActor: Word.they }),
   down_adv: new AdverbTranslation('down'),
-  around_prep: new PrepositionTranslation({ defaultForm: 'about' })
+  around_prep: new PrepositionTranslation({ defaultForm: 'about' }),
+  punch: new ActionTranslationEn({ root: 'punch', presentParticiple: 'punching', conjugations: { now: { he_she_it: 'punches' } } }),
+  broom: new ObjectTranslation({ defaultForm: 'broom', asActor: Word.it }),
+  with_prep: new PrepositionTranslation({ defaultForm: 'with' })
 };
 
 class English extends Language {

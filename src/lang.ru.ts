@@ -29,6 +29,15 @@ const POSSESSIVE_FORMS_ACC: Record<string, Record<string, string> | string> = {
   they: 'их'
 };
 
+// Reflexive possessive forms (свой/своя/своё/свои) — used when 3rd-person possessor = sentence subject
+// Keyed by gender of the possessed noun
+const POSSESSIVE_FORMS_REFLEXIVE: Record<string, string> = {
+  he: 'свой', she: 'своя', it: 'своё', they: 'свои'
+};
+const POSSESSIVE_FORMS_REFLEXIVE_ACC: Record<string, string> = {
+  he: 'свой', she: 'свою', it: 'своё', they: 'свои'
+};
+
 class ActionTranslationRu extends ActionTranslation {
 
   constructor(opts: ActionTranslationOpts & { keyVowel?: string }) {
@@ -814,7 +823,17 @@ const translations: WordTranslations = {
     asInstrumental: 'очками', asPrepositional: 'очках'
   }),
   down_adv: new AdverbTranslation('вниз'),
-  around_prep: new PrepositionTranslation({ defaultForm: 'по', governedCase: 'dative' })
+  around_prep: new PrepositionTranslation({ defaultForm: 'по', governedCase: 'dative' }),
+  punch: new ActionTranslationRu({
+    root: 'тык', keyVowel: 'а', defaultForm: 'тыкать', imperative: 'тыкай',
+    conjugationRoots: { now: 'тыка' }
+  }),
+  broom: new ObjectTranslation({
+    defaultForm: 'метла', asActor: Word.she, asMany: 'мётлы',
+    asAccusative: 'метлу', asGenitive: 'метлы', asDative: 'метле',
+    asInstrumental: 'метлой', asPrepositional: 'метле'
+  }),
+  with_prep: new PrepositionTranslation({ defaultForm: 'с', governedCase: 'instrumental' })
 };
 
 class Russian extends Language {
@@ -935,6 +954,21 @@ class Russian extends Language {
   }
 
   translatePossessive(possessor: Word, object?: Word, accusative?: boolean): string {
+    // Reflexive possessive: 3rd person possessor matching clause actor → свой/своя/своё/свои
+    const thirdPersonIds = ['he', 'she', 'it', 'they'];
+    if (thirdPersonIds.includes(possessor.id) && this.clause && object) {
+      const resolvedActor = this.resolveClauseActor();
+      if (resolvedActor && resolvedActor.id === possessor.id) {
+        const reflexiveTable = accusative ? POSSESSIVE_FORMS_REFLEXIVE_ACC : POSSESSIVE_FORMS_REFLEXIVE;
+        const objectTranslation = this.wordTranslations[object.id];
+        if (objectTranslation instanceof ObjectTranslation && objectTranslation.asActor) {
+          const gender = objectTranslation.asActor.id;
+          if (reflexiveTable[gender]) return reflexiveTable[gender];
+        }
+        return reflexiveTable.he; // default masculine
+      }
+    }
+
     const table = accusative ? POSSESSIVE_FORMS_ACC : POSSESSIVE_FORMS;
     const form = table[possessor.id];
     if (typeof form === 'string') return form;
@@ -946,6 +980,26 @@ class Russian extends Language {
       }
     }
     return form ? (form as Record<string, string>).he : possessor.id;
+  }
+
+  private resolveClauseActor(): Word | undefined {
+    if (!this.clause) return undefined;
+    const actor = this.clause.actor;
+    if (actor instanceof Entity) {
+      const actorTranslation = this.wordTranslations[actor.word.id];
+      if (isDefined(actorTranslation) && ('asActor' in actorTranslation)) {
+        return (actorTranslation as ObjectTranslation).asActor!;
+      }
+      return actor.word;
+    }
+    if (actor instanceof Actor) {
+      return actor.person;
+    }
+    const actorTranslation = this.wordTranslations[actor.id];
+    if (isDefined(actorTranslation) && ('asActor' in actorTranslation)) {
+      return (actorTranslation as ObjectTranslation).asActor!;
+    }
+    return actor;
   }
 
   translateObject(object: Word, specifier: Word | undefined, context?: { isSubject?: boolean; adjective?: Word; adjectiveDegree?: import('./grammar').AdjectiveDegree; possessor?: Word }): string {

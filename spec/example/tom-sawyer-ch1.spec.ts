@@ -65,10 +65,18 @@ const text: Fragment[] = [
 
   // Original: "She did not finish, for by this time she was bending down
   //            and punching under the bed with the broom"
-  // Encoded:  "she did not finish"
-  Sentence.$.actor(Word.she)
-    .action(Action.$.primary(Word.finish).negated().$)
-    .time(Word.past).$,
+  // Encoded:  "she did not finish because she was punching under the bed with the broom"
+  SubordinateSentence.$
+    .main(Sentence.$.actor(Word.she)
+      .action(Action.$.primary(Word.finish).negated().$)
+      .time(Word.past).$)
+    .subordinator(Word.because)
+    .subordinate(Sentence.$.actor(Word.she)
+      .action(Action.$.primary(Word.punch)
+        .prepositionalPhrase(PrepositionalPhrase.$(Word.under).object(Entity.$(Word.bed).specifier(wordThis).$).$)
+        .prepositionalPhrase(PrepositionalPhrase.$(Word.with_prep).object(Entity.$(Word.broom).specifier(wordThis).$).$).$)
+      .time(Word.past)
+      .aspect(Word.progressive).$).$,
 
   // (continuation of the bed-searching scene)
   // Encoded:  "she looked under the bed"
@@ -477,7 +485,7 @@ describe('Tom Sawyer Chapter 1', function() {
   shouldTranslate(text, [
 
     [en,
-      'the old lady pulled her spectacles down and looked over them about the room. she did not finish. she looked under the bed. ' +
+      'the old lady pulled her spectacles down and looked over them about the room. she did not finish because she was punching under the bed with the broom. she looked under the bed. ' +
       'she found the cat. she went to the open door. she stood in the door. ' +
       'she lifted her voice and shouted. she turned and seized a small boy. ' +
       'look at your hands. look at your mouth. I do not know. it is jam. ' +
@@ -498,7 +506,7 @@ describe('Tom Sawyer Chapter 1', function() {
     ],
 
     [fi,
-      'vanha rouva veti hänen silmälasit alas ja katsoi niiden yli huoneen ympäri. ei lopettanut. katsoi sängyn alla. ' +
+      'vanha rouva veti hänen silmälasit alas ja katsoi niiden yli huoneen ympäri. ei lopettanut koska tunki sängyn alla luudalla. katsoi sängyn alla. ' +
       'löysi kissa. meni avoin ovelle. seisoi ovessa. ' +
       'nosti hänen ääni ja huusi. kääntyi ja tarttui pieni poika. ' +
       'katso kättä. katso suuta. en tiedä. on hillo. ' +
@@ -519,7 +527,7 @@ describe('Tom Sawyer Chapter 1', function() {
     ],
 
     [nl,
-      'de oude dame trok haar bril omlaag en keek over hen door de kamer. zij eindigde niet. zij keek onder het bed. ' +
+      'de oude dame trok haar bril omlaag en keek erover door de kamer. zij eindigde niet omdat zij onder het bed met de bezem aan het porren was. zij keek onder het bed. ' +
       'zij vond de kat. zij ging naar de open deur. zij stond in de deur. ' +
       'zij tilde haar stem en schreeuwde. zij draaide en greep een kleine jongen. ' +
       'kijk naar jouw handen. kijk naar jouw mond. ik weet niet. het is jam. ' +
@@ -533,16 +541,16 @@ describe('Tom Sawyer Chapter 1', function() {
       'ik ben niet bang. hij was niet bang. de jongen was aan het huilen. de jongen huilde hard. ' +
       'hij gooide een steen en raakte hem. hij rende snel. de nieuwe jongen ging weg. hij achtervolgde de verrader naar huis. ' +
       'hij ging naar huis. hij klom voorzichtig door het raam. zij zag zijn kleren. ' +
-      'zij dacht. hij schreeuwde omdat hij was bang. zij wist dat hij speelde. ' +
+      'zij dacht. hij schreeuwde omdat hij bang was. zij wist dat hij speelde. ' +
       'wanneer zij keek, hij vluchtte. de oude dame lachte. zij dacht over hem. ' +
       'de jongen rende naar huis. hij zei. de vreemdeling rende snel. zij keek naar hem. ' +
       'de jongen klom over het hek. zij kon niet zien hem. het was goed. de kat was klein.'
     ],
 
     [ru,
-      'старая дама вниз тянула её очки и смотрела над ними по комнате. она не заканчивала. она смотрела под кроватью. ' +
+      'старая дама вниз тянула свои очки и смотрела над ними по комнате. она не заканчивала потому что она тыкала под кроватью с метлой. она смотрела под кроватью. ' +
       'она находила кота. она шла к открытая двери. она стояла в двери. ' +
-      'она поднимала её голос и кричала. она повернула и хватала маленький мальчика. ' +
+      'она поднимала свой голос и кричала. она повернула и хватала маленький мальчика. ' +
       'смотри на руку. смотри на рот. я не знаю. оно варенье. ' +
       'давай розгу ко мне. розга парила в воздухе. смотри за тобой. ' +
       'старая дама кругом кружила. парень убегал и исчез над забором. ' +

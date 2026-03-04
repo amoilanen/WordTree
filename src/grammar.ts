@@ -90,7 +90,8 @@ const VOCABULARY = [
   'under', 'in_at',
   // Phase 19: Faithful Tom Sawyer encoding
   'find', 'trick', 'torment', 'off_adv', 'duty', 'traitor', 'large',
-  'pull', 'spectacles', 'down_adv', 'around_prep'
+  'pull', 'spectacles', 'down_adv', 'around_prep',
+  'punch', 'broom', 'with_prep'
 ] as const;
 
 export type VocabularyTerm = typeof VOCABULARY[number];
@@ -172,6 +173,7 @@ export declare namespace Word {
   export let off_adv: Word; export let duty: Word; export let traitor: Word;
   export let large: Word; export let pull: Word; export let spectacles: Word;
   export let down_adv: Word; export let around_prep: Word;
+  export let punch: Word; export let broom: Word; export let with_prep: Word;
 }
 
 export class RelativeClause {

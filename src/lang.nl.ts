@@ -1,5 +1,5 @@
 import { Translation, ObjectTranslation, ActionTranslation, ActionTranslationOpts, AdjectiveTranslation, AdverbTranslation, PrepositionTranslation, Language, WordTranslations } from './lang';
-import { Word, Actor, Action, Entity, Question } from './grammar';
+import { Word, Actor, Action, Entity, PrepositionalPhrase, Question } from './grammar';
 import { isDefined } from './util';
 
 const POSSESSIVE_FORMS: Record<string, string> = {
@@ -410,7 +410,15 @@ const translations: WordTranslations = {
   pull: new ActionTranslationNl({ root: 'trek', defaultForm: 'trekken', conjugationRoots: { past: 'trok' }, conjugations: { past: { plural: 'trokken' } } }),
   spectacles: new ObjectTranslation({ defaultForm: 'bril', asActor: Word.he }),
   down_adv: new AdverbTranslation('omlaag'),
-  around_prep: new PrepositionTranslation({ defaultForm: 'door' })
+  around_prep: new PrepositionTranslation({ defaultForm: 'door' }),
+  punch: new ActionTranslationNl({
+    root: 'por',
+    defaultForm: 'porren',
+    conjugationRoots: { past: 'porde' },
+    conjugations: { past: { plural: 'porden' } }
+  }),
+  broom: new ObjectTranslation({ defaultForm: 'bezem', asActor: Word.it, asMany: 'bezems' }),
+  with_prep: new PrepositionTranslation({ defaultForm: 'met' })
 };
 
 //TODO: Create a separate class ObjectTranslationNl and move most of the logic now in the language class to their: mode modular and object-oriented
@@ -449,6 +457,108 @@ class Dutch extends Language {
     return 'heb';
   }
 
+  translateAction(actor: Word | Actor | Entity, action: Word | Action, time: Word): string {
+    if (this.clause?.clauseType !== 'subordinate') {
+      return super.translateAction(actor, action, time);
+    }
+    return this.translateSubordinateAction(actor, action, time);
+  }
+
+  private translateSubordinateAction(actor: Word | Actor | Entity, action: Word | Action, time: Word): string {
+    if (time === Word.imperative) {
+      return this.translateImperative(action, actor);
+    }
+
+    if (action instanceof Action && action.passive) {
+      return this.translatePassiveAction(actor, action, time);
+    }
+
+    let primaryAction: Word;
+    let isNegated = false;
+    let adverb: Word | undefined;
+    let adverbNegated = false;
+
+    if (action instanceof Action) {
+      primaryAction = action.primary;
+      isNegated = action.negated;
+      adverb = action.adverb;
+      adverbNegated = action.adverbNegated;
+    } else {
+      primaryAction = action;
+    }
+
+    // Resolve actor for conjugation
+    let resolvedActor: Word | Actor = actor as Word | Actor;
+    if (actor instanceof Entity) {
+      const actorTranslation = this.wordTranslations[actor.word.id];
+      if (isDefined(actorTranslation) && ('asActor' in actorTranslation)) {
+        resolvedActor = (actorTranslation as ObjectTranslation).asActor!;
+      }
+    } else if (!(actor instanceof Actor)) {
+      const actorTranslation = this.wordTranslations[actor.id];
+      if (isDefined(actorTranslation) && ('asActor' in actorTranslation)) {
+        resolvedActor = (actorTranslation as ObjectTranslation).asActor!;
+      }
+    }
+
+    const translation = this.wordTranslations[primaryAction.id] as ActionTranslation;
+
+    // Build parts for subordinate word order (finite verb at end)
+    const parts: string[] = [];
+
+    // Secondary action (modal + infinitive)
+    let verbForm: string;
+    if (action instanceof Action && action.secondary) {
+      verbForm = isNegated
+        ? (translation as ActionTranslation).getNegatedPrimaryTimeActorForm(time, resolvedActor)
+        : (translation as ActionTranslation).asPrimaryTimeActorForm(time, resolvedActor);
+      const secondaryForm = (this.wordTranslations[action.secondary.id] as ActionTranslation).asSecondary();
+      parts.push(secondaryForm);
+    } else {
+      verbForm = translation && translation.conjugations
+        ? translation.timeActorForm(time, resolvedActor)
+        : this.translateWord(primaryAction);
+    }
+
+    // Action subject (direct object)
+    if (action instanceof Action && action.subject) {
+      parts.push(this.translateActionSubject(action.subject));
+    }
+
+    // Adverb
+    if (adverb) {
+      const adverbForm = this.translateAdverb(adverb);
+      if (adverbNegated) {
+        parts.push('niet', adverbForm);
+      } else {
+        parts.push(adverbForm);
+      }
+    }
+
+    // Complement (before verb in subordinate)
+    if (action instanceof Action && action.complement) {
+      const complementForm = this.translateComplement(action.complement, actor, action.complementDegree);
+      parts.push(complementForm);
+    }
+
+    // Prepositional phrases
+    if (action instanceof Action && action.prepositionalPhrases.length > 0) {
+      action.prepositionalPhrases.forEach(pp => {
+        parts.push(this.translatePrepositionalPhrase(pp));
+      });
+    }
+
+    // Negation in subordinate: "niet" before verb
+    if (isNegated && !(action instanceof Action && action.secondary)) {
+      parts.push('niet');
+    }
+
+    // Finite verb at end
+    parts.push(verbForm);
+
+    return parts.filter(Boolean).join(' ').replace(/\s+/g, ' ').trim();
+  }
+
   translateAspectSentence(actor: Word | Actor | Entity, action: Word | Action, time: Word, aspect: Word): string {
     const primaryAction = action instanceof Action ? action.primary : action;
     const translation = this.wordTranslations[primaryAction.id] as ActionTranslation;
@@ -457,16 +567,26 @@ class Dutch extends Language {
     const rest = this.getActionRest(action);
 
     if (aspect === Word.progressive) {
-      // Dutch: zijn(conjugated) + "aan het" + infinitive
       const beTranslation = this.wordTranslations['be'] as ActionTranslation;
       const beForm = beTranslation.timeActorForm(time, resolvedActor);
       const infinitive = translation.defaultForm;
+
+      if (this.clause?.clauseType === 'subordinate') {
+        // Subordinate: actor + rest + "aan het" + infinitive + beForm
+        return [actorForm, rest, 'aan het', infinitive, beForm].filter(Boolean).join(' ').trim();
+      }
+      // Main clause: actor + beForm + "aan het" + infinitive + rest
       return [actorForm, beForm, 'aan het', infinitive, rest].filter(Boolean).join(' ').trim();
     }
 
     if (aspect === Word.perfect) {
       const hebbenForm = this.getHebbenForm(time, resolvedActor);
       const participle = translation.opts.pastParticiple || `ge${translation.defaultForm}d`;
+
+      if (this.clause?.clauseType === 'subordinate') {
+        // Subordinate: actor + rest + participle + hebbenForm
+        return [actorForm, rest, participle, hebbenForm].filter(Boolean).join(' ').trim();
+      }
       return [actorForm, hebbenForm, participle, rest].filter(Boolean).join(' ').trim();
     }
 
@@ -534,6 +654,18 @@ class Dutch extends Language {
       result = `${result} ${ppForms.join(' ')}`;
     }
     return result;
+  }
+
+  translatePrepositionalPhrase(pp: PrepositionalPhrase): string {
+    // Dutch pronominal adverbs: "er" + preposition for non-person pronoun PP objects
+    if (!(pp.object instanceof Entity)) {
+      if (pp.object === Word.it || pp.object === Word.they) {
+        const prepForm = this.translateWord(pp.preposition);
+        if (prepForm === 'met') return 'ermee';
+        return `er${prepForm}`;
+      }
+    }
+    return super.translatePrepositionalPhrase(pp);
   }
 
   translatePossessive(possessor: Word, object?: Word): string {

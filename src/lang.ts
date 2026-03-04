@@ -300,11 +300,17 @@ type TranslateContext = {
   possessor?: Word;
 };
 
+export interface ClauseContext {
+  clauseType: 'main' | 'subordinate';
+  actor: Word | Actor | Entity;
+}
+
 export type Fragment = Word | Entity | Sentence | CompoundSentence | Question | SubordinateSentence;
 
 export class Language {
   name: string;
   wordTranslations: WordTranslations;
+  protected clause?: ClauseContext;
 
   constructor(name: string, wordTranslations: WordTranslations) {
     this.name = name;
@@ -342,22 +348,28 @@ export class Language {
 
     const { actor, action, time, aspect } = fragment as Sentence;
 
+    const savedClause = this.clause;
+    this.clause = {
+      clauseType: this.clause?.clauseType || 'main',
+      actor
+    };
+
+    let result: string;
     if (time === Word.imperative) {
-      return this.translateAction(actor, action, time).trim();
+      result = this.translateAction(actor, action, time).trim();
+    } else if (time === Word.conditional) {
+      result = this.translateConditional(actor, action);
+    } else if (aspect) {
+      result = this.translateAspectSentence(actor, action, time, aspect);
+    } else {
+      result = [
+        this.translateActor(actor),
+        this.translateAction(actor, action, time)
+      ].join(' ').trim();
     }
 
-    if (time === Word.conditional) {
-      return this.translateConditional(actor, action);
-    }
-
-    if (aspect) {
-      return this.translateAspectSentence(actor, action, time, aspect);
-    }
-
-    return [
-      this.translateActor(actor),
-      this.translateAction(actor, action, time)
-    ].join(' ').trim();
+    this.clause = savedClause;
+    return result;
   }
 
   translateWord(word: Word, context: TranslateContext = {}): string {
@@ -689,7 +701,12 @@ export class Language {
   translateSubordinateSentence(sub: SubordinateSentence): string {
     const mainForm = this.translate(sub.main);
     const subordinatorForm = this.translateWord(sub.subordinator);
+
+    const savedClause = this.clause;
+    this.clause = { clauseType: 'subordinate', actor: sub.subordinate.actor };
     const subordinateForm = this.translate(sub.subordinate);
+    this.clause = savedClause;
+
     if (sub.isSubordinateFirst) {
       return `${subordinatorForm} ${subordinateForm}, ${mainForm}`;
     }
